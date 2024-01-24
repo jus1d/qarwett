@@ -7,3 +7,4 @@
 
 # Ignore config files
 config/*.yaml
+.env
