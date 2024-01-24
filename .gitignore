@@ -1,0 +1,9 @@
+# Ignore binary files
+.bin/
+*.exe
+
+# Ignore IDE files
+.idea/
+
+# Ignore config files
+config/*.yaml
