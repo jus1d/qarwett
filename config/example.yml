@@ -1,0 +1,4 @@
+env: "local" # or dev, local
+
+telegram:
+  token: "provide your token here"
