@@ -12,7 +12,6 @@ func main() {
 
 	log := logger.Init(cfg.Env)
 
-	b, err := bot.New(cfg.Telegram.Token, log) // TODO(#1): Connect database
 	if err != nil {
 		log.Error("Can't create a bot instance", sl.Err(err))
 		return
