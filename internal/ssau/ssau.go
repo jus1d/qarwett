@@ -20,10 +20,6 @@ type SearchGroupResponse struct {
 }
 
 func GetScheduleDocument(groupID int64, week int) (*goquery.Document, error) {
-	// TODO(#4): Unhardcode this value to current week
-	if week == 0 {
-		week = 22
-	}
 	client := http.Client{}
 
 	cookies, csrf, err := GetCookiesAndToken()
@@ -31,7 +27,12 @@ func GetScheduleDocument(groupID int64, week int) (*goquery.Document, error) {
 		return nil, err
 	}
 
-	endpoint := fmt.Sprintf("%s/rasp?groupId=%d&selectedWeek=%d", HeadURL, groupID, week)
+	var endpoint string
+	if week == 0 {
+		endpoint = fmt.Sprintf("%s/rasp?groupId=%d", HeadURL, groupID)
+	} else {
+		endpoint = fmt.Sprintf("%s/rasp?groupId=%d&selectedWeek=%d", HeadURL, groupID, week)
+	}
 
 	req, err := http.NewRequest("GET", endpoint, nil)
 	if err != nil {
