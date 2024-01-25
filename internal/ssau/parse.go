@@ -13,8 +13,8 @@ var PairColors = map[string]schedule.PairType{
 	"lesson-color-type-3": schedule.Practice,
 	"lesson-color-type-4": schedule.Other,
 	"lesson-color-type-5": schedule.Exam,
-	"lesson-color-type-6": schedule.Consult,
-	"lesson-color-type-8": schedule.Exam,
+	"lesson-color-type-6": schedule.Consultation,
+	"lesson-color-type-8": schedule.Test,
 }
 
 func Parse(doc *goquery.Document) [][]schedule.Pair {
