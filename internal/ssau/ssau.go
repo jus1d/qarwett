@@ -20,7 +20,7 @@ type SearchGroupResponse struct {
 }
 
 func GetScheduleDocument(groupID int64, week int) (*goquery.Document, error) {
-	// TODO: Unhardcode this value to current week
+	// TODO(#4): Unhardcode this value to current week
 	if week == 0 {
 		week = 22
 	}
