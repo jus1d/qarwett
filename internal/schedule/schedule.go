@@ -26,6 +26,17 @@ const (
 	Sunday
 )
 
+var Timetable = map[int]string{
+	0: "8:00 - 9:35",
+	1: "9:45 - 11:20",
+	2: "11:30 - 13:05",
+	3: "13:30 - 15:05",
+	4: "15:15 - 16:50",
+	5: "17:00 - 18:35",
+}
+
+// TODO: Add time for pairs 7+ to the timetable
+
 type Pair struct {
 	Position int
 	Type     PairType

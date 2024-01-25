@@ -7,6 +7,8 @@ import (
 	"strings"
 )
 
+// TODO: Remove all `lesson-color-type...` and keep just 1, 2, 3...
+
 var PairColors = map[string]schedule.PairType{
 	"lesson-color-type-1": schedule.Lecture,
 	"lesson-color-type-2": schedule.Lab,
@@ -32,7 +34,7 @@ func Parse(doc *goquery.Document) [][]schedule.Pair {
 		pos := i / 6
 
 		s.Find(".schedule__lesson").Each(func(j int, s *goquery.Selection) {
-			pair := ParsePair(s, pos)
+			pair := parsePair(s, pos)
 			pairs[weekday] = append(pairs[weekday], pair)
 		})
 	})
@@ -40,7 +42,7 @@ func Parse(doc *goquery.Document) [][]schedule.Pair {
 	return pairs
 }
 
-func ParsePair(doc *goquery.Selection, pos int) schedule.Pair {
+func parsePair(doc *goquery.Selection, pos int) schedule.Pair {
 	discipline := doc.Find(".schedule__discipline")
 	title := discipline.Text()
 	classAttributes := strings.Split(discipline.AttrOr("class", "lesson-color-type-4"), " ")
