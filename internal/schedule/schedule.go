@@ -35,7 +35,7 @@ var Timetable = map[int]string{
 	5: "17:00 - 18:35",
 }
 
-// TODO: Add time for pairs 7+ to the timetable
+// TODO(#5): Add time for pairs 7+ to the timetable
 
 type Pair struct {
 	Position int
