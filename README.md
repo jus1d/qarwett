@@ -1,6 +1,32 @@
 ![qarweTT](./images/qarwett-logo-long-description.png)
 
-## Telegram-based application to check university schedule
+## Quick Start
+
+Make build script executable
+
+```console
+$ chmod +x ./build.sh
+```
+
+Run build stript
+
+```console
+$ ./build.sh
+...
+... build logs ...
+...
+```
+
+Run built binary
+
+```console
+$ ./.bin/qarwett
+INFO: Bot successfully started {
+  "op", "bot.Run"
+}
+```
+
+## Plans for nearest future
 
 First of all, I'll implement schedule for [Samara University](https://ssau.ru/), but may be later, I transform this bot to a some kind of schedule aggregator, for many universities.
 
