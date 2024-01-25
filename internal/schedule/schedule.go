@@ -3,16 +3,16 @@ package schedule
 type PairType string
 
 const (
+	Empty        PairType = "emp"
 	Lecture      PairType = "lct"
 	Practice     PairType = "prc"
 	Lab          PairType = "lab"
 	Other        PairType = "oth"
 	Military     PairType = "mil"
-	Empty        PairType = "emp"
 	Exam         PairType = "exm"
 	Consultation PairType = "cns"
-	CourseWork   PairType = "crs"
 	Test         PairType = "tst"
+	CourseWork   PairType = "crs"
 	Unknown      PairType = "unk"
 )
 
