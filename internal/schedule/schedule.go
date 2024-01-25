@@ -16,10 +16,22 @@ const (
 	Unknown    PairType = "unk"
 )
 
+const (
+	Monday = iota
+	Tuesday
+	Wednesday
+	Thursday
+	Friday
+	Saturday
+	Sunday
+)
+
 type Pair struct {
-	Type     PairType
-	Title    string
-	Place    string
-	StaffID  int64
-	GroupIDs []int64
+	OrdinalNumber int
+	Type          PairType
+	Title         string
+	Place         string
+	Staff         string
+	Groups        []string
+	SubGroup      int
 }

@@ -19,7 +19,7 @@ type SearchGroupResponse struct {
 	ScheduleURL string `json:"url"`
 }
 
-func GetScheduleDocument(groupID string, week int) (*goquery.Document, error) {
+func GetScheduleDocument(groupID int64, week int) (*goquery.Document, error) {
 	client := http.Client{}
 
 	cookies, csrf, err := GetCookiesAndToken()
@@ -27,7 +27,7 @@ func GetScheduleDocument(groupID string, week int) (*goquery.Document, error) {
 		return nil, err
 	}
 
-	endpoint := fmt.Sprintf("%s/rasp?groupId=%s&selectedWeek=%d", HeadURL, groupID, week)
+	endpoint := fmt.Sprintf("%s/rasp?groupId=%d&selectedWeek=%d", HeadURL, groupID, week)
 
 	req, err := http.NewRequest("GET", endpoint, nil)
 	if err != nil {
