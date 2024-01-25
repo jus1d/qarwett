@@ -1,16 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"qarwett/internal/bot"
 	"qarwett/internal/config"
 	"qarwett/internal/lib/logger"
 	"qarwett/internal/lib/logger/sl"
-	schedule2 "qarwett/internal/schedule"
-	"qarwett/internal/ssau"
 )
 
-func main2() {
+func main() {
 	cfg := config.MustLoad()
 
 	log := logger.Init(cfg.Env)
@@ -22,13 +19,4 @@ func main2() {
 	}
 
 	b.Run()
-}
-
-func main() {
-	groups, _ := ssau.GetGroupBySearchQuery("4102-030302D")
-	schedule, _ := ssau.Parse(groups[0].ID, 12)
-
-	for i := 0; i < len(schedule[schedule2.Thursday]); i++ {
-		fmt.Println(schedule[schedule2.Thursday][i])
-	}
 }

@@ -3,6 +3,7 @@ package ssau
 import (
 	"github.com/PuerkitoBio/goquery"
 	"qarwett/internal/schedule"
+	"strconv"
 	"strings"
 )
 
@@ -65,6 +66,16 @@ func ParsePair(doc *goquery.Selection, pos int) schedule.Pair {
 		})
 	})
 
+	subgroupText := doc.Find("div.schedule__groups span.caption-text").Text()
+
+	var subgroup int
+	if subgroupText == "" {
+		subgroup = 0
+	} else {
+		parts := strings.Split(strings.Replace(subgroupText, " ", "", -1), ":")
+		subgroup, _ = strconv.Atoi(parts[len(parts)-1])
+	}
+
 	return schedule.Pair{
 		Position: pos,
 		Type:     pairType,
@@ -75,6 +86,6 @@ func ParsePair(doc *goquery.Selection, pos int) schedule.Pair {
 			Name: teacherName,
 		},
 		Groups:   groups,
-		SubGroup: 0,
+		SubGroup: subgroup,
 	}
 }
