@@ -7,6 +7,8 @@ import (
 	"qarwett/internal/lib/logger/sl"
 )
 
+// TODO(#2): Add image generating for weekly timetable
+
 func main() {
 	cfg := config.MustLoad()
 
