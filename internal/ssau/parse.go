@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-// TODO: Remove all `lesson-color-type...` and keep just 1, 2, 3...
+// TODO(#6): Remove all `lesson-color-type...` and keep just 1, 2, 3...
 
 var PairColors = map[string]schedule.PairType{
 	"lesson-color-type-1": schedule.Lecture,
