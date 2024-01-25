@@ -1,4 +1,4 @@
-![qarweTT](./images/qarwett.png)
+![qarweTT](./images/qarwett-logo-long-description.png)
 
 ## Telegram-based application to check university schedule
 
