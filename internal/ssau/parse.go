@@ -17,12 +17,7 @@ var PairColors = map[string]schedule.PairType{
 	"lesson-color-type-8": schedule.Exam,
 }
 
-func Parse(groupId int64, week int) ([][]schedule.Pair, error) {
-	doc, err := GetScheduleDocument(groupId, week)
-	if err != nil {
-		return nil, err
-	}
-
+func Parse(doc *goquery.Document) [][]schedule.Pair {
 	pairs := make([][]schedule.Pair, 6)
 	for i := 0; i < len(pairs); i++ {
 		pairs[i] = make([]schedule.Pair, 0)
@@ -42,7 +37,7 @@ func Parse(groupId int64, week int) ([][]schedule.Pair, error) {
 		})
 	})
 
-	return pairs, nil
+	return pairs
 }
 
 func ParsePair(doc *goquery.Selection, pos int) schedule.Pair {

@@ -68,11 +68,3 @@ func (b *Bot) handleUpdates() {
 		}
 	}
 }
-
-func (b *Bot) SendTextMessage(chatID int64, content string, markup interface{}) (telegram.Message, error) {
-	msg := telegram.NewMessage(chatID, content)
-	msg.ParseMode = telegram.ModeHTML
-	msg.ReplyMarkup = markup
-
-	return b.client.Send(msg)
-}
