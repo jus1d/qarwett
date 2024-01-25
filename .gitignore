@@ -8,3 +8,7 @@
 # Ignore config files
 config/*.yaml
 .env
+
+# Ignore logs, trash or temorary files
+*.txt
+*.logs
