@@ -32,19 +32,19 @@ func Parse(groupId int64, week int) ([][]schedule.Pair, error) {
 			return
 		}
 
-		dayOfWeek := i % 6
-		ordinalNumber := i / 6
+		weekday := i % 6
+		pos := i / 6
 
 		s.Find(".schedule__lesson").Each(func(j int, s *goquery.Selection) {
-			pair := ParsePair(s, ordinalNumber)
-			pairs[dayOfWeek] = append(pairs[dayOfWeek], pair)
+			pair := ParsePair(s, pos)
+			pairs[weekday] = append(pairs[weekday], pair)
 		})
 	})
 
 	return pairs, nil
 }
 
-func ParsePair(doc *goquery.Selection, ordinalNumber int) schedule.Pair {
+func ParsePair(doc *goquery.Selection, pos int) schedule.Pair {
 	discipline := doc.Find(".schedule__discipline")
 	title := discipline.Text()
 	classAttributes := strings.Split(discipline.AttrOr("class", "lesson-color-type-4"), " ")
@@ -53,20 +53,28 @@ func ParsePair(doc *goquery.Selection, ordinalNumber int) schedule.Pair {
 
 	place := doc.Find(".schedule__place").Text()
 
-	teacher := doc.Find(".schedule__teacher").Find("a.caption-text").Text()
+	teacherName := doc.Find(".schedule__teacher").Find("a.caption-text").Text()
+	teacherURL := doc.Find(".schedule__teacher").Find("a.caption-text").AttrOr("href", "https://ssau.ru")
 
-	var groups []string
+	var groups []schedule.Group
 	doc.Find(".schedule__groups").Find("a.schedule__group").Each(func(i int, s *goquery.Selection) {
-		groups = append(groups, s.Text())
+		groupUrl := s.AttrOr("href", "https://ssau.ru")
+		groups = append(groups, schedule.Group{
+			ID:    GetIdFromURL(groupUrl),
+			Title: s.Text(),
+		})
 	})
 
 	return schedule.Pair{
-		OrdinalNumber: ordinalNumber,
-		Type:          pairType,
-		Title:         title,
-		Place:         place,
-		Staff:         teacher,
-		Groups:        groups,
-		SubGroup:      0,
+		Position: pos,
+		Type:     pairType,
+		Title:    title,
+		Place:    place,
+		Staff: schedule.Staff{
+			ID:   GetIdFromURL(teacherURL),
+			Name: teacherName,
+		},
+		Groups:   groups,
+		SubGroup: 0,
 	}
 }

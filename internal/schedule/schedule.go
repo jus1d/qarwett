@@ -27,11 +27,21 @@ const (
 )
 
 type Pair struct {
-	OrdinalNumber int
-	Type          PairType
-	Title         string
-	Place         string
-	Staff         string
-	Groups        []string
-	SubGroup      int
+	Position int
+	Type     PairType
+	Title    string
+	Place    string
+	Staff    Staff
+	Groups   []Group
+	SubGroup int
+}
+
+type Staff struct {
+	ID   int64
+	Name string
+}
+
+type Group struct {
+	ID    int64
+	Title string
 }
