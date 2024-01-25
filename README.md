@@ -2,13 +2,13 @@
 
 ## Quick Start
 
-Make build script executable
+#### Make build script executable
 
 ```console
 $ chmod +x ./build.sh
 ```
 
-Run build stript
+#### Run build stript
 
 ```console
 $ ./build.sh
@@ -17,7 +17,7 @@ $ ./build.sh
 ...
 ```
 
-Run built binary
+#### Run built binary
 
 ```console
 $ ./.bin/qarwett
