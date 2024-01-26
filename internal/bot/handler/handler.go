@@ -29,6 +29,6 @@ func (h *Handler) EditMessageText(message *telegram.Message, content string, mar
 	c := telegram.NewEditMessageText(message.Chat.ID, message.MessageID, content)
 	c.ReplyMarkup = &markup
 	c.ParseMode = telegram.ModeHTML
-	
+
 	return h.bot.Send(c)
 }
