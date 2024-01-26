@@ -68,7 +68,7 @@ func (h *Handler) HandleMessage(u telegram.Update) {
 
 	// TODO(#3): Create button with different groups, to get user an ability to choose
 	group := groups[0]
-	doc, err := ssau.GetScheduleDocument(group.ID, 12)
+	doc, err := ssau.GetScheduleDocument(group.ID, 0)
 	if err != nil {
 		_, err = h.SendTextMessage(author.ID, "Can't get a schedule. Sorry!", nil)
 		if err != nil {
