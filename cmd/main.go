@@ -1,11 +1,14 @@
 package main
 
 import (
+	"os"
+	"os/signal"
 	"qarwett/internal/bot"
 	"qarwett/internal/config"
 	"qarwett/internal/lib/logger"
 	"qarwett/internal/lib/logger/sl"
 	"qarwett/internal/storage/postgres"
+	"syscall"
 )
 
 // TODO(#2): Add image generating for weekly timetable
@@ -27,5 +30,18 @@ func main() {
 		return
 	}
 
-	b.Run()
+	go b.Run()
+
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT)
+	<-quit
+
+	log.Info("Bot is shutting down")
+
+	err = storage.Close()
+	if err != nil {
+		log.Error("Failed to close postgresql", sl.Err(err))
+	}
+
+	log.Info("Postgres connection closed")
 }

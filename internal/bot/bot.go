@@ -3,12 +3,9 @@ package bot
 import (
 	telegram "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"log/slog"
-	"os"
-	"os/signal"
 	"qarwett/internal/bot/handler"
 	"qarwett/internal/storage/postgres"
 	"strings"
-	"syscall"
 )
 
 type Bot struct {
@@ -41,10 +38,6 @@ func (b *Bot) Run() {
 	go b.handleUpdates()
 
 	log.Info("Bot successfully started", slog.String("username", b.client.Self.UserName))
-
-	quit := make(chan os.Signal, 1)
-	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT)
-	<-quit
 }
 
 func (b *Bot) getUpdates() telegram.UpdatesChannel {

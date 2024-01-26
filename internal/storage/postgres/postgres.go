@@ -26,3 +26,7 @@ func New(cfg config.Postgres) (*Storage, error) {
 		db: db,
 	}, err
 }
+
+func (s *Storage) Close() error {
+	return s.db.Close()
+}
