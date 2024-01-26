@@ -18,6 +18,16 @@ func (h *Handler) HandleStart(u telegram.Update) {
 
 	log.Debug("Command triggered: /start")
 
+	userExists := h.storage.IsUserExists(author.ID)
+	if !userExists {
+		id, err := h.storage.CreateUser(author.ID, author.UserName, author.FirstName, author.LastName, author.LanguageCode)
+		if err != nil {
+			log.Error("Failed to save user", sl.Err(err))
+		} else {
+			log.Debug("User saved", slog.String("id", id))
+		}
+	}
+
 	message := telegram.NewMessage(u.Message.Chat.ID,
 		"<b>Hello, here you can view your timetable</b>\n\n"+
 			"Just type your group 👇")
@@ -27,12 +37,5 @@ func (h *Handler) HandleStart(u telegram.Update) {
 	_, err := h.bot.Send(message)
 	if err != nil {
 		log.Error("Failed to send greeting message", sl.Err(err))
-	}
-
-	id, err := h.storage.CreateUser(author.ID, author.UserName, author.FirstName, author.LastName, author.LanguageCode)
-	if err != nil {
-		log.Error("Failed to save user", sl.Err(err))
-	} else {
-		log.Debug("User saved", slog.String("id", id))
 	}
 }
