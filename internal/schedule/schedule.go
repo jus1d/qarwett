@@ -33,9 +33,9 @@ var Timetable = map[int]string{
 	3: "13:30 - 15:05",
 	4: "15:15 - 16:50",
 	5: "17:00 - 18:35",
+	6: "18:45 - 20:15",
+	7: "20:25 - 21:55",
 }
-
-// TODO(#5): Add time for pairs 7+ to the timetable
 
 var FullPairTypes = map[PairType]string{
 	Empty:        "Пусто",
