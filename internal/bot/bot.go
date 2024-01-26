@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/signal"
 	"qarwett/internal/bot/handler"
+	"strings"
 	"syscall"
 )
 
@@ -56,15 +57,19 @@ func (b *Bot) handleUpdates() {
 	updates := b.getUpdates()
 
 	for update := range updates {
-		if update.Message == nil {
-			continue
+		if update.Message != nil {
+			switch update.Message.Command() {
+			case "start":
+				b.handler.HandleStart(update)
+			default:
+				b.handler.HandleMessage(update)
+			}
 		}
-
-		switch update.Message.Command() {
-		case "start":
-			b.handler.HandleStart(update)
-		default:
-			b.handler.HandleMessage(update)
+		if update.CallbackQuery != nil {
+			data := update.CallbackData()
+			if strings.HasPrefix(data, "schedule:") {
+				b.handler.HandleScheduleCallback(update)
+			}
 		}
 	}
 }
