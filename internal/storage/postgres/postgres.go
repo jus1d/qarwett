@@ -5,10 +5,22 @@ import (
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 	"qarwett/internal/config"
+	"time"
 )
 
 type Storage struct {
 	db *sqlx.DB
+}
+
+type User struct {
+	ID            string    `db:"id"`
+	TelegramID    int64     `db:"telegram_id"`
+	Username      string    `db:"username"`
+	FirstName     string    `db:"firstname"`
+	LastName      string    `db:"lastname"`
+	LinkedGroupID int64     `db:"linked_group_id"`
+	LanguageCode  string    `db:"language_code"`
+	CreatedAt     time.Time `db:"created_at"`
 }
 
 func New(cfg config.Postgres) (*Storage, error) {

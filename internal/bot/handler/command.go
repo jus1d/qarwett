@@ -28,4 +28,11 @@ func (h *Handler) HandleStart(u telegram.Update) {
 	if err != nil {
 		log.Error("Failed to send greeting message", sl.Err(err))
 	}
+
+	id, err := h.storage.CreateUser(author.ID, author.UserName, author.FirstName, author.LastName, author.LanguageCode)
+	if err != nil {
+		log.Error("Failed to save user", sl.Err(err))
+	} else {
+		log.Debug("User saved", slog.String("id", id))
+	}
 }
