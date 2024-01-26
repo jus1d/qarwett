@@ -1,10 +1,10 @@
 package handler
 
 import (
-	"fmt"
 	telegram "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"log/slog"
 	"qarwett/internal/lib/logger/sl"
+	"qarwett/internal/schedule"
 	"qarwett/internal/ssau"
 	"strconv"
 )
@@ -62,13 +62,13 @@ func (h *Handler) HandleMessage(u telegram.Update) {
 		_, err := h.SendTextMessage(author.ID, "Can't found group '"+query+"'.", nil)
 		if err != nil {
 			log.Error("Failed to send message")
-			return
 		}
+		return
 	}
 
 	// TODO(#3): Create button with different groups, to get user an ability to choose
 	group := groups[0]
-	doc, err := ssau.GetScheduleDocument(group.ID, 0)
+	doc, err := ssau.GetScheduleDocument(group.ID, 12)
 	if err != nil {
 		_, err = h.SendTextMessage(author.ID, "Can't get a schedule. Sorry!", nil)
 		if err != nil {
@@ -77,7 +77,15 @@ func (h *Handler) HandleMessage(u telegram.Update) {
 		}
 	}
 	timetable := ssau.Parse(doc)
-	fmt.Println(timetable)
+	weekday := ssau.GetWeekday()
+
+	content := schedule.ParseScheduleToMessageTextWithHTML(timetable[weekday])
+
+	_, err = h.SendTextMessage(author.ID, content, nil)
+	if err != nil {
+		log.Error("Failed to send message")
+		return
+	}
 }
 
 func (h *Handler) SendTextMessage(chatID int64, content string, markup interface{}) (telegram.Message, error) {

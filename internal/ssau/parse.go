@@ -59,7 +59,7 @@ func parsePair(doc *goquery.Selection, pos int) schedule.Pair {
 		groupUrl := s.AttrOr("href", "https://ssau.ru")
 		groups = append(groups, schedule.Group{
 			ID:    GetIdFromURL(groupUrl),
-			Title: s.Text(),
+			Title: strings.TrimSpace(s.Text()),
 		})
 	})
 
@@ -76,11 +76,11 @@ func parsePair(doc *goquery.Selection, pos int) schedule.Pair {
 	return schedule.Pair{
 		Position: pos,
 		Type:     pairType,
-		Title:    title,
-		Place:    place,
+		Title:    strings.TrimSpace(title),
+		Place:    strings.TrimSpace(place),
 		Staff: schedule.Staff{
 			ID:   GetIdFromURL(teacherURL),
-			Name: teacherName,
+			Name: strings.TrimSpace(teacherName),
 		},
 		Groups:   groups,
 		SubGroup: subgroup,

@@ -37,6 +37,20 @@ var Timetable = map[int]string{
 
 // TODO(#5): Add time for pairs 7+ to the timetable
 
+var FullPairTypes = map[PairType]string{
+	Empty:        "Пусто",
+	Lecture:      "Лекция",
+	Practice:     "Практика",
+	Lab:          "Лабораторная",
+	Other:        "Другое",
+	Military:     "Военная кафедра",
+	Exam:         "Экзамен",
+	Consultation: "Консультация",
+	Test:         "Зачет",
+	CourseWork:   "Курсовая работа",
+	Unknown:      "Неизвестно",
+}
+
 type Pair struct {
 	Position int
 	Type     PairType
