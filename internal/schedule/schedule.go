@@ -37,6 +37,7 @@ var Timetable = map[int]string{
 	7: "20:25 - 21:55",
 }
 
+
 var FullPairTypes = map[PairType]string{
 	Empty:        "Пусто",
 	Lecture:      "Лекция",
