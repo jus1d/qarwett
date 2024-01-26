@@ -3,17 +3,20 @@ package handler
 import (
 	telegram "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"log/slog"
+	"qarwett/internal/storage/postgres"
 )
 
 type Handler struct {
-	log *slog.Logger
-	bot *telegram.BotAPI
+	log     *slog.Logger
+	bot     *telegram.BotAPI
+	storage *postgres.Storage
 }
 
-func New(log *slog.Logger, bot *telegram.BotAPI) *Handler {
+func New(log *slog.Logger, bot *telegram.BotAPI, storage *postgres.Storage) *Handler {
 	return &Handler{
-		log: log,
-		bot: bot,
+		log:     log,
+		bot:     bot,
+		storage: storage,
 	}
 }
 

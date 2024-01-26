@@ -16,10 +16,20 @@ const (
 type Config struct {
 	Env      string   `yaml:"env" env-required:"true"`
 	Telegram Telegram `yaml:"telegram"`
+	Postgres Postgres `yaml:"postgres"`
 }
 
 type Telegram struct {
 	Token string `yaml:"token"`
+}
+
+type Postgres struct {
+	Host     string `yaml:"host"`
+	Port     string `yaml:"port"`
+	User     string `yaml:"user"`
+	Name     string `yaml:"name"`
+	Password string `yaml:"password"`
+	ModeSSL  string `yaml:"sslmode"`
 }
 
 // MustLoad loads config to a new Config instance and return it.

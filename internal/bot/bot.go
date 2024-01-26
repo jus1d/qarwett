@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/signal"
 	"qarwett/internal/bot/handler"
+	"qarwett/internal/storage/postgres"
 	"strings"
 	"syscall"
 )
@@ -16,13 +17,13 @@ type Bot struct {
 	log     *slog.Logger
 }
 
-func New(token string, log *slog.Logger) (*Bot, error) {
+func New(token string, log *slog.Logger, storage *postgres.Storage) (*Bot, error) {
 	bot, err := telegram.NewBotAPI(token)
 	if err != nil {
 		return nil, err
 	}
 
-	h := handler.New(log, bot)
+	h := handler.New(log, bot, storage)
 
 	return &Bot{
 		client:  bot,
