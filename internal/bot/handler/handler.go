@@ -77,7 +77,7 @@ func (h *Handler) HandleMessage(u telegram.Update) {
 		}
 	}
 	timetable := ssau.Parse(doc)
-	weekday := ssau.GetWeekday(-2)
+	weekday := ssau.GetWeekday(0)
 
 	content := schedule.ParseScheduleToMessageTextWithHTML(timetable[weekday])
 
