@@ -2,4 +2,4 @@
 
 set -xe
 
-go build -o ./.bin/qarwett ./cmd/main.go
+go build -v -o ./.bin/qarwett ./cmd/bot/main.go
