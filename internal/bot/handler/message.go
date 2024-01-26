@@ -9,11 +9,11 @@ import (
 	"strconv"
 )
 
-func (h *Handler) HandleMessage(u telegram.Update) {
+func (h *Handler) OnNewMessage(u telegram.Update) {
 	author := u.Message.From
 
 	log := h.log.With(
-		slog.String("op", "handler.HandleMessage"),
+		slog.String("op", "handler.OnNewMessage"),
 		slog.String("username", author.UserName),
 		slog.String("id", strconv.FormatInt(author.ID, 10)),
 	)
@@ -33,7 +33,7 @@ func (h *Handler) HandleMessage(u telegram.Update) {
 
 	// TODO(#3): Create button with different groups, to get user an ability to choose
 	group := groups[0]
-	doc, err := ssau.GetScheduleDocument(group.ID, 25)
+	doc, err := ssau.GetScheduleDocument(group.ID, 0)
 	if err != nil {
 		_, err = h.SendTextMessage(author.ID, "Can't get a schedule. Sorry!", nil)
 		if err != nil {
@@ -42,8 +42,8 @@ func (h *Handler) HandleMessage(u telegram.Update) {
 		}
 	}
 	timetable := ssau.Parse(doc)
-	weekday := ssau.GetWeekday(0)
 
+	weekday := ssau.GetWeekday(0)
 	content := schedule.ParseScheduleToMessageTextWithHTML(timetable[weekday])
 
 	_, err = h.SendTextMessage(author.ID, content, GetScheduleNavigationMarkup(group.ID, 0))

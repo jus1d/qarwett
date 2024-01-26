@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 	"os/signal"
-	"qarwett/internal/bot"
+	telegram "qarwett/internal/bot"
 	"qarwett/internal/config"
 	"qarwett/internal/lib/logger"
 	"qarwett/internal/lib/logger/sl"
@@ -24,13 +24,13 @@ func main() {
 		return
 	}
 
-	b, err := bot.New(cfg.Telegram.Token, cfg.Env, log, storage)
+	bot, err := telegram.New(cfg.Telegram.Token, cfg.Env, log, storage)
 	if err != nil {
 		log.Error("Can't create a bot instance", sl.Err(err))
 		return
 	}
 
-	go b.Run()
+	go bot.Run()
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT)

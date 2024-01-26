@@ -7,11 +7,11 @@ import (
 	"strconv"
 )
 
-func (h *Handler) HandleStart(u telegram.Update) {
+func (h *Handler) OnCommandStart(u telegram.Update) {
 	author := u.Message.From
 
 	log := h.log.With(
-		slog.String("op", "handler.HandleStart"),
+		slog.String("op", "handler.OnCommandStart"),
 		slog.String("username", author.UserName),
 		slog.String("id", strconv.FormatInt(author.ID, 10)),
 	)

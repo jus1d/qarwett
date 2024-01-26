@@ -34,37 +34,33 @@ func New(token string, env string, log *slog.Logger, storage *postgres.Storage) 
 func (b *Bot) Run() {
 	log := b.log.With(slog.String("op", "bot.Run"), slog.String("env", b.env))
 
-	u := telegram.NewUpdate(0)
-	u.Timeout = 60
-
-	go b.handleUpdates()
+	updates := b.getUpdates()
+	go b.handleUpdates(updates)
 
 	log.Info("Bot successfully started", slog.String("username", b.client.Self.UserName))
 }
 
 func (b *Bot) getUpdates() telegram.UpdatesChannel {
-	updatesConfig := telegram.NewUpdate(0)
-	updatesConfig.Timeout = 30
+	updates := telegram.NewUpdate(0)
+	updates.Timeout = 30
 
-	return b.client.GetUpdatesChan(updatesConfig)
+	return b.client.GetUpdatesChan(updates)
 }
 
-func (b *Bot) handleUpdates() {
-	updates := b.getUpdates()
-
+func (b *Bot) handleUpdates(updates telegram.UpdatesChannel) {
 	for update := range updates {
 		if update.Message != nil {
 			switch update.Message.Command() {
 			case "start":
-				b.handler.HandleStart(update)
+				b.handler.OnCommandStart(update)
 			default:
-				b.handler.HandleMessage(update)
+				b.handler.OnNewMessage(update)
 			}
 		}
 		if update.CallbackQuery != nil {
 			data := update.CallbackData()
 			if strings.HasPrefix(data, "schedule:") {
-				b.handler.HandleScheduleCallback(update)
+				b.handler.OnCallbackSchedule(update)
 			}
 		}
 	}

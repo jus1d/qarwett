@@ -10,23 +10,23 @@ import (
 	"strings"
 )
 
-func (h *Handler) HandleScheduleCallback(u telegram.Update) {
+func (h *Handler) OnCallbackSchedule(u telegram.Update) {
 	author := u.CallbackQuery.From
 
 	log := h.log.With(
-		slog.String("op", "handler.HandleScheduleCallback"),
+		slog.String("op", "handler.OnCallbackSchedule"),
 		slog.String("username", author.UserName),
 		slog.String("id", strconv.FormatInt(author.ID, 10)),
 	)
 
-	log.Debug("Callback handled", slog.String("data", u.CallbackData()))
+	query := u.CallbackData()
+	log.Debug("Callback handled", slog.String("query", query))
 
-	data := u.CallbackData()
-	parts := strings.Split(data, ":")
+	parts := strings.Split(query, ":")
 	groupID, _ := strconv.ParseInt(parts[1], 10, 64)
 	offset, _ := strconv.Atoi(parts[2])
 
-	doc, err := ssau.GetScheduleDocument(groupID, 25)
+	doc, err := ssau.GetScheduleDocument(groupID, 0)
 	if err != nil {
 		_, err = h.SendTextMessage(author.ID, "Can't get a schedule. Sorry!", nil)
 		if err != nil {
