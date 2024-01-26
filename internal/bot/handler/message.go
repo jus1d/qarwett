@@ -26,18 +26,26 @@ func (h *Handler) OnNewMessage(u telegram.Update) {
 	if len(groups) == 0 || err != nil {
 		_, err := h.SendTextMessage(author.ID, "Can't found group '"+query+"'.", nil)
 		if err != nil {
-			log.Error("Failed to send message")
+			log.Error("Failed to send message", sl.Err(err))
 		}
 		return
 	}
 
-	// TODO(#3): Create button with different groups, to get user an ability to choose
+	if len(groups) > 1 {
+		markup := GetMarkupFromGroupList(groups)
+		_, err = h.SendTextMessage(author.ID, "Choose a group", markup)
+		if err != nil {
+			log.Error("Failed to send message", sl.Err(err))
+		}
+		return
+	}
+
 	group := groups[0]
 	doc, err := ssau.GetScheduleDocument(group.ID, 0)
 	if err != nil {
 		_, err = h.SendTextMessage(author.ID, "Can't get a schedule. Sorry!", nil)
 		if err != nil {
-			log.Error("Failed to send message")
+			log.Error("Failed to send message", sl.Err(err))
 			return
 		}
 	}
