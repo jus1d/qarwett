@@ -14,8 +14,9 @@ func GetIdFromURL(url string) int64 {
 	return id
 }
 
-func GetWeekday() int {
-	now := time.Now()
+func GetWeekday(offsetDays int) int {
+	offset := time.Duration(offsetDays) * 24 * time.Hour
+	now := time.Now().Add(offset)
 	weekday := now.Weekday() - 1
 	if weekday < 0 {
 		weekday += 7

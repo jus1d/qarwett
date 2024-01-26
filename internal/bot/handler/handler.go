@@ -68,7 +68,7 @@ func (h *Handler) HandleMessage(u telegram.Update) {
 
 	// TODO(#3): Create button with different groups, to get user an ability to choose
 	group := groups[0]
-	doc, err := ssau.GetScheduleDocument(group.ID, 0)
+	doc, err := ssau.GetScheduleDocument(group.ID, 26)
 	if err != nil {
 		_, err = h.SendTextMessage(author.ID, "Can't get a schedule. Sorry!", nil)
 		if err != nil {
@@ -77,7 +77,7 @@ func (h *Handler) HandleMessage(u telegram.Update) {
 		}
 	}
 	timetable := ssau.Parse(doc)
-	weekday := ssau.GetWeekday()
+	weekday := ssau.GetWeekday(-2)
 
 	content := schedule.ParseScheduleToMessageTextWithHTML(timetable[weekday])
 
