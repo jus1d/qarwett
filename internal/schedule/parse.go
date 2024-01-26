@@ -5,6 +5,7 @@ import (
 )
 
 func ParseScheduleToMessageTextWithHTML(schedule []Pair) string {
+	// TODO(#7): Add date and weekday
 	if len(schedule) == 0 {
 		return "<b>Расписание пустое</b>"
 	}
