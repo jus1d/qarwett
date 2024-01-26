@@ -9,12 +9,13 @@ import (
 )
 
 type Bot struct {
+	env     string
 	client  *telegram.BotAPI
 	handler *handler.Handler
 	log     *slog.Logger
 }
 
-func New(token string, log *slog.Logger, storage *postgres.Storage) (*Bot, error) {
+func New(token string, env string, log *slog.Logger, storage *postgres.Storage) (*Bot, error) {
 	bot, err := telegram.NewBotAPI(token)
 	if err != nil {
 		return nil, err
@@ -23,6 +24,7 @@ func New(token string, log *slog.Logger, storage *postgres.Storage) (*Bot, error
 	h := handler.New(log, bot, storage)
 
 	return &Bot{
+		env:     env,
 		client:  bot,
 		handler: h,
 		log:     log,
@@ -30,7 +32,7 @@ func New(token string, log *slog.Logger, storage *postgres.Storage) (*Bot, error
 }
 
 func (b *Bot) Run() {
-	log := b.log.With(slog.String("op", "bot.Run"))
+	log := b.log.With(slog.String("op", "bot.Run"), slog.String("env", b.env))
 
 	u := telegram.NewUpdate(0)
 	u.Timeout = 60

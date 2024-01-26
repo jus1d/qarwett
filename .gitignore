@@ -11,7 +11,7 @@ config/*.yaml
 
 # Ignore logs, trash or temorary files
 *.txt
-*.logs
+.logs/
 
 # Ignore database data
 .database/

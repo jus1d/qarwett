@@ -24,7 +24,7 @@ func main() {
 		return
 	}
 
-	b, err := bot.New(cfg.Telegram.Token, log, storage)
+	b, err := bot.New(cfg.Telegram.Token, cfg.Env, log, storage)
 	if err != nil {
 		log.Error("Can't create a bot instance", sl.Err(err))
 		return
