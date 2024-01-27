@@ -24,8 +24,7 @@ func ParseScheduleToMessageTextWithHTML(schedule []Pair) string {
 			content += fmt.Sprintf("Подгруппа: %d\n", cur.SubGroup)
 		}
 		content += fmt.Sprintf("%s\n", cur.Place)
-		content += fmt.Sprintf("<a href=\"https://ssau.ru/rasp?staffId=%d\">%s</a>\n",
-			cur.Staff.ID, cur.Staff.Name)
+		content += fmt.Sprintf("<a href=\"https://ssau.ru/rasp?staffId=%d\">%s</a>\n", cur.Staff.ID, cur.Staff.Name)
 		if i < len(schedule)-1 && cur.Position == schedule[i+1].Position {
 			content += "|\n"
 		} else if i != len(schedule)-1 {
