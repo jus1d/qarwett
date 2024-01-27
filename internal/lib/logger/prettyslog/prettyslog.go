@@ -19,9 +19,7 @@ type PrettyHandler struct {
 	attrs  []slog.Attr
 }
 
-func (opts PrettyHandlerOptions) NewPrettyHandler(
-	out io.Writer,
-) *PrettyHandler {
+func (opts PrettyHandlerOptions) NewPrettyHandler(out io.Writer) *PrettyHandler {
 	h := &PrettyHandler{
 		Handler: slog.NewJSONHandler(out, opts.SlogOpts),
 		logger:  stdLog.New(out, "", 0),

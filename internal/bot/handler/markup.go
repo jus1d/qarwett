@@ -6,7 +6,7 @@ import (
 	"qarwett/internal/ssau"
 )
 
-func GetScheduleNavigationMarkup(groupID int64, week int, weekday int) telegram.InlineKeyboardMarkup { // Maybe add offset limit
+func GetScheduleNavigationMarkup(groupID int64, week int, weekday int) telegram.InlineKeyboardMarkup {
 	prevWeek := week
 	prevWeekday := weekday - 1
 	nextWeek := week
@@ -31,7 +31,6 @@ func GetScheduleNavigationMarkup(groupID int64, week int, weekday int) telegram.
 		),
 	)
 }
-
 
 func GetMarkupFromGroupList(groups []ssau.SearchGroupResponse) telegram.InlineKeyboardMarkup {
 	length := len(groups)

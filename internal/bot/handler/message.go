@@ -24,7 +24,7 @@ func (h *Handler) OnNewMessage(u telegram.Update) {
 
 	groups, err := ssau.GetGroupBySearchQuery(query)
 	if len(groups) == 0 || err != nil {
-		_, err := h.SendTextMessage(author.ID, "Can't found group '"+query+"'.", nil)
+		_, err = h.SendTextMessage(author.ID, "Can't found group '"+query+"'.", nil)
 		if err != nil {
 			log.Error("Failed to send message", sl.Err(err))
 		}
