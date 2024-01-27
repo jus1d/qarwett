@@ -19,6 +19,9 @@ func GetScheduleNavigationMarkup(groupID int64, offset int) telegram.InlineKeybo
 	)
 }
 
+// TODO(#9): Change callback format
+// Move out of this format: `schedule:groupID:offset` to this: `schedule:groupID:week:weekday`
+
 func GetMarkupFromGroupList(groups []ssau.SearchGroupResponse) telegram.InlineKeyboardMarkup {
 	length := len(groups)
 	for length%3 != 0 {
