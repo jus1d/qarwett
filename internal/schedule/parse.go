@@ -4,6 +4,8 @@ import (
 	"fmt"
 )
 
+// TODO(#10): Add group title to schedule representation
+
 func ParseScheduleToMessageTextWithHTML(schedule Day) string {
 	pairs := schedule.Pairs
 	date := schedule.Date
