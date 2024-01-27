@@ -35,7 +35,7 @@ func (h *PrettyHandler) Handle(_ context.Context, r slog.Record) error {
 
 	switch r.Level {
 	case slog.LevelDebug:
-		level = color.HiBlackString(level)
+		level = color.HiWhiteString(level)
 	case slog.LevelInfo:
 		level = color.HiBlueString(level)
 	case slog.LevelWarn:
@@ -67,6 +67,7 @@ func (h *PrettyHandler) Handle(_ context.Context, r slog.Record) error {
 	}
 
 	timeStr := r.Time.Format("[15:05:05]")
+	timeStr = color.HiWhiteString(timeStr)
 	msg := color.HiCyanString(r.Message)
 
 	h.logger.Println(
