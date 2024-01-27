@@ -35,7 +35,7 @@ func (h *PrettyHandler) Handle(_ context.Context, r slog.Record) error {
 
 	switch r.Level {
 	case slog.LevelDebug:
-		level = color.HiGreenString(level)
+		level = color.HiBlackString(level)
 	case slog.LevelInfo:
 		level = color.HiBlueString(level)
 	case slog.LevelWarn:

@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"errors"
 	telegram "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"log/slog"
 	"qarwett/internal/lib/logger/sl"
@@ -40,8 +41,15 @@ func (h *Handler) OnCallbackSchedule(u telegram.Update) {
 	content := schedule.ParseScheduleToMessageTextWithHTML(timetable[weekday])
 
 	_, err = h.EditMessageText(u.CallbackQuery.Message, content, GetScheduleNavigationMarkup(groupID, offset))
+	if errors.Is(err, ErrNoChanges) {
+		callback := telegram.NewCallback(u.CallbackQuery.ID, "Изменений нет")
+		_, err = h.bot.Request(callback)
+		if err != nil {
+			log.Error("Failed to send callback", sl.Err(err))
+		}
+	}
 	if err != nil {
-		log.Error("Failed to send message", sl.Err(err))
+		log.Error("Failed to edit message", sl.Err(err))
 		return
 	}
 }

@@ -7,12 +7,14 @@ import (
 )
 
 func GetScheduleNavigationMarkup(groupID int64, offset int) telegram.InlineKeyboardMarkup { // Maybe add offset limit
-	callbackLeft := fmt.Sprintf("schedule:%d:%d", groupID, offset-1)
-	callbackRight := fmt.Sprintf("schedule:%d:%d", groupID, offset+1)
+	queryLeft := fmt.Sprintf("schedule:%d:%d", groupID, offset-1)
+	queryRight := fmt.Sprintf("schedule:%d:%d", groupID, offset+1)
+	queryUpdate := fmt.Sprintf("schedule:%d:%d", groupID, offset)
 	return telegram.NewInlineKeyboardMarkup(
 		telegram.NewInlineKeyboardRow(
-			telegram.NewInlineKeyboardButtonData("«", callbackLeft),
-			telegram.NewInlineKeyboardButtonData("»", callbackRight),
+			telegram.NewInlineKeyboardButtonData("«", queryLeft),
+			telegram.NewInlineKeyboardButtonData("⟳", queryUpdate),
+			telegram.NewInlineKeyboardButtonData("»", queryRight),
 		),
 	)
 }
