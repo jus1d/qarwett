@@ -83,7 +83,7 @@ func parsePair(doc *goquery.Selection, pos int) schedule.Pair {
 	if subgroupText == "" {
 		subgroup = 0
 	} else {
-		parts := strings.Split(strings.Replace(subgroupText, " ", "", -1), ":")
+		parts = strings.Split(strings.Replace(subgroupText, " ", "", -1), ":")
 		subgroup, _ = strconv.Atoi(parts[len(parts)-1])
 	}
 
@@ -97,6 +97,6 @@ func parsePair(doc *goquery.Selection, pos int) schedule.Pair {
 			Name: strings.TrimSpace(teacherName),
 		},
 		Groups:   groups,
-		SubGroup: subgroup,
+		Subgroup: subgroup,
 	}
 }

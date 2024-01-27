@@ -29,8 +29,6 @@ func (h *Handler) OnCallbackSchedule(u telegram.Update) {
 	weekday, _ := strconv.Atoi(parts[3])
 
 	doc, err := ssau.GetScheduleDocument(groupID, week)
-	//fmt.Println(week)
-	//fmt.Println(doc.Text())
 	if err != nil {
 		_, err = h.SendTextMessage(author.ID, "Can't get a schedule. Sorry!", nil)
 		if err != nil {
@@ -39,9 +37,6 @@ func (h *Handler) OnCallbackSchedule(u telegram.Update) {
 		}
 	}
 	timetable, week := ssau.Parse(doc)
-	//fmt.Println(week)
-
-	//fmt.Println(timetable.StartDate.String())
 
 	content := schedule.ParseScheduleToMessageTextWithHTML(schedule.Day{
 		Date:  timetable.StartDate.AddDate(0, 0, weekday),

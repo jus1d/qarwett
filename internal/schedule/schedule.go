@@ -60,7 +60,7 @@ type Pair struct {
 	Place    string
 	Staff    Staff
 	Groups   []Group
-	SubGroup int
+	Subgroup int
 }
 
 type WeekDays struct {
