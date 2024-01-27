@@ -9,9 +9,13 @@
 config/*.yaml
 .env
 
-# Ignore logs, trash or temorary files
+# Ignore logs, temporary files and any trash
 *.txt
 .logs/
+
+# Ignore OS files
+.DS_Store*
+
 
 # Ignore database data
 .database/
