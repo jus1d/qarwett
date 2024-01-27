@@ -1,5 +1,7 @@
 package schedule
 
+import "time"
+
 type PairType string
 
 const (
@@ -59,6 +61,21 @@ type Pair struct {
 	Staff    Staff
 	Groups   []Group
 	SubGroup int
+}
+
+type WeekDays struct {
+	StartDate time.Time
+	Days      []Day
+}
+
+type WeekPairs struct {
+	StartDate time.Time
+	Pairs     [][]Pair
+}
+
+type Day struct {
+	Date  time.Time
+	Pairs []Pair
 }
 
 type Staff struct {

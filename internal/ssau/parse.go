@@ -5,6 +5,7 @@ import (
 	"qarwett/internal/schedule"
 	"strconv"
 	"strings"
+	"time"
 )
 
 var PairColors = map[string]schedule.PairType{
@@ -17,11 +18,18 @@ var PairColors = map[string]schedule.PairType{
 	"8": schedule.Test,
 }
 
-func Parse(doc *goquery.Document) [][]schedule.Pair {
+func Parse(doc *goquery.Document) schedule.WeekPairs {
 	pairs := make([][]schedule.Pair, 6)
 	for i := 0; i < len(pairs); i++ {
 		pairs[i] = make([]schedule.Pair, 0)
 	}
+	var startDate time.Time
+	doc.Find(".schedule__head").Each(func(i int, s *goquery.Selection) {
+		if i == 1 {
+			rawStartDate := strings.TrimSpace(s.Find(".schedule__head-date").Text())
+			startDate, _ = time.Parse("02.01.2006", rawStartDate)
+		}
+	})
 
 	doc.Find(".schedule__item:not(.schedule__head)").Each(func(i int, s *goquery.Selection) {
 		if s.Text() == "" {
@@ -37,7 +45,10 @@ func Parse(doc *goquery.Document) [][]schedule.Pair {
 		})
 	})
 
-	return pairs
+	return schedule.WeekPairs{
+		StartDate: startDate,
+		Pairs:     pairs,
+	}
 }
 
 func parsePair(doc *goquery.Selection, pos int) schedule.Pair {

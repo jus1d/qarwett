@@ -38,7 +38,10 @@ func (h *Handler) OnCallbackSchedule(u telegram.Update) {
 	timetable := ssau.Parse(doc)
 	weekday := ssau.GetWeekday(offset)
 
-	content := schedule.ParseScheduleToMessageTextWithHTML(timetable[weekday])
+	content := schedule.ParseScheduleToMessageTextWithHTML(schedule.Day{
+		Date:  timetable.StartDate.AddDate(0, 0, weekday),
+		Pairs: timetable.Pairs[weekday],
+	})
 
 	_, err = h.EditMessageText(u.CallbackQuery.Message, content, GetScheduleNavigationMarkup(groupID, offset))
 	if errors.Is(err, ErrNoChanges) {

@@ -52,7 +52,10 @@ func (h *Handler) OnNewMessage(u telegram.Update) {
 	timetable := ssau.Parse(doc)
 
 	weekday := ssau.GetWeekday(0)
-	content := schedule.ParseScheduleToMessageTextWithHTML(timetable[weekday])
+	content := schedule.ParseScheduleToMessageTextWithHTML(schedule.Day{
+		Date:  timetable.StartDate.AddDate(0, 0, weekday),
+		Pairs: timetable.Pairs[weekday],
+	})
 
 	_, err = h.SendTextMessage(author.ID, content, GetScheduleNavigationMarkup(group.ID, 0))
 	if err != nil {
