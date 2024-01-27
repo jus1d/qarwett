@@ -5,7 +5,6 @@ import (
 )
 
 func ParseScheduleToMessageTextWithHTML(schedule Day) string {
-	// TODO(#7): Add date and weekday
 	pairs := schedule.Pairs
 	date := schedule.Date
 	months := []string{"", "января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "сентября", "декабря"}
