@@ -23,11 +23,14 @@ func (h *Handler) OnCallbackSchedule(u telegram.Update) {
 	query := u.CallbackData()
 	log.Debug("Callback handled", slog.String("query", query))
 
-	parts := strings.Split(query, ":")
+	parts := strings.Split(query, ":") // {"schedule", groupID, week, weekday}
 	groupID, _ := strconv.ParseInt(parts[1], 10, 64)
-	offset, _ := strconv.Atoi(parts[2])
+	week, _ := strconv.Atoi(parts[2])
+	weekday, _ := strconv.Atoi(parts[3])
 
-	doc, err := ssau.GetScheduleDocument(groupID, 0)
+	doc, err := ssau.GetScheduleDocument(groupID, week)
+	//fmt.Println(week)
+	//fmt.Println(doc.Text())
 	if err != nil {
 		_, err = h.SendTextMessage(author.ID, "Can't get a schedule. Sorry!", nil)
 		if err != nil {
@@ -35,15 +38,17 @@ func (h *Handler) OnCallbackSchedule(u telegram.Update) {
 			return
 		}
 	}
-	timetable := ssau.Parse(doc)
-	weekday := ssau.GetWeekday(offset)
+	timetable, week := ssau.Parse(doc)
+	//fmt.Println(week)
+
+	//fmt.Println(timetable.StartDate.String())
 
 	content := schedule.ParseScheduleToMessageTextWithHTML(schedule.Day{
 		Date:  timetable.StartDate.AddDate(0, 0, weekday),
 		Pairs: timetable.Pairs[weekday],
 	})
 
-	_, err = h.EditMessageText(u.CallbackQuery.Message, content, GetScheduleNavigationMarkup(groupID, offset))
+	_, err = h.EditMessageText(u.CallbackQuery.Message, content, GetScheduleNavigationMarkup(groupID, week, weekday))
 	if errors.Is(err, ErrNoChanges) {
 		callback := telegram.NewCallback(u.CallbackQuery.ID, "Изменений нет")
 		_, err = h.bot.Request(callback)

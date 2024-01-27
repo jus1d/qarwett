@@ -6,10 +6,23 @@ import (
 	"qarwett/internal/ssau"
 )
 
-func GetScheduleNavigationMarkup(groupID int64, offset int) telegram.InlineKeyboardMarkup { // Maybe add offset limit
-	queryLeft := fmt.Sprintf("schedule:%d:%d", groupID, offset-1)
-	queryRight := fmt.Sprintf("schedule:%d:%d", groupID, offset+1)
-	queryUpdate := fmt.Sprintf("schedule:%d:%d", groupID, offset)
+func GetScheduleNavigationMarkup(groupID int64, week int, weekday int) telegram.InlineKeyboardMarkup { // Maybe add offset limit
+	prevWeek := week
+	prevWeekday := weekday - 1
+	nextWeek := week
+	nextWeekday := weekday + 1
+	if prevWeekday == -1 {
+		prevWeekday = 6
+		prevWeek = week - 1
+	}
+	if nextWeekday == 7 {
+		nextWeekday = 0
+		nextWeek = week + 1
+	}
+	queryLeft := ApplyScheduleMask(groupID, prevWeek, prevWeekday)
+	queryUpdate := ApplyScheduleMask(groupID, week, weekday)
+	queryRight := ApplyScheduleMask(groupID, nextWeek, nextWeekday)
+
 	return telegram.NewInlineKeyboardMarkup(
 		telegram.NewInlineKeyboardRow(
 			telegram.NewInlineKeyboardButtonData("«", queryLeft),
@@ -33,7 +46,7 @@ func GetMarkupFromGroupList(groups []ssau.SearchGroupResponse) telegram.InlineKe
 		buttons := make([]telegram.InlineKeyboardButton, 0)
 		for j := 0; j < 3 && i+j < len(groups); j++ {
 			group := groups[i+j]
-			query := fmt.Sprintf("schedule:%d:0", group.ID)
+			query := ApplyScheduleMask(group.ID, 0, ssau.GetWeekday(0))
 			buttons = append(buttons, telegram.NewInlineKeyboardButtonData(group.Title, query))
 		}
 		rows[i/3] = telegram.NewInlineKeyboardRow(buttons...)
@@ -43,4 +56,8 @@ func GetMarkupFromGroupList(groups []ssau.SearchGroupResponse) telegram.InlineKe
 	markup.InlineKeyboard = rows
 
 	return markup
+}
+
+func ApplyScheduleMask(groupID int64, week int, weekday int) string {
+	return fmt.Sprintf("schedule:%d:%d:%d", groupID, week, weekday)
 }

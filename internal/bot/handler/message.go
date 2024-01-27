@@ -49,7 +49,7 @@ func (h *Handler) OnNewMessage(u telegram.Update) {
 			return
 		}
 	}
-	timetable := ssau.Parse(doc)
+	timetable, week := ssau.Parse(doc)
 
 	weekday := ssau.GetWeekday(0)
 	content := schedule.ParseScheduleToMessageTextWithHTML(schedule.Day{
@@ -57,7 +57,7 @@ func (h *Handler) OnNewMessage(u telegram.Update) {
 		Pairs: timetable.Pairs[weekday],
 	})
 
-	_, err = h.SendTextMessage(author.ID, content, GetScheduleNavigationMarkup(group.ID, 0))
+	_, err = h.SendTextMessage(author.ID, content, GetScheduleNavigationMarkup(group.ID, week, weekday))
 	if err != nil {
 		log.Error("Failed to send message", sl.Err(err))
 		return

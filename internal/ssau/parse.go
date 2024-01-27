@@ -18,8 +18,8 @@ var PairColors = map[string]schedule.PairType{
 	"8": schedule.Test,
 }
 
-func Parse(doc *goquery.Document) schedule.WeekPairs {
-	pairs := make([][]schedule.Pair, 6)
+func Parse(doc *goquery.Document) (schedule.WeekPairs, int) {
+	pairs := make([][]schedule.Pair, 7)
 	for i := 0; i < len(pairs); i++ {
 		pairs[i] = make([]schedule.Pair, 0)
 	}
@@ -30,6 +30,9 @@ func Parse(doc *goquery.Document) schedule.WeekPairs {
 			startDate, _ = time.Parse("02.01.2006", rawStartDate)
 		}
 	})
+
+	weekText := strings.TrimSpace(doc.Find("span.week-nav-current_week").Text())
+	week, _ := strconv.Atoi(strings.Split(weekText, " ")[0])
 
 	doc.Find(".schedule__item:not(.schedule__head)").Each(func(i int, s *goquery.Selection) {
 		if s.Text() == "" {
@@ -48,7 +51,7 @@ func Parse(doc *goquery.Document) schedule.WeekPairs {
 	return schedule.WeekPairs{
 		StartDate: startDate,
 		Pairs:     pairs,
-	}
+	}, week
 }
 
 func parsePair(doc *goquery.Selection, pos int) schedule.Pair {

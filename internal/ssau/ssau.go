@@ -21,7 +21,6 @@ type SearchGroupResponse struct {
 
 func GetScheduleDocument(groupID int64, week int) (*goquery.Document, error) {
 	client := http.Client{}
-	week = 25
 	cookies, csrf, err := GetCookiesAndToken()
 	if err != nil {
 		return nil, err
