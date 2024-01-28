@@ -1,7 +1,5 @@
 package postgres
 
-import "fmt"
-
 func (s *Storage) CreateUser(telegramID int64, username string, firstname string, lastname string, languageCode string) (string, error) {
 	var id string
 
@@ -23,8 +21,6 @@ func (s *Storage) GetUserByTelegramID(telegramID int64) (*User, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	fmt.Println(user)
 
 	return &user, nil
 }

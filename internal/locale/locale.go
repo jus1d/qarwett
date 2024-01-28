@@ -11,8 +11,6 @@ const (
 	RU = "ru"
 )
 
-const unknownLanguageCodeMessage = "ERROR: unknown language code"
-
 var PhrasesForFreeDayRU = []string{
 	"<b>%d %s</b> - день бездельник",
 	"<b>%d %s</b> даже будильник будет спать",
@@ -35,66 +33,60 @@ var PhrasesForFreeDayEN = []string{
 
 func GetPhraseGreeting(languageCode string) string {
 	switch languageCode {
-	case EN:
-		return "<b>Hello, here you can take a quick look at your schedule <s>and go get some sleep</s></b>\n\n" +
-			"👇Just type your group"
 	case RU:
 		return "<b>Привет, здесь ты сможешь быстро посмотреть свое расписание <s>и пойти отсыпаться</s></b>\n\n" +
 			"👇Просто напиши свою группу"
+	default:
+		return "<b>Hello, here you can take a quick look at your schedule <s>and go get some sleep</s></b>\n\n" +
+			"👇Just type your group"
 	}
-	return unknownLanguageCodeMessage
 }
 
 func GetPhraseNoGroupFound(languageCode string) string {
 	switch languageCode {
-	case EN:
-		return "☹️There are no groups at your request"
 	case RU:
 		return "☹️По твоему запросу нет групп"
+	default:
+		return "☹️There are no groups at your request"
 	}
-	return unknownLanguageCodeMessage
 }
 
 func GetPhraseChooseGroup(languageCode string) string {
 	switch languageCode {
-	case EN:
-		return "🤔<b>Choose a group</b>"
 	case RU:
 		return "🤔<b>Выбери группу</b>"
+	default:
+		return "🤔<b>Choose a group</b>"
 	}
-	return unknownLanguageCodeMessage
 }
 
 func GetPhraseNoScheduleFound(languageCode string) string {
 	switch languageCode {
-	case EN:
-		return "🚨<b>Can't found schedule!</b>"
 	case RU:
 		return "🚨<b>Не могу найти расписание!</b>"
+	default:
+		return "🚨<b>Can't found schedule!</b>"
 	}
-	return unknownLanguageCodeMessage
 }
 
 func GetPhraseNoChanges(languageCode string) string {
 	switch languageCode {
-	case EN:
-		return "No changes"
 	case RU:
 		return "Изменений нет"
+	default:
+		return "No changes"
 	}
-	return unknownLanguageCodeMessage
 }
 
 func GetRandomPhraseForFreeDay(languageCode string, day int, month int) string {
 	monthsRU := []string{"", "января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "сентября", "декабря"}
 	monthsEN := []string{"", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"}
 	switch languageCode {
-	case EN:
-		return fmt.Sprintf(choice(PhrasesForFreeDayEN), day, monthsEN[month])
 	case RU:
 		return fmt.Sprintf(choice(PhrasesForFreeDayRU), day, monthsRU[month])
+	default:
+		return fmt.Sprintf(choice(PhrasesForFreeDayEN), day, monthsEN[month])
 	}
-	return unknownLanguageCodeMessage
 }
 
 func choice(arr []string) string {
