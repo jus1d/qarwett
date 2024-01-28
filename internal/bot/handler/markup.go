@@ -56,5 +56,5 @@ func GetMarkupFromGroupList(groups []ssau.SearchGroupResponse) telegram.InlineKe
 }
 
 func ApplyScheduleMask(groupID int64, week int, weekday int) string {
-	return fmt.Sprintf("schedule:%d:%d:%d", groupID, week, weekday)
+	return fmt.Sprintf("schedule-daily:%d:%d:%d", groupID, week, weekday)
 }

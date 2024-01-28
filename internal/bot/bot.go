@@ -59,7 +59,7 @@ func (b *Bot) handleUpdates(updates telegram.UpdatesChannel) {
 		}
 		if update.CallbackQuery != nil {
 			data := update.CallbackData()
-			if strings.HasPrefix(data, "schedule:") {
+			if strings.HasPrefix(data, "schedule-daily:") {
 				b.handler.OnCallbackSchedule(update)
 			}
 		}
