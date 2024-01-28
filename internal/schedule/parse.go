@@ -2,7 +2,7 @@ package schedule
 
 import (
 	"fmt"
-	"qarwett/internal/lib/locale"
+	"qarwett/internal/locale"
 )
 
 // TODO(#10): Add group title to schedule representation
@@ -12,7 +12,7 @@ func ParseScheduleToMessageTextWithHTML(schedule Day) string {
 	date := schedule.Date
 	months := []string{"", "января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "сентября", "декабря"}
 	if len(pairs) == 0 {
-		return locale.GetRandomPhraseForFreeDay("ru", date.Day(), months[date.Month()])
+		return locale.GetRandomPhraseForFreeDay("ru", date.Day(), int(date.Month()))
 	}
 
 	content := fmt.Sprintf("Расписание на <b>%d %s</b>\n\n", date.Day(), months[date.Month()])

@@ -4,8 +4,8 @@ import (
 	"errors"
 	telegram "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"log/slog"
-	"qarwett/internal/lib/locale"
 	"qarwett/internal/lib/logger/sl"
+	"qarwett/internal/locale"
 	"qarwett/internal/schedule"
 	"qarwett/internal/ssau"
 	"strconv"
@@ -31,7 +31,7 @@ func (h *Handler) OnCallbackSchedule(u telegram.Update) {
 
 	doc, err := ssau.GetScheduleDocument(groupID, week)
 	if err != nil {
-		_, err = h.SendTextMessage(author.ID, locale.GetPhraseNoScheduleFound("ru"), nil)
+		_, err = h.SendTextMessage(author.ID, locale.GetPhraseNoScheduleFound(locale.RU), nil)
 		if err != nil {
 			log.Error("Failed to send message")
 			return
@@ -46,7 +46,7 @@ func (h *Handler) OnCallbackSchedule(u telegram.Update) {
 
 	_, err = h.EditMessageText(u.CallbackQuery.Message, content, GetScheduleNavigationMarkup(groupID, week, weekday))
 	if errors.Is(err, ErrNoChanges) {
-		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.GetPhraseNoChanges("ru"))
+		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.GetPhraseNoChanges(locale.RU))
 		_, err = h.bot.Request(callback)
 		if err != nil {
 			log.Error("Failed to send callback", sl.Err(err))
@@ -76,7 +76,7 @@ func (h *Handler) OnCallbackScheduleToday(u telegram.Update) {
 
 	doc, err := ssau.GetScheduleDocument(groupID, 0)
 	if err != nil {
-		_, err = h.SendTextMessage(author.ID, locale.GetPhraseNoScheduleFound("ru"), nil)
+		_, err = h.SendTextMessage(author.ID, locale.GetPhraseNoScheduleFound(locale.RU), nil)
 		if err != nil {
 			log.Error("Failed to send message")
 			return
@@ -91,7 +91,7 @@ func (h *Handler) OnCallbackScheduleToday(u telegram.Update) {
 
 	_, err = h.EditMessageText(u.CallbackQuery.Message, content, GetScheduleNavigationMarkup(groupID, week, weekday))
 	if errors.Is(err, ErrNoChanges) {
-		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.GetPhraseNoChanges("ru"))
+		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.GetPhraseNoChanges(locale.RU))
 		_, err = h.bot.Request(callback)
 		if err != nil {
 			log.Error("Failed to send callback", sl.Err(err))

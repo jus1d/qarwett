@@ -3,8 +3,8 @@ package handler
 import (
 	telegram "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"log/slog"
-	"qarwett/internal/lib/locale"
 	"qarwett/internal/lib/logger/sl"
+	"qarwett/internal/locale"
 	"strconv"
 )
 
@@ -29,7 +29,7 @@ func (h *Handler) OnCommandStart(u telegram.Update) {
 		}
 	}
 
-	message := telegram.NewMessage(u.Message.Chat.ID, locale.GetPhraseGreeting("ru"))
+	message := telegram.NewMessage(u.Message.Chat.ID, locale.GetPhraseGreeting(locale.RU))
 
 	message.ParseMode = telegram.ModeHTML
 
