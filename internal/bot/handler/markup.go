@@ -3,6 +3,7 @@ package handler
 import (
 	"fmt"
 	telegram "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	"qarwett/internal/locale"
 	"qarwett/internal/ssau"
 )
 
@@ -30,7 +31,7 @@ func GetScheduleNavigationMarkup(groupID int64, week int, weekday int) telegram.
 			telegram.NewInlineKeyboardButtonData("»", queryRight),
 		),
 		telegram.NewInlineKeyboardRow(
-			telegram.NewInlineKeyboardButtonData("Сегодня", ApplyScheduleTodayMask(groupID)),
+			telegram.NewInlineKeyboardButtonData(locale.GetButtonToday(locale.RU), ApplyScheduleTodayMask(groupID)),
 		),
 	)
 }
