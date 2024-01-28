@@ -29,6 +29,9 @@ func GetScheduleNavigationMarkup(groupID int64, week int, weekday int) telegram.
 			telegram.NewInlineKeyboardButtonData("⟳", queryUpdate),
 			telegram.NewInlineKeyboardButtonData("»", queryRight),
 		),
+		telegram.NewInlineKeyboardRow(
+			telegram.NewInlineKeyboardButtonData("Сегодня", ApplyScheduleTodayMask(groupID)),
+		),
 	)
 }
 
@@ -57,4 +60,8 @@ func GetMarkupFromGroupList(groups []ssau.SearchGroupResponse) telegram.InlineKe
 
 func ApplyScheduleMask(groupID int64, week int, weekday int) string {
 	return fmt.Sprintf("schedule-daily:%d:%d:%d", groupID, week, weekday)
+}
+
+func ApplyScheduleTodayMask(groupID int64) string {
+	return fmt.Sprintf("schedule-today:%d", groupID)
 }
