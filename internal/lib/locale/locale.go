@@ -1,20 +1,19 @@
 package locale
 
 import (
+	"fmt"
 	"math/rand"
-	"strconv"
-	"strings"
 	"time"
 )
 
 var PhrasesForFreeDay = []string{
-	"<b>{day} {month}</b> - день бездельник",
-	"<b>{day} {month}</b> даже будильник будет спать",
-	"План на <b>{day} {month}</b> - не иметь планов",
-	"<b>{day} {month}</b> можно и в Сочи рвануть",
-	"<b>{day} {month}</b> разрешаю лениться",
-	"<b>{day} {month}</b> - день исследований, исследуй куда постоянно деваются вторые носки",
-	"Хоть <b>{day} {month}</b> и выходной, хватит на диване отлеживаться",
+	"<b>%d %s</b> - день бездельник",
+	"<b>%d %s</b> даже будильник будет спать",
+	"План на <b>%d %s</b> - не иметь планов",
+	"<b>%d %s</b> можно и в Сочи рвануть",
+	"<b>%d %s</b> разрешаю лениться",
+	"<b>%d %s</b> - день исследований, исследуй куда постоянно деваются вторые носки",
+	"Хоть <b>%d %s</b> и выходной, хватит на диване отлеживаться",
 }
 
 func GetPhraseGreeting(languageCode string) string {
@@ -42,7 +41,6 @@ func GetRandomPhraseForFreeDay(languageCode string, day int, month string) strin
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 	idx := r.Intn(len(PhrasesForFreeDay))
 	s := PhrasesForFreeDay[idx]
-	s = strings.Replace(s, "{day}", strconv.Itoa(day), 1)
-	s = strings.Replace(s, "{month}", month, 1)
-	return s
+
+	return fmt.Sprintf(s, day, month)
 }
