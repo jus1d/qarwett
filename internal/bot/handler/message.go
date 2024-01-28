@@ -3,6 +3,7 @@ package handler
 import (
 	telegram "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"log/slog"
+	"qarwett/internal/lib/locale"
 	"qarwett/internal/lib/logger/sl"
 	"qarwett/internal/schedule"
 	"qarwett/internal/ssau"
@@ -24,7 +25,7 @@ func (h *Handler) OnNewMessage(u telegram.Update) {
 
 	groups, err := ssau.GetGroupBySearchQuery(query)
 	if len(groups) == 0 || err != nil {
-		_, err = h.SendTextMessage(author.ID, "Can't found group '"+query+"'.", nil)
+		_, err = h.SendTextMessage(author.ID, locale.GetPhraseNoGroupFound("ru"), nil)
 		if err != nil {
 			log.Error("Failed to send message", sl.Err(err))
 		}
@@ -33,7 +34,7 @@ func (h *Handler) OnNewMessage(u telegram.Update) {
 
 	if len(groups) > 1 {
 		markup := GetMarkupFromGroupList(groups)
-		_, err = h.SendTextMessage(author.ID, "Choose a group", markup)
+		_, err = h.SendTextMessage(author.ID, locale.GetPhraseChooseGroup("ru"), markup)
 		if err != nil {
 			log.Error("Failed to send message", sl.Err(err))
 		}
@@ -43,7 +44,7 @@ func (h *Handler) OnNewMessage(u telegram.Update) {
 	group := groups[0]
 	doc, err := ssau.GetScheduleDocument(group.ID, 0)
 	if err != nil {
-		_, err = h.SendTextMessage(author.ID, "Can't get a schedule. Sorry!", nil)
+		_, err = h.SendTextMessage(author.ID, locale.GetPhraseNoScheduleFound("ru"), nil)
 		if err != nil {
 			log.Error("Failed to send message", sl.Err(err))
 			return
