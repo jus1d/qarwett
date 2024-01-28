@@ -20,7 +20,7 @@ var PhrasesForFreeDayEN = []string{
 	"<b>%d %s</b> - a day of idleness",
 	"<b>%d %s</b> even the alarm clock will be sleeping",
 	"Plan for <b>%d %s</b> - just have no plans",
-	"<b>%d %s</b> is a good day to head to Sochi",
+	"<b>%d %s</b> is a perfect day to head to Sochi",
 	"<b>%d %s</b> - I allow you to be lazy",
 	"<b>%d %s</b> - a day of exploration, investigate where the second socks constantly disappear",
 	"Although it's <b>%d %s</b> off, stop lying on the couch",
@@ -73,7 +73,7 @@ func GetPhraseNoChanges(languageCode string) string {
 	}
 }
 
-func GetRandomPhraseForFreeDay(languageCode string, day int, month int) string {
+func GetPhraseForFreeDay(languageCode string, day int, month int) string {
 	monthsRU := []string{"", "января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "сентября", "декабря"}
 	monthsEN := []string{"", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"}
 	switch languageCode {
