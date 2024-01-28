@@ -1,5 +1,9 @@
 ![qarweTT](./images/qarwett-logo-long-description.png)
 
+## Plans for nearest future
+
+First of all, I'll implement schedule for [Samara University](https://ssau.ru/), but may be later, I transform this bot to a some kind of schedule aggregator, for many universities.
+
 ## Quick Start
 
 #### Make build script executable
@@ -25,10 +29,6 @@ INFO: Bot successfully started {
   "op", "bot.Run"
 }
 ```
-
-## Plans for nearest future
-
-First of all, I'll implement schedule for [Samara University](https://ssau.ru/), but may be later, I transform this bot to a some kind of schedule aggregator, for many universities.
 
 ## Inspiration
 
