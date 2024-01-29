@@ -7,7 +7,26 @@ import (
 	"qarwett/internal/ssau"
 )
 
-func GetScheduleNavigationMarkup(groupID int64, week int, weekday int) telegram.InlineKeyboardMarkup {
+func GetMarkupCancel(languageCode string) *telegram.InlineKeyboardMarkup {
+	markup := telegram.NewInlineKeyboardMarkup(
+		telegram.NewInlineKeyboardRow(
+			telegram.NewInlineKeyboardButtonData(locale.GetButtonCancel(languageCode), "cancel"),
+		),
+	)
+	return &markup
+}
+
+func GetMarkupCheckAnnouncement(languageCode string) *telegram.InlineKeyboardMarkup {
+	markup := telegram.NewInlineKeyboardMarkup(
+		telegram.NewInlineKeyboardRow(
+			telegram.NewInlineKeyboardButtonData(locale.GetButtonApprove(languageCode), "approve-announcement"),
+			telegram.NewInlineKeyboardButtonData(locale.GetButtonCancel(languageCode), "cancel"),
+		),
+	)
+	return &markup
+}
+
+func GetScheduleNavigationMarkup(groupID int64, week int, weekday int) *telegram.InlineKeyboardMarkup {
 	prevWeek := week
 	prevWeekday := weekday - 1
 	nextWeek := week
@@ -24,7 +43,7 @@ func GetScheduleNavigationMarkup(groupID int64, week int, weekday int) telegram.
 	queryUpdate := ApplyScheduleMask(groupID, week, weekday)
 	queryRight := ApplyScheduleMask(groupID, nextWeek, nextWeekday)
 
-	return telegram.NewInlineKeyboardMarkup(
+	markup := telegram.NewInlineKeyboardMarkup(
 		telegram.NewInlineKeyboardRow(
 			telegram.NewInlineKeyboardButtonData("«", queryLeft),
 			telegram.NewInlineKeyboardButtonData("⟳", queryUpdate),
@@ -34,9 +53,11 @@ func GetScheduleNavigationMarkup(groupID int64, week int, weekday int) telegram.
 			telegram.NewInlineKeyboardButtonData(locale.GetButtonToday(locale.RU), ApplyScheduleTodayMask(groupID)),
 		),
 	)
+
+	return &markup
 }
 
-func GetMarkupFromGroupList(groups []ssau.SearchGroupResponse) telegram.InlineKeyboardMarkup {
+func GetMarkupFromGroupList(groups []ssau.SearchGroupResponse) *telegram.InlineKeyboardMarkup {
 	length := len(groups)
 	for length%3 != 0 {
 		length++
@@ -56,7 +77,7 @@ func GetMarkupFromGroupList(groups []ssau.SearchGroupResponse) telegram.InlineKe
 	var markup telegram.InlineKeyboardMarkup
 	markup.InlineKeyboard = rows
 
-	return markup
+	return &markup
 }
 
 func ApplyScheduleMask(groupID int64, week int, weekday int) string {

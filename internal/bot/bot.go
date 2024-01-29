@@ -53,16 +53,25 @@ func (b *Bot) handleUpdates(updates telegram.UpdatesChannel) {
 			switch update.Message.Command() {
 			case "start":
 				b.handler.OnCommandStart(update)
+			case "a":
+				b.handler.OnCommandAdmin(update)
+			case "announce":
+				b.handler.OnCommandAnnounce(update)
 			default:
 				b.handler.OnNewMessage(update)
 			}
 		}
+
 		if update.CallbackQuery != nil {
 			data := update.CallbackData()
 			if strings.HasPrefix(data, "schedule-daily:") {
 				b.handler.OnCallbackSchedule(update)
 			} else if strings.HasPrefix(data, "schedule-today:") {
 				b.handler.OnCallbackScheduleToday(update)
+			} else if data == "cancel" {
+				b.handler.OnCallbackCancel(update)
+			} else if data == "approve-announcement" {
+				b.handler.OnCallbackAnnouncementApprove(update)
 			}
 		}
 	}

@@ -7,6 +7,7 @@ import (
 	"qarwett/internal/locale"
 	"qarwett/internal/schedule"
 	"qarwett/internal/ssau"
+	"qarwett/internal/storage/postgres"
 	"strconv"
 )
 
@@ -20,6 +21,27 @@ func (h *Handler) OnNewMessage(u telegram.Update) {
 	)
 
 	log.Debug("Message handled", slog.String("content", u.Message.Text))
+
+	user, err := h.storage.GetUserByTelegramID(author.ID)
+	if err != nil {
+		log.Error("Failed to get user from database")
+		_, err = h.SendTextMessage(author.ID, locale.GetPhraseUseRestart(locale.RU), nil)
+		if err != nil {
+			log.Error("Failed to send message", sl.Err(err))
+			return
+		}
+	}
+
+	if user.Stage == postgres.StageWaitingAnnouncementMessage {
+		content := u.Message.Text
+		_, err = h.SendTextMessage(author.ID, locale.GetPhraseAnnouncementCheck(locale.RU, content), GetMarkupCheckAnnouncement(locale.RU))
+		if err != nil {
+			log.Error("Failed to send message", sl.Err(err))
+			return
+		}
+		h.storage.SetAnnouncementMessage(author.ID, content)
+		return
+	}
 
 	query := u.Message.Text
 

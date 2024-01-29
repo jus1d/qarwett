@@ -37,6 +37,55 @@ func GetPhraseGreeting(languageCode string) string {
 	}
 }
 
+func GetPhraseAdminCommands(languageCode string) string {
+	switch languageCode {
+	case RU:
+		return "<b>Список админ комманд:</b>\n\n" +
+			"<b>/announce</b> - Отправить объявление всем пользователям бота"
+	default:
+		return "<b>List of admin commands:</b>\n\n" +
+			"<b>/announce</b> - Send an announcement message to all users"
+	}
+}
+
+func GetPhraseAnnouncementRequest(languageCode string) string {
+	switch languageCode {
+	case RU:
+		return "Отправьте сообщение для объявления"
+	default:
+		return "Send me an announcement message"
+	}
+}
+
+func GetPhraseCantStartAnnouncement(languageCode string) string {
+	switch languageCode {
+	case RU:
+		return "Ошибка при создании объявления!"
+	default:
+		return "An error occurred while creating an announcement!"
+	}
+}
+
+func GetPhraseAnnouncementCheck(languageCode string, content string) string {
+	switch languageCode {
+	case RU:
+		return "<b>Ваше объявление:</b>\n\n" + content + "\n\n" +
+			"Все ле корректно?"
+	default:
+		return "<b>Your announcement message:</b>\n\n" + content + "\n\n" +
+			"Is everything correct?"
+	}
+}
+
+func GetPhraseAnnouncementCompleted(languageCode string) string {
+	switch languageCode {
+	case RU:
+		return "<b>Объявление успешно разослано все пользователям</b>"
+	default:
+		return "<b>Announcement completely sent to all users</b>"
+	}
+}
+
 func GetPhraseNoGroupFound(languageCode string) string {
 	switch languageCode {
 	case RU:
@@ -70,6 +119,33 @@ func GetPhraseNoChanges(languageCode string) string {
 		return "Изменений нет"
 	default:
 		return "No changes"
+	}
+}
+
+func GetPhraseFailedToCancel(languageCode string) string {
+	switch languageCode {
+	case RU:
+		return "Ошибка при отмене"
+	default:
+		return "Failed to cancel"
+	}
+}
+
+func GetPhraseEmptyAnnouncementMessage(languageCode string) string {
+	switch languageCode {
+	case RU:
+		return "Сообщение для объявления не найдено. Попробуйте снова"
+	default:
+		return "Announcement message not found. Try again"
+	}
+}
+
+func GetPhraseUseRestart(languageCode string) string {
+	switch languageCode {
+	case RU:
+		return "Требуется перезагрузка бота -> <b>/start</b>"
+	default:
+		return "Restart needed -> <b>/start</b>"
 	}
 }
 

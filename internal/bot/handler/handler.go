@@ -30,12 +30,12 @@ func (h *Handler) SendTextMessage(chatID int64, content string, markup interface
 	return h.bot.Send(msg)
 }
 
-func (h *Handler) EditMessageText(message *telegram.Message, content string, markup telegram.InlineKeyboardMarkup) (telegram.Message, error) {
+func (h *Handler) EditMessageText(message *telegram.Message, content string, markup *telegram.InlineKeyboardMarkup) (telegram.Message, error) {
 	if message.Text == strings.TrimRight(RemoveHTML(content), "\n") {
 		return *message, ErrNoChanges
 	}
 	c := telegram.NewEditMessageText(message.Chat.ID, message.MessageID, content)
-	c.ReplyMarkup = &markup
+	c.ReplyMarkup = markup
 	c.ParseMode = telegram.ModeHTML
 
 	msg, err := h.bot.Send(c)
