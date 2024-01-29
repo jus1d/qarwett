@@ -124,6 +124,15 @@ func GetPhraseNoChanges(languageCode string) string {
 	}
 }
 
+func GetPhraseCancelled(languageCode string) string {
+	switch languageCode {
+	case RU:
+		return "Отменено"
+	default:
+		return "Cancelled"
+	}
+}
+
 func GetPhraseFailedToCancel(languageCode string) string {
 	switch languageCode {
 	case RU:

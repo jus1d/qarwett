@@ -125,6 +125,15 @@ func (h *Handler) OnCallbackCancel(u telegram.Update) {
 			log.Error("Failed to send callback", sl.Err(err))
 		}
 	}
+
+	callback := telegram.NewCallback(u.CallbackQuery.ID, locale.GetPhraseCancelled(locale.RU))
+	_, err = h.bot.Request(callback)
+	if err != nil {
+		log.Error("Failed to send callback", sl.Err(err))
+	}
+
+	c := telegram.NewDeleteMessage(author.ID, u.CallbackQuery.Message.MessageID)
+	_, _ = h.bot.Send(c)
 }
 
 func (h *Handler) OnCallbackAnnouncementApprove(u telegram.Update) {
