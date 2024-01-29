@@ -41,10 +41,12 @@ func GetPhraseAdminCommands(languageCode string) string {
 	switch languageCode {
 	case RU:
 		return "<b>Список админ комманд:</b>\n\n" +
-			"<b>/announce</b> - Отправить объявление всем пользователям бота"
+			"<b>/announce</b> - Отправить объявление всем пользователям бота\n" +
+			"<b>/users</b> - Посмотреть количество пользователей"
 	default:
 		return "<b>List of admin commands:</b>\n\n" +
-			"<b>/announce</b> - Send an announcement message to all users"
+			"<b>/announce</b> - Send an announcement message to all users\n" +
+			"<b>/users</b> - View users counter"
 	}
 }
 
@@ -137,6 +139,15 @@ func GetPhraseEmptyAnnouncementMessage(languageCode string) string {
 		return "Сообщение для объявления не найдено. Попробуйте снова"
 	default:
 		return "Announcement message not found. Try again"
+	}
+}
+
+func GetPhraseUsersCommand(languageCode string, amount int) string {
+	switch languageCode {
+	case RU:
+		return fmt.Sprintf("<b>Всего пользователей бота:</b> %d", amount)
+	default:
+		return fmt.Sprintf("<b>Total users:</b> %d", amount)
 	}
 }
 

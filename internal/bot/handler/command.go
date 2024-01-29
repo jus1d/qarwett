@@ -58,7 +58,7 @@ func (h *Handler) OnCommandAdmin(u telegram.Update) {
 	}
 
 	if !user.IsAdmin {
-		log.Debug("Admin command triggerred by not admin")
+		log.Info("Admin command triggerred by not admin", slog.String("command", u.Message.Text))
 		return
 	}
 
@@ -79,7 +79,18 @@ func (h *Handler) OnCommandAnnounce(u telegram.Update) {
 
 	log.Debug("Command triggered: /announce")
 
-	err := h.storage.UpdateUserStage(author.ID, postgres.StageWaitingAnnouncementMessage)
+	user, err := h.storage.GetUserByTelegramID(author.ID)
+	if err != nil {
+		log.Error("Failed to get user from database", sl.Err(err))
+		return
+	}
+
+	if !user.IsAdmin {
+		log.Info("Admin command triggered by not admin", slog.String("command", u.Message.Text))
+		return
+	}
+
+	err = h.storage.UpdateUserStage(author.ID, postgres.StageWaitingAnnouncementMessage)
 	if err != nil {
 		_, err = h.SendTextMessage(author.ID, locale.GetPhraseCantStartAnnouncement(locale.RU), nil)
 		if err != nil {
@@ -93,5 +104,39 @@ func (h *Handler) OnCommandAnnounce(u telegram.Update) {
 	if err != nil {
 		log.Error("Failed to send message", sl.Err(err))
 		return
+	}
+}
+
+func (h *Handler) OnCommandUsers(u telegram.Update) {
+	author := u.Message.From
+
+	log := h.log.With(
+		slog.String("op", "handler.OnCommandUsers"),
+		slog.String("username", author.UserName),
+		slog.String("id", strconv.FormatInt(author.ID, 10)),
+	)
+
+	log.Debug("Command triggered: /users")
+
+	user, err := h.storage.GetUserByTelegramID(author.ID)
+	if err != nil {
+		log.Error("Failed to get user from database", sl.Err(err))
+		return
+	}
+
+	if !user.IsAdmin {
+		log.Info("Admin command triggered by not admin", slog.String("command", u.Message.Text))
+		return
+	}
+
+	users, err := h.storage.GetAllUsers()
+	if err != nil {
+		log.Error("Failed to get users from database", sl.Err(err))
+		return
+	}
+
+	_, err = h.SendTextMessage(author.ID, locale.GetPhraseUsersCommand(locale.RU, len(users)), nil)
+	if err != nil {
+		log.Error("Failed to send message", sl.Err(err))
 	}
 }
