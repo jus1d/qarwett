@@ -8,6 +8,7 @@ import (
 	"strings"
 )
 
+// Bot struct implements a structure to call telegram API, use storage etc.
 type Bot struct {
 	env     string
 	client  *telegram.BotAPI
@@ -15,6 +16,7 @@ type Bot struct {
 	log     *slog.Logger
 }
 
+// New returns a new *Bot instance. If Some services don't start, function will return an error.
 func New(token string, env string, log *slog.Logger, storage *postgres.Storage) (*Bot, error) {
 	bot, err := telegram.NewBotAPI(token)
 	if err != nil {
@@ -31,6 +33,7 @@ func New(token string, env string, log *slog.Logger, storage *postgres.Storage) 
 	}, nil
 }
 
+// Run create a thread and run function to handle different updates, caught via telegram API.
 func (b *Bot) Run() {
 	log := b.log.With(slog.String("op", "bot.Run"), slog.String("env", b.env))
 
@@ -40,6 +43,7 @@ func (b *Bot) Run() {
 	log.Info("Bot successfully started", slog.String("username", b.client.Self.UserName))
 }
 
+// getUpdates returns channel with updates, caught via telegram API.
 func (b *Bot) getUpdates() telegram.UpdatesChannel {
 	updates := telegram.NewUpdate(0)
 	updates.Timeout = 30
@@ -47,6 +51,7 @@ func (b *Bot) getUpdates() telegram.UpdatesChannel {
 	return b.client.GetUpdatesChan(updates)
 }
 
+// handleUpdates is infinitely grab new updates from channel, and handle them.
 func (b *Bot) handleUpdates(updates telegram.UpdatesChannel) {
 	for update := range updates {
 		if update.Message != nil {

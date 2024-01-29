@@ -19,6 +19,7 @@ type SearchGroupResponse struct {
 	ScheduleURL string `json:"url"`
 }
 
+// GetScheduleDocument requests schedule from university's website, and returns doc (*goquery.Document) for it.
 func GetScheduleDocument(groupID int64, week int) (*goquery.Document, error) {
 	client := http.Client{}
 	cookies, csrf, err := GetCookiesAndToken()
@@ -49,6 +50,7 @@ func GetScheduleDocument(groupID int64, week int) (*goquery.Document, error) {
 	return goquery.NewDocumentFromReader(res.Body)
 }
 
+// GetGroupBySearchQuery tries to find a university's group, by user's search query.
 func GetGroupBySearchQuery(query string) ([]SearchGroupResponse, error) {
 	cookies, token, err := GetCookiesAndToken()
 	if err != nil {
@@ -88,6 +90,7 @@ func GetGroupBySearchQuery(query string) ([]SearchGroupResponse, error) {
 	return list, nil
 }
 
+// GetCookiesAndToken requests university's website to get human-like CSRF token and cookies.
 func GetCookiesAndToken() ([]*http.Cookie, string, error) {
 	client := http.Client{}
 
@@ -116,13 +119,15 @@ func GetCookiesAndToken() ([]*http.Cookie, string, error) {
 	return cookies, token, nil
 }
 
+// AddHeaders add some headers. UserAgent and CSRF token included, to make request more humanize.
 func AddHeaders(req *http.Request, token string) {
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
-	req.Header.Add("User-Agent", "Mozilla/5.0")
+	req.Header.Add("User-Agent", UserAgent)
 	req.Header.Add("Accept", "application/json")
 	req.Header.Add("X-CSRF-TOKEN", token)
 }
 
+// AddCookies add some cookies to request, to make it more humanize.
 func AddCookies(req *http.Request, cookies []*http.Cookie) {
 	for _, cookie := range cookies {
 		req.AddCookie(cookie)

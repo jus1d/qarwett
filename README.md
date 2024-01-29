@@ -26,7 +26,7 @@ $ ./build.sh
 ```console
 $ ./.bin/qarwett
 INFO: Bot successfully started {
-  "op", "bot.Run"
+  "op": "bot.Run"
 }
 ```
 

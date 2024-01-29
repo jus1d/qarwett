@@ -7,6 +7,7 @@ import (
 	"qarwett/internal/lib/logger/prettyslog"
 )
 
+// Init initialize a *slog.Logger instance for logging, without pretty formatting for production and development builds.
 func Init(env string) *slog.Logger {
 	var log *slog.Logger
 
@@ -22,6 +23,7 @@ func Init(env string) *slog.Logger {
 	return log
 }
 
+// InitPretty initialize a *slog.Logger instance for logging, with pretty formatting for local builds.
 func InitPretty() *slog.Logger {
 	opts := prettyslog.PrettyHandlerOptions{
 		SlogOpts: &slog.HandlerOptions{

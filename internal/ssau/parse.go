@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-var PairColors = map[string]schedule.PairType{
+var PairColorToType = map[string]schedule.PairType{
 	"1": schedule.Lecture,
 	"2": schedule.Lab,
 	"3": schedule.Practice,
@@ -18,6 +18,7 @@ var PairColors = map[string]schedule.PairType{
 	"8": schedule.Test,
 }
 
+// Parse converts an HTML doc (*goquery.Document) to schedule.WeekPairs. Own format for weekly schedule.
 func Parse(doc *goquery.Document) (schedule.WeekPairs, int) {
 	pairs := make([][]schedule.Pair, 7)
 	for i := 0; i < len(pairs); i++ {
@@ -54,6 +55,7 @@ func Parse(doc *goquery.Document) (schedule.WeekPairs, int) {
 	}, week
 }
 
+// parsePair converts a HTML doc (*goquery.Document) to schedule.Pair. Own type for daily schedule.
 func parsePair(doc *goquery.Selection, pos int) schedule.Pair {
 	discipline := doc.Find(".schedule__discipline")
 	title := discipline.Text()
@@ -61,7 +63,7 @@ func parsePair(doc *goquery.Selection, pos int) schedule.Pair {
 	pairColorClass := classAttributes[len(classAttributes)-1]
 	parts := strings.Split(pairColorClass, "-")
 	pairColor := parts[len(parts)-1]
-	pairType := PairColors[pairColor]
+	pairType := PairColorToType[pairColor]
 
 	place := doc.Find(".schedule__place").Text()
 

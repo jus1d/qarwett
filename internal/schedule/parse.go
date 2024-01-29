@@ -7,6 +7,7 @@ import (
 
 // TODO(#10): Add group title to schedule representation
 
+// ParseScheduleToMessageTextWithHTML parses a daily schedule, to text message for telegram.
 func ParseScheduleToMessageTextWithHTML(schedule Day) string {
 	pairs := schedule.Pairs
 	date := schedule.Date
