@@ -145,7 +145,7 @@ func GetPhraseEmptyAnnouncementMessage(languageCode string) string {
 func GetPhraseUsersCommand(languageCode string, amount int) string {
 	switch languageCode {
 	case RU:
-		return fmt.Sprintf("<b>Всего пользователей бота:</b> %d", amount)
+		return fmt.Sprintf("<b>Всего пользователей:</b> %d", amount)
 	default:
 		return fmt.Sprintf("<b>Total users:</b> %d", amount)
 	}
