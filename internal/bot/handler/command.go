@@ -157,11 +157,19 @@ func (h *Handler) OnCommandToday(u telegram.Update) {
 	user, err := h.storage.GetUserByTelegramID(author.ID)
 	if err != nil {
 		log.Error("Failed to get user from database")
-		_, err = h.SendTextMessage(author.ID, locale.PhraseUseRestart(locale.RU), GetMarkupCheckAnnouncement(locale.RU))
+		_, err = h.SendTextMessage(author.ID, locale.PhraseUseRestart(locale.RU), nil)
 		if err != nil {
 			log.Error("Failed to send message", sl.Err(err))
 			return
 		}
+	}
+
+	if user.LinkedGroupID == 0 {
+		_, err = h.SendTextMessage(author.ID, locale.PhraseCantFoundYourGroup(locale.RU), nil)
+		if err != nil {
+			log.Error("Failed to send message", sl.Err(err))
+		}
+		return
 	}
 
 	groupID := user.LinkedGroupID
