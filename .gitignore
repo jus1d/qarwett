@@ -22,7 +22,3 @@ config/*.yaml
 
 # Ignore calendars and other stuff
 *calendars/
-
-# temp
-cmd/ics
-internal/ics
