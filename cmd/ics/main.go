@@ -17,7 +17,7 @@ func main() {
 	}
 	group := groups[0]
 
-	filename, err := icalendar.WriteNextMonthScheduleToFile(group.ID, locale.RU)
+	filename, err := icalendar.WriteNextNWeeksScheduleToFile(group.ID, locale.RU, 4)
 	if err != nil {
 		log.Fatal(err)
 	}

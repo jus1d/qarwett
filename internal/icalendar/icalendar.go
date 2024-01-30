@@ -55,33 +55,6 @@ func WriteNextNWeeksScheduleToFile(groupID int64, languageCode string, n int) (s
 	return filename, nil
 }
 
-func WriteNextMonthScheduleToFile(groupID int64, languageCode string) (string, error) {
-	return WriteNextNWeeksScheduleToFile(groupID, languageCode, 4)
-}
-
-func WriteWeekScheduleToFile(groupID int64, languageCode string, schedule schedule.WeekPairs) (string, error) {
-	if _, err := os.Stat(CalendarsDir); os.IsNotExist(err) {
-		_ = os.Mkdir(CalendarsDir, 0755)
-	}
-	filename := fmt.Sprintf("%s/%d-%s.ics", CalendarsDir, groupID, languageCode)
-	file, err := os.Create(filename)
-	if err != nil {
-		return "", err
-	}
-	defer file.Close()
-
-	var content string
-	addICalendarHeader(&content, languageCode)
-	addICalendarSchedule(&content, schedule, languageCode)
-	addICalendarFooter(&content)
-
-	_, err = file.WriteString(content)
-	if err != nil {
-		return "", err
-	}
-	return filename, nil
-}
-
 func addICalendarSchedule(content *string, schedule schedule.WeekPairs, languageCode string) {
 	for i := 0; i < len(schedule.Pairs); i++ {
 		day := schedule.Pairs[i]
