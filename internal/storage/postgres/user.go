@@ -76,3 +76,8 @@ func (s *Storage) GetAnnouncementMessage(telegramID int64) (string, bool) {
 	val, exists := announcements[telegramID]
 	return val, exists
 }
+
+func (s *Storage) UpdateUserLinkedGroup(telegramID int64, groupID int64) error {
+	_, err := s.db.Exec("UPDATE users SET linked_group_id = $2 WHERE telegram_id = $1", telegramID, groupID)
+	return err
+}

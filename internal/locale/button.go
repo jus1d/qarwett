@@ -9,6 +9,15 @@ func ButtonToday(languageCode string) string {
 	}
 }
 
+func ButtonFavourite(languageCode string) string {
+	switch languageCode {
+	case RU:
+		return "В избранное"
+	default:
+		return "Favourite"
+	}
+}
+
 func ButtonCancel(languageCode string) string {
 	switch languageCode {
 	case RU:

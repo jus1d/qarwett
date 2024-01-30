@@ -74,13 +74,20 @@ func (h *Handler) OnNewMessage(u telegram.Update) {
 	}
 	timetable, week := ssau.Parse(doc)
 
+	user, err = h.storage.GetUserByTelegramID(author.ID)
+	if err != nil {
+		log.Error("Failed to get user from storage", sl.Err(err))
+	}
+
+	favouriteButton := err == nil && user.LinkedGroupID != group.ID
+
 	weekday := ssau.GetWeekday(0)
 	content := schedule.ParseScheduleToMessageTextWithHTML(schedule.Day{
 		Date:  timetable.StartDate.AddDate(0, 0, weekday),
 		Pairs: timetable.Pairs[weekday],
 	})
 
-	_, err = h.SendTextMessage(author.ID, content, GetScheduleNavigationMarkup(group.ID, week, weekday))
+	_, err = h.SendTextMessage(author.ID, content, GetScheduleNavigationMarkup(group.ID, week, weekday, favouriteButton))
 	if err != nil {
 		log.Error("Failed to send message", sl.Err(err))
 		return

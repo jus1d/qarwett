@@ -40,12 +40,20 @@ func (h *Handler) OnCallbackSchedule(u telegram.Update) {
 	}
 	timetable, week := ssau.Parse(doc)
 
+	user, err := h.storage.GetUserByTelegramID(author.ID)
+	if err != nil {
+		log.Error("Failed to get user from storage", sl.Err(err))
+	}
+
+	favouriteButton := err == nil && user.LinkedGroupID != groupID
+
 	content := schedule.ParseScheduleToMessageTextWithHTML(schedule.Day{
 		Date:  timetable.StartDate.AddDate(0, 0, weekday),
 		Pairs: timetable.Pairs[weekday],
 	})
 
-	_, err = h.EditMessageText(u.CallbackQuery.Message, content, GetScheduleNavigationMarkup(groupID, week, weekday))
+	_, err = h.EditMessageText(u.CallbackQuery.Message, content,
+		GetScheduleNavigationMarkup(groupID, week, weekday, favouriteButton))
 	if errors.Is(err, ErrNoChanges) {
 		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.PhraseNoChanges(locale.RU))
 		_, err = h.bot.Request(callback)
@@ -56,6 +64,38 @@ func (h *Handler) OnCallbackSchedule(u telegram.Update) {
 	if err != nil {
 		log.Error("Failed to edit message", sl.Err(err))
 		return
+	}
+}
+
+func (h *Handler) OnCallbackFavouriteGroup(u telegram.Update) {
+	author := u.CallbackQuery.From
+
+	log := h.log.With(
+		slog.String("op", "handler.OnCallbackFavouriteGroup"),
+		slog.String("username", author.UserName),
+		slog.String("id", strconv.FormatInt(author.ID, 10)),
+	)
+
+	query := u.CallbackData()
+	log.Debug("Callback handled", slog.String("query", query))
+
+	parts := strings.Split(query, ":") // {"favourite-group", groupID}
+	groupID, _ := strconv.ParseInt(parts[1], 10, 64)
+
+	err := h.storage.UpdateUserLinkedGroup(author.ID, groupID)
+	if err != nil {
+		log.Error("Failed to update user's group", sl.Err(err))
+		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.PhraseError(locale.RU))
+		_, err = h.bot.Request(callback)
+		if err != nil {
+			log.Error("Failed to send callback", sl.Err(err))
+		}
+	}
+
+	callback := telegram.NewCallback(u.CallbackQuery.ID, locale.PhraseSuccess(locale.RU))
+	_, err = h.bot.Request(callback)
+	if err != nil {
+		log.Error("Failed to send callback", sl.Err(err))
 	}
 }
 
@@ -85,12 +125,20 @@ func (h *Handler) OnCallbackScheduleToday(u telegram.Update) {
 	}
 	timetable, week := ssau.Parse(doc)
 
+	user, err := h.storage.GetUserByTelegramID(author.ID)
+	if err != nil {
+		log.Error("Failed to get user from storage", sl.Err(err))
+	}
+
+	favouriteButton := err == nil && user.LinkedGroupID != groupID
+
 	content := schedule.ParseScheduleToMessageTextWithHTML(schedule.Day{
 		Date:  timetable.StartDate.AddDate(0, 0, weekday),
 		Pairs: timetable.Pairs[weekday],
 	})
 
-	_, err = h.EditMessageText(u.CallbackQuery.Message, content, GetScheduleNavigationMarkup(groupID, week, weekday))
+	_, err = h.EditMessageText(u.CallbackQuery.Message, content,
+		GetScheduleNavigationMarkup(groupID, week, weekday, favouriteButton))
 	if errors.Is(err, ErrNoChanges) {
 		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.PhraseNoChanges(locale.RU))
 		_, err = h.bot.Request(callback)

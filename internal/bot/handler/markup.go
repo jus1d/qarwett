@@ -26,7 +26,7 @@ func GetMarkupCheckAnnouncement(languageCode string) *telegram.InlineKeyboardMar
 	return &markup
 }
 
-func GetScheduleNavigationMarkup(groupID int64, week int, weekday int) *telegram.InlineKeyboardMarkup {
+func GetScheduleNavigationMarkup(groupID int64, week int, weekday int, addFavourite bool) *telegram.InlineKeyboardMarkup {
 	prevWeek := week
 	prevWeekday := weekday - 1
 	nextWeek := week
@@ -43,16 +43,25 @@ func GetScheduleNavigationMarkup(groupID int64, week int, weekday int) *telegram
 	queryUpdate := ApplyScheduleMask(groupID, week, weekday)
 	queryRight := ApplyScheduleMask(groupID, nextWeek, nextWeekday)
 
-	markup := telegram.NewInlineKeyboardMarkup(
-		telegram.NewInlineKeyboardRow(
-			telegram.NewInlineKeyboardButtonData("«", queryLeft),
-			telegram.NewInlineKeyboardButtonData("⟳", queryUpdate),
-			telegram.NewInlineKeyboardButtonData("»", queryRight),
-		),
-		telegram.NewInlineKeyboardRow(
-			telegram.NewInlineKeyboardButtonData(locale.ButtonToday(locale.RU), ApplyScheduleTodayMask(groupID)),
-		),
-	)
+	rows := make([][]telegram.InlineKeyboardButton, 0)
+
+	rows = append(rows, telegram.NewInlineKeyboardRow(
+		telegram.NewInlineKeyboardButtonData("«", queryLeft),
+		telegram.NewInlineKeyboardButtonData("⟳", queryUpdate),
+		telegram.NewInlineKeyboardButtonData("»", queryRight),
+	))
+
+	rows = append(rows, telegram.NewInlineKeyboardRow(
+		telegram.NewInlineKeyboardButtonData(locale.ButtonToday(locale.RU), ApplyScheduleTodayMask(groupID)),
+	))
+
+	if addFavourite {
+		rows = append(rows, telegram.NewInlineKeyboardRow(
+			telegram.NewInlineKeyboardButtonData(locale.ButtonFavourite(locale.RU), ApplyFavouriteGroupMask(groupID)),
+		))
+	}
+
+	markup := telegram.NewInlineKeyboardMarkup(rows...)
 
 	return &markup
 }

@@ -124,6 +124,24 @@ func PhraseNoChanges(languageCode string) string {
 	}
 }
 
+func PhraseError(languageCode string) string {
+	switch languageCode {
+	case RU:
+		return "Ошибка"
+	default:
+		return "Error"
+	}
+}
+
+func PhraseSuccess(languageCode string) string {
+	switch languageCode {
+	case RU:
+		return "Успешно"
+	default:
+		return "Success"
+	}
+}
+
 func PhraseCancelled(languageCode string) string {
 	switch languageCode {
 	case RU:
