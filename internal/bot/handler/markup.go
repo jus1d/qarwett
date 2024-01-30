@@ -87,3 +87,7 @@ func ApplyScheduleMask(groupID int64, week int, weekday int) string {
 func ApplyScheduleTodayMask(groupID int64) string {
 	return fmt.Sprintf("schedule-today:%d", groupID)
 }
+
+func ApplyFavouriteGroupMask(groupID int64) string {
+	return fmt.Sprintf("favourite-group:%d", groupID)
+}
