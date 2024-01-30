@@ -88,6 +88,15 @@ func PhraseAnnouncementCompleted(languageCode string) string {
 	}
 }
 
+func PhraseCantFoundYourGroup(languageCode string) string {
+	switch languageCode {
+	case RU:
+		return "☹️Не могу найти твою группу\n\nЧтобы использовать эту команду, добавь свою группу <b>в избранное</b>"
+	default:
+		return "☹️Can't found your group\n\nAdd your group <b>to favourites</b>, to use this command"
+	}
+}
+
 func PhraseNoGroupFound(languageCode string) string {
 	switch languageCode {
 	case RU:

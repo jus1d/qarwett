@@ -5,6 +5,8 @@ import (
 	"log/slog"
 	"qarwett/internal/lib/logger/sl"
 	"qarwett/internal/locale"
+	"qarwett/internal/schedule"
+	"qarwett/internal/ssau"
 	"qarwett/internal/storage/postgres"
 	"strconv"
 )
@@ -138,5 +140,50 @@ func (h *Handler) OnCommandUsers(u telegram.Update) {
 	_, err = h.SendTextMessage(author.ID, locale.PhraseUsersCommand(locale.RU, len(users)), nil)
 	if err != nil {
 		log.Error("Failed to send message", sl.Err(err))
+	}
+}
+
+func (h *Handler) OnCommandToday(u telegram.Update) {
+	author := u.Message.From
+
+	log := h.log.With(
+		slog.String("op", "handler.OnCommandToday"),
+		slog.String("username", author.UserName),
+		slog.String("id", strconv.FormatInt(author.ID, 10)),
+	)
+
+	log.Debug("Command triggered: /today")
+
+	user, err := h.storage.GetUserByTelegramID(author.ID)
+	if err != nil {
+		log.Error("Failed to get user from database")
+		_, err = h.SendTextMessage(author.ID, locale.PhraseUseRestart(locale.RU), GetMarkupCheckAnnouncement(locale.RU))
+		if err != nil {
+			log.Error("Failed to send message", sl.Err(err))
+			return
+		}
+	}
+
+	groupID := user.LinkedGroupID
+	doc, err := ssau.GetScheduleDocument(groupID, 0)
+	if err != nil {
+		_, err = h.SendTextMessage(author.ID, locale.PhraseNoScheduleFound(locale.RU), nil)
+		if err != nil {
+			log.Error("Failed to send message", sl.Err(err))
+			return
+		}
+	}
+	timetable, week := ssau.Parse(doc)
+
+	weekday := ssau.GetWeekday(0)
+	content := schedule.ParseScheduleToMessageTextWithHTML(schedule.Day{
+		Date:  timetable.StartDate.AddDate(0, 0, weekday),
+		Pairs: timetable.Pairs[weekday],
+	})
+
+	_, err = h.SendTextMessage(author.ID, content, GetScheduleNavigationMarkup(groupID, week, weekday, false))
+	if err != nil {
+		log.Error("Failed to send message", sl.Err(err))
+		return
 	}
 }

@@ -64,6 +64,8 @@ func (b *Bot) handleUpdates(updates telegram.UpdatesChannel) {
 				b.handler.OnCommandAnnounce(update)
 			case "users":
 				b.handler.OnCommandUsers(update)
+			case "today":
+				b.handler.OnCommandToday(update)
 			default:
 				b.handler.OnNewMessage(update)
 			}
