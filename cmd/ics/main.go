@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"qarwett/internal/icalendar"
+	"qarwett/internal/locale"
 	"qarwett/internal/ssau"
 )
 
@@ -22,5 +24,10 @@ func main() {
 
 	schedule, _ := ssau.Parse(doc)
 
-	icalendar.WriteScheduleToFile(group.ID, schedule)
+	filename, err := icalendar.WriteScheduleToFile(group.ID, locale.RU, schedule)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("Calendar created at: %s\n", filename)
 }
