@@ -30,7 +30,7 @@ func (h *Handler) OnCommandStart(u telegram.Update) {
 		}
 	}
 
-	message := telegram.NewMessage(u.Message.Chat.ID, locale.GetPhraseGreeting(locale.RU))
+	message := telegram.NewMessage(u.Message.Chat.ID, locale.PhraseGreeting(locale.RU))
 
 	message.ParseMode = telegram.ModeHTML
 
@@ -62,7 +62,7 @@ func (h *Handler) OnCommandAdmin(u telegram.Update) {
 		return
 	}
 
-	_, err = h.SendTextMessage(author.ID, locale.GetPhraseAdminCommands(locale.RU), nil)
+	_, err = h.SendTextMessage(author.ID, locale.PhraseAdminCommands(locale.RU), nil)
 	if err != nil {
 		log.Error("Failed to send message", sl.Err(err))
 	}
@@ -92,7 +92,7 @@ func (h *Handler) OnCommandAnnounce(u telegram.Update) {
 
 	err = h.storage.UpdateUserStage(author.ID, postgres.StageWaitingAnnouncementMessage)
 	if err != nil {
-		_, err = h.SendTextMessage(author.ID, locale.GetPhraseCantStartAnnouncement(locale.RU), nil)
+		_, err = h.SendTextMessage(author.ID, locale.PhraseCantStartAnnouncement(locale.RU), nil)
 		if err != nil {
 			log.Error("Failed to send message", sl.Err(err))
 		}
@@ -100,7 +100,7 @@ func (h *Handler) OnCommandAnnounce(u telegram.Update) {
 		return
 	}
 
-	_, err = h.SendTextMessage(author.ID, locale.GetPhraseAnnouncementRequest(locale.RU), GetMarkupCancel(locale.RU))
+	_, err = h.SendTextMessage(author.ID, locale.PhraseAnnouncementRequest(locale.RU), GetMarkupCancel(locale.RU))
 	if err != nil {
 		log.Error("Failed to send message", sl.Err(err))
 		return
@@ -135,7 +135,7 @@ func (h *Handler) OnCommandUsers(u telegram.Update) {
 		return
 	}
 
-	_, err = h.SendTextMessage(author.ID, locale.GetPhraseUsersCommand(locale.RU, len(users)), nil)
+	_, err = h.SendTextMessage(author.ID, locale.PhraseUsersCommand(locale.RU, len(users)), nil)
 	if err != nil {
 		log.Error("Failed to send message", sl.Err(err))
 	}

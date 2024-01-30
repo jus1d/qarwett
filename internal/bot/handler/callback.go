@@ -32,7 +32,7 @@ func (h *Handler) OnCallbackSchedule(u telegram.Update) {
 
 	doc, err := ssau.GetScheduleDocument(groupID, week)
 	if err != nil {
-		_, err = h.SendTextMessage(author.ID, locale.GetPhraseNoScheduleFound(locale.RU), nil)
+		_, err = h.SendTextMessage(author.ID, locale.PhraseNoScheduleFound(locale.RU), nil)
 		if err != nil {
 			log.Error("Failed to send message")
 			return
@@ -47,7 +47,7 @@ func (h *Handler) OnCallbackSchedule(u telegram.Update) {
 
 	_, err = h.EditMessageText(u.CallbackQuery.Message, content, GetScheduleNavigationMarkup(groupID, week, weekday))
 	if errors.Is(err, ErrNoChanges) {
-		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.GetPhraseNoChanges(locale.RU))
+		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.PhraseNoChanges(locale.RU))
 		_, err = h.bot.Request(callback)
 		if err != nil {
 			log.Error("Failed to send callback", sl.Err(err))
@@ -77,7 +77,7 @@ func (h *Handler) OnCallbackScheduleToday(u telegram.Update) {
 
 	doc, err := ssau.GetScheduleDocument(groupID, 0)
 	if err != nil {
-		_, err = h.SendTextMessage(author.ID, locale.GetPhraseNoScheduleFound(locale.RU), nil)
+		_, err = h.SendTextMessage(author.ID, locale.PhraseNoScheduleFound(locale.RU), nil)
 		if err != nil {
 			log.Error("Failed to send message")
 			return
@@ -92,7 +92,7 @@ func (h *Handler) OnCallbackScheduleToday(u telegram.Update) {
 
 	_, err = h.EditMessageText(u.CallbackQuery.Message, content, GetScheduleNavigationMarkup(groupID, week, weekday))
 	if errors.Is(err, ErrNoChanges) {
-		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.GetPhraseNoChanges(locale.RU))
+		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.PhraseNoChanges(locale.RU))
 		_, err = h.bot.Request(callback)
 		if err != nil {
 			log.Error("Failed to send callback", sl.Err(err))
@@ -119,14 +119,14 @@ func (h *Handler) OnCallbackCancel(u telegram.Update) {
 	err := h.storage.UpdateUserStage(author.ID, postgres.StageNone)
 	if err != nil {
 		log.Error("Failed to update user's stage", sl.Err(err))
-		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.GetPhraseFailedToCancel(locale.RU))
+		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.PhraseFailedToCancel(locale.RU))
 		_, err = h.bot.Request(callback)
 		if err != nil {
 			log.Error("Failed to send callback", sl.Err(err))
 		}
 	}
 
-	callback := telegram.NewCallback(u.CallbackQuery.ID, locale.GetPhraseCancelled(locale.RU))
+	callback := telegram.NewCallback(u.CallbackQuery.ID, locale.PhraseCancelled(locale.RU))
 	_, err = h.bot.Request(callback)
 	if err != nil {
 		log.Error("Failed to send callback", sl.Err(err))
@@ -151,7 +151,7 @@ func (h *Handler) OnCallbackAnnouncementApprove(u telegram.Update) {
 	content, exists := h.storage.GetAnnouncementMessage(author.ID)
 	if !exists {
 		log.Error("Content for announcement doesn't exists")
-		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.GetPhraseEmptyAnnouncementMessage(locale.RU))
+		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.PhraseEmptyAnnouncementMessage(locale.RU))
 		_, err := h.bot.Request(callback)
 		if err != nil {
 			log.Error("Failed to send callback", sl.Err(err))
@@ -161,7 +161,7 @@ func (h *Handler) OnCallbackAnnouncementApprove(u telegram.Update) {
 	users, err := h.storage.GetAllUsers()
 	if err != nil {
 		log.Error("Failed to get all users", sl.Err(err))
-		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.GetPhraseCantStartAnnouncement(locale.RU))
+		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.PhraseCantStartAnnouncement(locale.RU))
 		_, err = h.bot.Request(callback)
 		if err != nil {
 			log.Error("Failed to send callback", sl.Err(err))
@@ -178,7 +178,7 @@ func (h *Handler) OnCallbackAnnouncementApprove(u telegram.Update) {
 		}
 	}
 
-	_, err = h.EditMessageText(u.CallbackQuery.Message, locale.GetPhraseAnnouncementCompleted(locale.RU), nil)
+	_, err = h.EditMessageText(u.CallbackQuery.Message, locale.PhraseAnnouncementCompleted(locale.RU), nil)
 	if err != nil {
 		log.Error("Failed to send message", sl.Err(err))
 	}
