@@ -25,7 +25,7 @@ func (h *Handler) OnNewMessage(u telegram.Update) {
 	user, err := h.storage.GetUserByTelegramID(author.ID)
 	if err != nil {
 		log.Error("Failed to get user from database")
-		_, err = h.SendTextMessage(author.ID, locale.GetPhraseUseRestart(locale.RU), nil)
+		_, err = h.SendTextMessage(author.ID, locale.PhraseUseRestart(locale.RU), nil)
 		if err != nil {
 			log.Error("Failed to send message", sl.Err(err))
 			return
@@ -34,7 +34,7 @@ func (h *Handler) OnNewMessage(u telegram.Update) {
 
 	if user.Stage == postgres.StageWaitingAnnouncementMessage {
 		content := u.Message.Text
-		_, err = h.SendTextMessage(author.ID, locale.GetPhraseAnnouncementCheck(locale.RU, content), GetMarkupCheckAnnouncement(locale.RU))
+		_, err = h.SendTextMessage(author.ID, locale.PhraseAnnouncementCheck(locale.RU, content), GetMarkupCheckAnnouncement(locale.RU))
 		if err != nil {
 			log.Error("Failed to send message", sl.Err(err))
 			return
@@ -47,7 +47,7 @@ func (h *Handler) OnNewMessage(u telegram.Update) {
 
 	groups, err := ssau.GetGroupBySearchQuery(query)
 	if len(groups) == 0 || err != nil {
-		_, err = h.SendTextMessage(author.ID, locale.GetPhraseNoGroupFound(locale.RU), nil)
+		_, err = h.SendTextMessage(author.ID, locale.PhraseNoGroupFound(locale.RU), nil)
 		if err != nil {
 			log.Error("Failed to send message", sl.Err(err))
 		}
@@ -56,7 +56,7 @@ func (h *Handler) OnNewMessage(u telegram.Update) {
 
 	if len(groups) > 1 {
 		markup := GetMarkupFromGroupList(groups)
-		_, err = h.SendTextMessage(author.ID, locale.GetPhraseChooseGroup(locale.RU), markup)
+		_, err = h.SendTextMessage(author.ID, locale.PhraseChooseGroup(locale.RU), markup)
 		if err != nil {
 			log.Error("Failed to send message", sl.Err(err))
 		}
@@ -66,7 +66,7 @@ func (h *Handler) OnNewMessage(u telegram.Update) {
 	group := groups[0]
 	doc, err := ssau.GetScheduleDocument(group.ID, 0)
 	if err != nil {
-		_, err = h.SendTextMessage(author.ID, locale.GetPhraseNoScheduleFound(locale.RU), nil)
+		_, err = h.SendTextMessage(author.ID, locale.PhraseNoScheduleFound(locale.RU), nil)
 		if err != nil {
 			log.Error("Failed to send message", sl.Err(err))
 			return

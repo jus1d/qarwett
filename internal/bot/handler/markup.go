@@ -10,7 +10,7 @@ import (
 func GetMarkupCancel(languageCode string) *telegram.InlineKeyboardMarkup {
 	markup := telegram.NewInlineKeyboardMarkup(
 		telegram.NewInlineKeyboardRow(
-			telegram.NewInlineKeyboardButtonData(locale.GetButtonCancel(languageCode), "cancel"),
+			telegram.NewInlineKeyboardButtonData(locale.ButtonCancel(languageCode), "cancel"),
 		),
 	)
 	return &markup
@@ -19,8 +19,8 @@ func GetMarkupCancel(languageCode string) *telegram.InlineKeyboardMarkup {
 func GetMarkupCheckAnnouncement(languageCode string) *telegram.InlineKeyboardMarkup {
 	markup := telegram.NewInlineKeyboardMarkup(
 		telegram.NewInlineKeyboardRow(
-			telegram.NewInlineKeyboardButtonData(locale.GetButtonApprove(languageCode), "approve-announcement"),
-			telegram.NewInlineKeyboardButtonData(locale.GetButtonCancel(languageCode), "cancel"),
+			telegram.NewInlineKeyboardButtonData(locale.ButtonApprove(languageCode), "approve-announcement"),
+			telegram.NewInlineKeyboardButtonData(locale.ButtonCancel(languageCode), "cancel"),
 		),
 	)
 	return &markup
@@ -50,7 +50,7 @@ func GetScheduleNavigationMarkup(groupID int64, week int, weekday int) *telegram
 			telegram.NewInlineKeyboardButtonData("»", queryRight),
 		),
 		telegram.NewInlineKeyboardRow(
-			telegram.NewInlineKeyboardButtonData(locale.GetButtonToday(locale.RU), ApplyScheduleTodayMask(groupID)),
+			telegram.NewInlineKeyboardButtonData(locale.ButtonToday(locale.RU), ApplyScheduleTodayMask(groupID)),
 		),
 	)
 
