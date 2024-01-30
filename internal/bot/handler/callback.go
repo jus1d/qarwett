@@ -25,10 +25,11 @@ func (h *Handler) OnCallbackSchedule(u telegram.Update) {
 	query := u.CallbackData()
 	log.Debug("Callback handled", slog.String("query", query))
 
-	parts := strings.Split(query, ":") // {"schedule", groupID, week, weekday}
+	parts := strings.Split(query, ":") // {"schedule", groupID, groupTitle, week, weekday}
 	groupID, _ := strconv.ParseInt(parts[1], 10, 64)
-	week, _ := strconv.Atoi(parts[2])
-	weekday, _ := strconv.Atoi(parts[3])
+	groupTitle := parts[2]
+	week, _ := strconv.Atoi(parts[3])
+	weekday, _ := strconv.Atoi(parts[4])
 
 	doc, err := ssau.GetScheduleDocument(groupID, week)
 	if err != nil {
@@ -47,13 +48,13 @@ func (h *Handler) OnCallbackSchedule(u telegram.Update) {
 
 	favouriteButton := err == nil && user.LinkedGroupID != groupID
 
-	content := schedule.ParseScheduleToMessageTextWithHTML(schedule.Day{
+	content := schedule.ParseScheduleToMessageTextWithHTML(groupTitle, schedule.Day{
 		Date:  timetable.StartDate.AddDate(0, 0, weekday),
 		Pairs: timetable.Pairs[weekday],
 	})
 
 	_, err = h.EditMessageText(u.CallbackQuery.Message, content,
-		GetScheduleNavigationMarkup(groupID, week, weekday, favouriteButton))
+		GetScheduleNavigationMarkup(groupID, groupTitle, week, weekday, favouriteButton))
 	if errors.Is(err, ErrNoChanges) {
 		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.PhraseNoChanges(locale.RU))
 		_, err = h.bot.Request(callback)
@@ -113,6 +114,7 @@ func (h *Handler) OnCallbackScheduleToday(u telegram.Update) {
 
 	parts := strings.Split(query, ":") // {"schedule-today", groupID}
 	groupID, _ := strconv.ParseInt(parts[1], 10, 64)
+	groupTitle := parts[2]
 	weekday := ssau.GetWeekday(0)
 
 	doc, err := ssau.GetScheduleDocument(groupID, 0)
@@ -132,13 +134,13 @@ func (h *Handler) OnCallbackScheduleToday(u telegram.Update) {
 
 	favouriteButton := err == nil && user.LinkedGroupID != groupID
 
-	content := schedule.ParseScheduleToMessageTextWithHTML(schedule.Day{
+	content := schedule.ParseScheduleToMessageTextWithHTML(groupTitle, schedule.Day{
 		Date:  timetable.StartDate.AddDate(0, 0, weekday),
 		Pairs: timetable.Pairs[weekday],
 	})
 
 	_, err = h.EditMessageText(u.CallbackQuery.Message, content,
-		GetScheduleNavigationMarkup(groupID, week, weekday, favouriteButton))
+		GetScheduleNavigationMarkup(groupID, groupTitle, week, weekday, favouriteButton))
 	if errors.Is(err, ErrNoChanges) {
 		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.PhraseNoChanges(locale.RU))
 		_, err = h.bot.Request(callback)

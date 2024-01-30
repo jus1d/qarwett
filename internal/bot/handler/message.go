@@ -82,12 +82,12 @@ func (h *Handler) OnNewMessage(u telegram.Update) {
 	favouriteButton := err == nil && user.LinkedGroupID != group.ID
 
 	weekday := ssau.GetWeekday(0)
-	content := schedule.ParseScheduleToMessageTextWithHTML(schedule.Day{
+	content := schedule.ParseScheduleToMessageTextWithHTML(group.Title, schedule.Day{
 		Date:  timetable.StartDate.AddDate(0, 0, weekday),
 		Pairs: timetable.Pairs[weekday],
 	})
 
-	_, err = h.SendTextMessage(author.ID, content, GetScheduleNavigationMarkup(group.ID, week, weekday, favouriteButton))
+	_, err = h.SendTextMessage(author.ID, content, GetScheduleNavigationMarkup(group.ID, group.Title, week, weekday, favouriteButton))
 	if err != nil {
 		log.Error("Failed to send message", sl.Err(err))
 		return

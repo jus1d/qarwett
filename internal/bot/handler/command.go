@@ -184,12 +184,13 @@ func (h *Handler) OnCommandToday(u telegram.Update) {
 	timetable, week := ssau.Parse(doc)
 
 	weekday := ssau.GetWeekday(0)
-	content := schedule.ParseScheduleToMessageTextWithHTML(schedule.Day{
+	content := schedule.ParseScheduleToMessageTextWithHTML("", schedule.Day{
 		Date:  timetable.StartDate.AddDate(0, 0, weekday),
 		Pairs: timetable.Pairs[weekday],
 	})
 
-	_, err = h.SendTextMessage(author.ID, content, GetScheduleNavigationMarkup(groupID, week, weekday, false))
+	// TODO: Somehow get group title here
+	_, err = h.SendTextMessage(author.ID, content, GetScheduleNavigationMarkup(groupID, "", week, weekday, false))
 	if err != nil {
 		log.Error("Failed to send message", sl.Err(err))
 		return

@@ -26,7 +26,7 @@ func GetMarkupCheckAnnouncement(languageCode string) *telegram.InlineKeyboardMar
 	return &markup
 }
 
-func GetScheduleNavigationMarkup(groupID int64, week int, weekday int, addFavourite bool) *telegram.InlineKeyboardMarkup {
+func GetScheduleNavigationMarkup(groupID int64, groupTitle string, week int, weekday int, addFavourite bool) *telegram.InlineKeyboardMarkup {
 	prevWeek := week
 	prevWeekday := weekday - 1
 	nextWeek := week
@@ -39,9 +39,9 @@ func GetScheduleNavigationMarkup(groupID int64, week int, weekday int, addFavour
 		nextWeekday = 0
 		nextWeek = week + 1
 	}
-	queryLeft := ApplyScheduleMask(groupID, prevWeek, prevWeekday)
-	queryUpdate := ApplyScheduleMask(groupID, week, weekday)
-	queryRight := ApplyScheduleMask(groupID, nextWeek, nextWeekday)
+	queryLeft := ApplyScheduleMask(groupID, groupTitle, prevWeek, prevWeekday)
+	queryUpdate := ApplyScheduleMask(groupID, groupTitle, week, weekday)
+	queryRight := ApplyScheduleMask(groupID, groupTitle, nextWeek, nextWeekday)
 
 	rows := make([][]telegram.InlineKeyboardButton, 0)
 
@@ -52,7 +52,7 @@ func GetScheduleNavigationMarkup(groupID int64, week int, weekday int, addFavour
 	))
 
 	rows = append(rows, telegram.NewInlineKeyboardRow(
-		telegram.NewInlineKeyboardButtonData(locale.ButtonToday(locale.RU), ApplyScheduleTodayMask(groupID)),
+		telegram.NewInlineKeyboardButtonData(locale.ButtonToday(locale.RU), ApplyScheduleTodayMask(groupID, groupTitle)),
 	))
 
 	if addFavourite {
@@ -77,7 +77,7 @@ func GetMarkupFromGroupList(groups []ssau.SearchGroupResponse) *telegram.InlineK
 		buttons := make([]telegram.InlineKeyboardButton, 0)
 		for j := 0; j < 3 && i+j < len(groups); j++ {
 			group := groups[i+j]
-			query := ApplyScheduleMask(group.ID, 0, ssau.GetWeekday(0))
+			query := ApplyScheduleMask(group.ID, group.Title, 0, ssau.GetWeekday(0))
 			buttons = append(buttons, telegram.NewInlineKeyboardButtonData(group.Title, query))
 		}
 		rows[i/3] = telegram.NewInlineKeyboardRow(buttons...)
@@ -89,12 +89,12 @@ func GetMarkupFromGroupList(groups []ssau.SearchGroupResponse) *telegram.InlineK
 	return &markup
 }
 
-func ApplyScheduleMask(groupID int64, week int, weekday int) string {
-	return fmt.Sprintf("schedule-daily:%d:%d:%d", groupID, week, weekday)
+func ApplyScheduleMask(groupID int64, groupTitle string, week int, weekday int) string {
+	return fmt.Sprintf("schedule-daily:%d:%s:%d:%d", groupID, groupTitle, week, weekday)
 }
 
-func ApplyScheduleTodayMask(groupID int64) string {
-	return fmt.Sprintf("schedule-today:%d", groupID)
+func ApplyScheduleTodayMask(groupID int64, groupTitle string) string {
+	return fmt.Sprintf("schedule-today:%d:%s", groupID, groupTitle)
 }
 
 func ApplyFavouriteGroupMask(groupID int64) string {
