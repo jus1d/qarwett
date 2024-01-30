@@ -19,3 +19,10 @@ config/*.yaml
 
 # Ignore database data
 .database/
+
+# Ignore calendars and other stuff
+*calendars/
+
+# temp
+cmd/ics
+internal/ics

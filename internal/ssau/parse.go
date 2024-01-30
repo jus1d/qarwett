@@ -55,7 +55,7 @@ func Parse(doc *goquery.Document) (schedule.WeekPairs, int) {
 	}, week
 }
 
-// parsePair converts a HTML doc (*goquery.Document) to schedule.Pair. Own type for daily schedule.
+// parsePair converts an HTML doc (*goquery.Document) to schedule.Pair. Own type for daily schedule.
 func parsePair(doc *goquery.Selection, pos int) schedule.Pair {
 	discipline := doc.Find(".schedule__discipline")
 	title := discipline.Text()
