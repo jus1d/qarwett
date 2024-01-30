@@ -82,8 +82,9 @@ func (h *Handler) OnCallbackFavouriteGroup(u telegram.Update) {
 
 	parts := strings.Split(query, ":") // {"favourite-group", groupID}
 	groupID, _ := strconv.ParseInt(parts[1], 10, 64)
+	groupTitle := parts[2]
 
-	err := h.storage.UpdateUserLinkedGroup(author.ID, groupID)
+	err := h.storage.UpdateUserLinkedGroup(author.ID, groupID, groupTitle)
 	if err != nil {
 		log.Error("Failed to update user's group", sl.Err(err))
 		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.PhraseError(locale.RU))

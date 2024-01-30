@@ -57,7 +57,7 @@ func GetScheduleNavigationMarkup(groupID int64, groupTitle string, week int, wee
 
 	if addFavourite {
 		rows = append(rows, telegram.NewInlineKeyboardRow(
-			telegram.NewInlineKeyboardButtonData(locale.ButtonFavourite(locale.RU), ApplyFavouriteGroupMask(groupID)),
+			telegram.NewInlineKeyboardButtonData(locale.ButtonFavourite(locale.RU), ApplyFavouriteGroupMask(groupID, groupTitle)),
 		))
 	}
 
@@ -97,6 +97,6 @@ func ApplyScheduleTodayMask(groupID int64, groupTitle string) string {
 	return fmt.Sprintf("schedule-today:%d:%s", groupID, groupTitle)
 }
 
-func ApplyFavouriteGroupMask(groupID int64) string {
-	return fmt.Sprintf("favourite-group:%d", groupID)
+func ApplyFavouriteGroupMask(groupID int64, groupTitle string) string {
+	return fmt.Sprintf("favourite-group:%d:%s", groupID, groupTitle)
 }

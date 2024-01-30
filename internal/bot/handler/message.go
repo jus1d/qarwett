@@ -24,12 +24,12 @@ func (h *Handler) OnNewMessage(u telegram.Update) {
 
 	user, err := h.storage.GetUserByTelegramID(author.ID)
 	if err != nil {
-		log.Error("Failed to get user from database")
+		log.Error("Failed to get user from database", sl.Err(err))
 		_, err = h.SendTextMessage(author.ID, locale.PhraseUseRestart(locale.RU), nil)
 		if err != nil {
 			log.Error("Failed to send message", sl.Err(err))
-			return
 		}
+		return
 	}
 
 	if user.Stage == postgres.StageWaitingAnnouncementMessage {
