@@ -5,7 +5,6 @@ import (
 	"qarwett/internal/locale"
 )
 
-// TODO(#10): Add group title to schedule representation
 
 // ParseScheduleToMessageTextWithHTML parses a daily schedule, to text message for telegram.
 func ParseScheduleToMessageTextWithHTML(groupTitle string, schedule Day) string {
