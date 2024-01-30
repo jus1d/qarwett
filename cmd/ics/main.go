@@ -17,14 +17,7 @@ func main() {
 	}
 	group := groups[0]
 
-	doc, err := ssau.GetScheduleDocument(group.ID, 26)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	schedule, _ := ssau.Parse(doc)
-
-	filename, err := icalendar.WriteScheduleToFile(group.ID, locale.RU, schedule)
+	filename, err := icalendar.WriteNextMonthScheduleToFile(group.ID, locale.RU)
 	if err != nil {
 		log.Fatal(err)
 	}

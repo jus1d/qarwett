@@ -2,9 +2,11 @@ package icalendar
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"qarwett/internal/locale"
 	"qarwett/internal/schedule"
+	"qarwett/internal/ssau"
 	"time"
 )
 
@@ -21,7 +23,43 @@ var pairPositionToMinutesFromDayStart = map[int]int{
 	7: 1225,
 }
 
-func WriteScheduleToFile(groupID int64, languageCode string, schedule schedule.WeekPairs) (string, error) {
+func WriteNextNWeeksScheduleToFile(groupID int64, languageCode string, n int) (string, error) {
+	if _, err := os.Stat(CalendarsDir); os.IsNotExist(err) {
+		_ = os.Mkdir(CalendarsDir, 0755)
+	}
+	filename := fmt.Sprintf("%s/%d-%s.ics", CalendarsDir, groupID, languageCode)
+	file, err := os.Create(filename)
+	if err != nil {
+		return "", err
+	}
+	defer file.Close()
+
+	var content string
+	addICalendarHeader(&content, languageCode)
+	week := 0
+	for i := 0; i < n; i++ {
+		doc, err := ssau.GetScheduleDocument(groupID, week+i)
+		if err != nil {
+			log.Fatal(err)
+		}
+		var sch schedule.WeekPairs
+		sch, week = ssau.Parse(doc)
+		addICalendarSchedule(&content, sch, languageCode)
+	}
+	addICalendarFooter(&content)
+
+	_, err = file.WriteString(content)
+	if err != nil {
+		return "", err
+	}
+	return filename, nil
+}
+
+func WriteNextMonthScheduleToFile(groupID int64, languageCode string) (string, error) {
+	return WriteNextNWeeksScheduleToFile(groupID, languageCode, 4)
+}
+
+func WriteWeekScheduleToFile(groupID int64, languageCode string, schedule schedule.WeekPairs) (string, error) {
 	if _, err := os.Stat(CalendarsDir); os.IsNotExist(err) {
 		_ = os.Mkdir(CalendarsDir, 0755)
 	}
