@@ -22,5 +22,5 @@ func main() {
 
 	schedule, _ := ssau.Parse(doc)
 
-	icalendar.ScheduleToFile(group.ID, schedule)
+	icalendar.WriteScheduleToFile(group.ID, schedule)
 }
