@@ -11,7 +11,7 @@ build:
 docker-up: docker-build docker-compose.yml
 	docker compose up -d
 
-docker-up-dev: docker-build docker-compose.dev.yml
+docker-up-dev: docker-compose.dev.yml
 	docker compose -f docker-compose.dev.yml up -d
 
 docker-build:
