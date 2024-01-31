@@ -1,6 +1,6 @@
 package locale
 
-func GetButtonToday(languageCode string) string {
+func ButtonToday(languageCode string) string {
 	switch languageCode {
 	case RU:
 		return "Сегодня"
@@ -9,7 +9,16 @@ func GetButtonToday(languageCode string) string {
 	}
 }
 
-func GetButtonCancel(languageCode string) string {
+func ButtonFavourite(languageCode string) string {
+	switch languageCode {
+	case RU:
+		return "В избранное"
+	default:
+		return "Favourite"
+	}
+}
+
+func ButtonCancel(languageCode string) string {
 	switch languageCode {
 	case RU:
 		return "Отмена"
@@ -18,7 +27,7 @@ func GetButtonCancel(languageCode string) string {
 	}
 }
 
-func GetButtonApprove(languageCode string) string {
+func ButtonApprove(languageCode string) string {
 	switch languageCode {
 	case RU:
 		return "Подтвердить"

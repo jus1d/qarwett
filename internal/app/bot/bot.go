@@ -3,7 +3,7 @@ package bot
 import (
 	telegram "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"log/slog"
-	"qarwett/internal/bot/handler"
+	"qarwett/internal/app/bot/handler"
 	"qarwett/internal/storage/postgres"
 	"strings"
 )
@@ -64,6 +64,8 @@ func (b *Bot) handleUpdates(updates telegram.UpdatesChannel) {
 				b.handler.OnCommandAnnounce(update)
 			case "users":
 				b.handler.OnCommandUsers(update)
+			case "today":
+				b.handler.OnCommandToday(update)
 			default:
 				b.handler.OnNewMessage(update)
 			}
@@ -75,6 +77,8 @@ func (b *Bot) handleUpdates(updates telegram.UpdatesChannel) {
 				b.handler.OnCallbackSchedule(update)
 			} else if strings.HasPrefix(data, "schedule-today:") {
 				b.handler.OnCallbackScheduleToday(update)
+			} else if strings.HasPrefix(data, "favourite-group") {
+				b.handler.OnCallbackFavouriteGroup(update)
 			} else if data == "cancel" {
 				b.handler.OnCallbackCancel(update)
 			} else if data == "approve-announcement" {

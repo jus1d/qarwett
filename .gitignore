@@ -4,6 +4,7 @@
 
 # Ignore IDE files
 .idea/
+.vscode/
 
 # Ignore config files
 config/*.yaml
@@ -12,6 +13,7 @@ config/*.yaml
 # Ignore logs, temporary files and any trash
 *.txt
 .logs/
+*.log
 
 # Ignore OS files
 .DS_Store*
@@ -22,7 +24,3 @@ config/*.yaml
 
 # Ignore calendars and other stuff
 *calendars/
-
-# temp
-cmd/ics
-internal/ics

@@ -2,21 +2,24 @@ package schedule
 
 import (
 	"fmt"
-	"qarwett/internal/locale"
+	"qarwett/internal/app/locale"
 )
 
-// TODO(#10): Add group title to schedule representation
-
 // ParseScheduleToMessageTextWithHTML parses a daily schedule, to text message for telegram.
-func ParseScheduleToMessageTextWithHTML(schedule Day) string {
+func ParseScheduleToMessageTextWithHTML(groupTitle string, schedule Day) string {
 	pairs := schedule.Pairs
 	date := schedule.Date
 	months := []string{"", "января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "сентября", "декабря"}
 	if len(pairs) == 0 {
-		return locale.GetPhraseForFreeDay("ru", date.Day(), int(date.Month()))
+		return locale.PhraseForFreeDay("ru", date.Day(), int(date.Month()))
 	}
 
-	content := fmt.Sprintf("Расписание на <b>%d %s</b>\n\n", date.Day(), months[date.Month()])
+	content := fmt.Sprintf("Расписание на <b>%d %s</b>\n", date.Day(), months[date.Month()])
+
+	if groupTitle != "" {
+		content += fmt.Sprintf("<b>Группа:</b> %s\n", groupTitle)
+	}
+	content += "\n"
 
 	for i := 0; i < len(pairs); i++ {
 		cur := pairs[i]

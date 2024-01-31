@@ -20,16 +20,17 @@ const (
 
 // User provides a data structure of bot's user.
 type User struct {
-	ID            string    `db:"id"`
-	TelegramID    int64     `db:"telegram_id"`
-	Username      string    `db:"username"`
-	FirstName     string    `db:"firstname"`
-	LastName      string    `db:"lastname"`
-	Stage         int       `db:"stage"`
-	LinkedGroupID int64     `db:"linked_group_id"`
-	LanguageCode  string    `db:"language_code"`
-	IsAdmin       bool      `db:"is_admin"`
-	CreatedAt     time.Time `db:"created_at"`
+	ID               string    `db:"id"`
+	TelegramID       int64     `db:"telegram_id"`
+	Username         string    `db:"username"`
+	FirstName        string    `db:"firstname"`
+	LastName         string    `db:"lastname"`
+	Stage            int       `db:"stage"`
+	LinkedGroupID    int64     `db:"linked_group_id"`
+	LinkedGroupTitle string    `db:"linked_group_title"`
+	LanguageCode     string    `db:"language_code"`
+	IsAdmin          bool      `db:"is_admin"`
+	CreatedAt        time.Time `db:"created_at"`
 }
 
 // New creates a new instance of Storage, and returns a pointer to it.

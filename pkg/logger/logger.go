@@ -4,7 +4,7 @@ import (
 	"log/slog"
 	"os"
 	"qarwett/internal/config"
-	"qarwett/internal/lib/logger/prettyslog"
+	"qarwett/pkg/logger/prettyslog"
 )
 
 // Init initialize a *slog.Logger instance for logging, without pretty formatting for production and development builds.

@@ -3,9 +3,11 @@ package handler
 import (
 	telegram "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"log/slog"
-	"qarwett/internal/lib/logger/sl"
-	"qarwett/internal/locale"
+	locale2 "qarwett/internal/app/locale"
+	"qarwett/internal/app/schedule"
+	"qarwett/internal/app/ssau"
 	"qarwett/internal/storage/postgres"
+	"qarwett/pkg/logger/sl"
 	"strconv"
 )
 
@@ -30,7 +32,7 @@ func (h *Handler) OnCommandStart(u telegram.Update) {
 		}
 	}
 
-	message := telegram.NewMessage(u.Message.Chat.ID, locale.GetPhraseGreeting(locale.RU))
+	message := telegram.NewMessage(u.Message.Chat.ID, locale2.PhraseGreeting(locale2.RU))
 
 	message.ParseMode = telegram.ModeHTML
 
@@ -62,7 +64,7 @@ func (h *Handler) OnCommandAdmin(u telegram.Update) {
 		return
 	}
 
-	_, err = h.SendTextMessage(author.ID, locale.GetPhraseAdminCommands(locale.RU), nil)
+	_, err = h.SendTextMessage(author.ID, locale2.PhraseAdminCommands(locale2.RU), nil)
 	if err != nil {
 		log.Error("Failed to send message", sl.Err(err))
 	}
@@ -92,7 +94,7 @@ func (h *Handler) OnCommandAnnounce(u telegram.Update) {
 
 	err = h.storage.UpdateUserStage(author.ID, postgres.StageWaitingAnnouncementMessage)
 	if err != nil {
-		_, err = h.SendTextMessage(author.ID, locale.GetPhraseCantStartAnnouncement(locale.RU), nil)
+		_, err = h.SendTextMessage(author.ID, locale2.PhraseCantStartAnnouncement(locale2.RU), nil)
 		if err != nil {
 			log.Error("Failed to send message", sl.Err(err))
 		}
@@ -100,7 +102,7 @@ func (h *Handler) OnCommandAnnounce(u telegram.Update) {
 		return
 	}
 
-	_, err = h.SendTextMessage(author.ID, locale.GetPhraseAnnouncementRequest(locale.RU), GetMarkupCancel(locale.RU))
+	_, err = h.SendTextMessage(author.ID, locale2.PhraseAnnouncementRequest(locale2.RU), GetMarkupCancel(locale2.RU))
 	if err != nil {
 		log.Error("Failed to send message", sl.Err(err))
 		return
@@ -135,8 +137,62 @@ func (h *Handler) OnCommandUsers(u telegram.Update) {
 		return
 	}
 
-	_, err = h.SendTextMessage(author.ID, locale.GetPhraseUsersCommand(locale.RU, len(users)), nil)
+	_, err = h.SendTextMessage(author.ID, locale2.PhraseUsersCommand(locale2.RU, len(users)), nil)
 	if err != nil {
 		log.Error("Failed to send message", sl.Err(err))
+	}
+}
+
+func (h *Handler) OnCommandToday(u telegram.Update) {
+	author := u.Message.From
+
+	log := h.log.With(
+		slog.String("op", "handler.OnCommandToday"),
+		slog.String("username", author.UserName),
+		slog.String("id", strconv.FormatInt(author.ID, 10)),
+	)
+
+	log.Debug("Command triggered: /today")
+
+	user, err := h.storage.GetUserByTelegramID(author.ID)
+	if err != nil {
+		log.Error("Failed to get user from database")
+		_, err = h.SendTextMessage(author.ID, locale2.PhraseUseRestart(locale2.RU), nil)
+		if err != nil {
+			log.Error("Failed to send message", sl.Err(err))
+			return
+		}
+	}
+
+	if user.LinkedGroupID == 0 {
+		_, err = h.SendTextMessage(author.ID, locale2.PhraseCantFoundYourGroup(locale2.RU), nil)
+		if err != nil {
+			log.Error("Failed to send message", sl.Err(err))
+		}
+		return
+	}
+
+	groupID := user.LinkedGroupID
+	doc, err := ssau.GetScheduleDocument(groupID, 0)
+	if err != nil {
+		_, err = h.SendTextMessage(author.ID, locale2.PhraseNoScheduleFound(locale2.RU), nil)
+		if err != nil {
+			log.Error("Failed to send message", sl.Err(err))
+			return
+		}
+	}
+	timetable, week := ssau.Parse(doc)
+
+	weekday := ssau.GetWeekday(0)
+	content := schedule.ParseScheduleToMessageTextWithHTML(user.LinkedGroupTitle, schedule.Day{
+		Date:  timetable.StartDate.AddDate(0, 0, weekday),
+		Pairs: timetable.Pairs[weekday],
+	})
+
+	// TODO: Somehow get group title here
+	_, err = h.SendTextMessage(author.ID, content, GetScheduleNavigationMarkup(groupID, user.LinkedGroupTitle, week, weekday, false))
+	if err != nil {
+		log.Error("Failed to send message", sl.Err(err))
+		return
 	}
 }

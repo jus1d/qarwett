@@ -21,7 +21,7 @@ func (s *Storage) CreateUser(telegramID int64, username string, firstname string
 // GetUserByTelegramID returns a *User, grabbed from storage by telegramID.
 func (s *Storage) GetUserByTelegramID(telegramID int64) (*User, error) {
 	var user User
-	err := s.db.QueryRow("SELECT * FROM users WHERE telegram_id = $1", telegramID).Scan(&user.ID, &user.TelegramID, &user.Username, &user.FirstName, &user.LastName, &user.Stage, &user.LinkedGroupID, &user.LanguageCode, &user.IsAdmin, &user.CreatedAt)
+	err := s.db.QueryRow("SELECT * FROM users WHERE telegram_id = $1", telegramID).Scan(&user.ID, &user.TelegramID, &user.Username, &user.FirstName, &user.LastName, &user.Stage, &user.LinkedGroupID, &user.LinkedGroupTitle, &user.LanguageCode, &user.IsAdmin, &user.CreatedAt)
 	if err != nil {
 		return nil, err
 	}
@@ -40,7 +40,7 @@ func (s *Storage) GetAllUsers() ([]User, error) {
 
 	for rows.Next() {
 		var user User
-		err = rows.Scan(&user.ID, &user.TelegramID, &user.Username, &user.FirstName, &user.LastName, &user.Stage, &user.LinkedGroupID, &user.LanguageCode, &user.IsAdmin, &user.CreatedAt)
+		err = rows.Scan(&user.ID, &user.TelegramID, &user.Username, &user.FirstName, &user.LastName, &user.Stage, &user.LinkedGroupID, &user.LinkedGroupTitle, &user.LanguageCode, &user.IsAdmin, &user.CreatedAt)
 		if err != nil {
 			return nil, err
 		}
@@ -75,4 +75,9 @@ func (s *Storage) SetAnnouncementMessage(telegramID int64, content string) {
 func (s *Storage) GetAnnouncementMessage(telegramID int64) (string, bool) {
 	val, exists := announcements[telegramID]
 	return val, exists
+}
+
+func (s *Storage) UpdateUserLinkedGroup(telegramID int64, groupID int64, groupTitle string) error {
+	_, err := s.db.Exec("UPDATE users SET linked_group_id = $2, linked_group_title = $3 WHERE telegram_id = $1", telegramID, groupID, groupTitle)
+	return err
 }

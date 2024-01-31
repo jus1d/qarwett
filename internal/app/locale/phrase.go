@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-var PhrasesForFreeDayRU = []string{
+var phrasesForFreeDayRU = []string{
 	"<b>%d %s</b> - день бездельник",
 	"<b>%d %s</b> даже будильник будет спать",
 	"План на <b>%d %s</b> - не иметь планов",
@@ -16,7 +16,7 @@ var PhrasesForFreeDayRU = []string{
 	"Хоть <b>%d %s</b> и выходной, хватит на диване отлеживаться",
 }
 
-var PhrasesForFreeDayEN = []string{
+var phrasesForFreeDayEN = []string{
 	"<b>%d %s</b> - a day of idleness",
 	"<b>%d %s</b> even the alarm clock will be sleeping",
 	"Plan for <b>%d %s</b> - just have no plans",
@@ -26,7 +26,7 @@ var PhrasesForFreeDayEN = []string{
 	"Although it's <b>%d %s</b> off, stop lying on the couch",
 }
 
-func GetPhraseGreeting(languageCode string) string {
+func PhraseGreeting(languageCode string) string {
 	switch languageCode {
 	case RU:
 		return "<b>Привет, здесь ты сможешь быстро посмотреть свое расписание <s>и пойти отсыпаться</s></b>\n\n" +
@@ -37,7 +37,7 @@ func GetPhraseGreeting(languageCode string) string {
 	}
 }
 
-func GetPhraseAdminCommands(languageCode string) string {
+func PhraseAdminCommands(languageCode string) string {
 	switch languageCode {
 	case RU:
 		return "<b>Список админ комманд:</b>\n\n" +
@@ -50,7 +50,7 @@ func GetPhraseAdminCommands(languageCode string) string {
 	}
 }
 
-func GetPhraseAnnouncementRequest(languageCode string) string {
+func PhraseAnnouncementRequest(languageCode string) string {
 	switch languageCode {
 	case RU:
 		return "Отправьте сообщение для объявления"
@@ -59,7 +59,7 @@ func GetPhraseAnnouncementRequest(languageCode string) string {
 	}
 }
 
-func GetPhraseCantStartAnnouncement(languageCode string) string {
+func PhraseCantStartAnnouncement(languageCode string) string {
 	switch languageCode {
 	case RU:
 		return "Ошибка при создании объявления!"
@@ -68,7 +68,7 @@ func GetPhraseCantStartAnnouncement(languageCode string) string {
 	}
 }
 
-func GetPhraseAnnouncementCheck(languageCode string, content string) string {
+func PhraseAnnouncementCheck(languageCode string, content string) string {
 	switch languageCode {
 	case RU:
 		return "<b>Ваше объявление:</b>\n\n" + content + "\n\n" +
@@ -79,7 +79,7 @@ func GetPhraseAnnouncementCheck(languageCode string, content string) string {
 	}
 }
 
-func GetPhraseAnnouncementCompleted(languageCode string) string {
+func PhraseAnnouncementCompleted(languageCode string) string {
 	switch languageCode {
 	case RU:
 		return "<b>Объявление успешно разослано все пользователям</b>"
@@ -88,7 +88,16 @@ func GetPhraseAnnouncementCompleted(languageCode string) string {
 	}
 }
 
-func GetPhraseNoGroupFound(languageCode string) string {
+func PhraseCantFoundYourGroup(languageCode string) string {
+	switch languageCode {
+	case RU:
+		return "☹️Не могу найти твою группу\n\nЧтобы использовать эту команду, добавь свою группу <b>в избранное</b>"
+	default:
+		return "☹️Can't found your group\n\nAdd your group <b>to favourites</b>, to use this command"
+	}
+}
+
+func PhraseNoGroupFound(languageCode string) string {
 	switch languageCode {
 	case RU:
 		return "☹️По твоему запросу нет групп"
@@ -97,7 +106,7 @@ func GetPhraseNoGroupFound(languageCode string) string {
 	}
 }
 
-func GetPhraseChooseGroup(languageCode string) string {
+func PhraseChooseGroup(languageCode string) string {
 	switch languageCode {
 	case RU:
 		return "🤔<b>Выбери группу</b>"
@@ -106,7 +115,7 @@ func GetPhraseChooseGroup(languageCode string) string {
 	}
 }
 
-func GetPhraseNoScheduleFound(languageCode string) string {
+func PhraseNoScheduleFound(languageCode string) string {
 	switch languageCode {
 	case RU:
 		return "🚨<b>Не могу найти расписание!</b>"
@@ -115,7 +124,7 @@ func GetPhraseNoScheduleFound(languageCode string) string {
 	}
 }
 
-func GetPhraseNoChanges(languageCode string) string {
+func PhraseNoChanges(languageCode string) string {
 	switch languageCode {
 	case RU:
 		return "Изменений нет"
@@ -124,7 +133,25 @@ func GetPhraseNoChanges(languageCode string) string {
 	}
 }
 
-func GetPhraseCancelled(languageCode string) string {
+func PhraseError(languageCode string) string {
+	switch languageCode {
+	case RU:
+		return "Ошибка"
+	default:
+		return "Error"
+	}
+}
+
+func PhraseSuccess(languageCode string) string {
+	switch languageCode {
+	case RU:
+		return "Успешно"
+	default:
+		return "Success"
+	}
+}
+
+func PhraseCancelled(languageCode string) string {
 	switch languageCode {
 	case RU:
 		return "Отменено"
@@ -133,7 +160,7 @@ func GetPhraseCancelled(languageCode string) string {
 	}
 }
 
-func GetPhraseFailedToCancel(languageCode string) string {
+func PhraseFailedToCancel(languageCode string) string {
 	switch languageCode {
 	case RU:
 		return "Ошибка при отмене"
@@ -142,7 +169,7 @@ func GetPhraseFailedToCancel(languageCode string) string {
 	}
 }
 
-func GetPhraseEmptyAnnouncementMessage(languageCode string) string {
+func PhraseEmptyAnnouncementMessage(languageCode string) string {
 	switch languageCode {
 	case RU:
 		return "Сообщение для объявления не найдено. Попробуйте снова"
@@ -151,7 +178,7 @@ func GetPhraseEmptyAnnouncementMessage(languageCode string) string {
 	}
 }
 
-func GetPhraseUsersCommand(languageCode string, amount int) string {
+func PhraseUsersCommand(languageCode string, amount int) string {
 	switch languageCode {
 	case RU:
 		return fmt.Sprintf("<b>Всего пользователей:</b> %d", amount)
@@ -160,7 +187,7 @@ func GetPhraseUsersCommand(languageCode string, amount int) string {
 	}
 }
 
-func GetPhraseUseRestart(languageCode string) string {
+func PhraseUseRestart(languageCode string) string {
 	switch languageCode {
 	case RU:
 		return "Требуется перезагрузка бота -> <b>/start</b>"
@@ -169,14 +196,14 @@ func GetPhraseUseRestart(languageCode string) string {
 	}
 }
 
-func GetPhraseForFreeDay(languageCode string, day int, month int) string {
+func PhraseForFreeDay(languageCode string, day int, month int) string {
 	monthsRU := []string{"", "января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "сентября", "декабря"}
 	monthsEN := []string{"", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"}
 	switch languageCode {
 	case RU:
-		return fmt.Sprintf(choice(PhrasesForFreeDayRU), day, monthsRU[month])
+		return fmt.Sprintf(choice(phrasesForFreeDayRU), day, monthsRU[month])
 	default:
-		return fmt.Sprintf(choice(PhrasesForFreeDayEN), day, monthsEN[month])
+		return fmt.Sprintf(choice(phrasesForFreeDayEN), day, monthsEN[month])
 	}
 }
 

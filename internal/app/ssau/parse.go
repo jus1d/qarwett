@@ -2,7 +2,7 @@ package ssau
 
 import (
 	"github.com/PuerkitoBio/goquery"
-	"qarwett/internal/schedule"
+	"qarwett/internal/app/schedule"
 	"strconv"
 	"strings"
 	"time"
