@@ -3,14 +3,14 @@ package handler
 import (
 	"fmt"
 	telegram "github.com/go-telegram-bot-api/telegram-bot-api/v5"
-	"qarwett/internal/locale"
-	"qarwett/internal/ssau"
+	locale2 "qarwett/internal/app/locale"
+	"qarwett/internal/app/ssau"
 )
 
 func GetMarkupCancel(languageCode string) *telegram.InlineKeyboardMarkup {
 	markup := telegram.NewInlineKeyboardMarkup(
 		telegram.NewInlineKeyboardRow(
-			telegram.NewInlineKeyboardButtonData(locale.ButtonCancel(languageCode), "cancel"),
+			telegram.NewInlineKeyboardButtonData(locale2.ButtonCancel(languageCode), "cancel"),
 		),
 	)
 	return &markup
@@ -19,8 +19,8 @@ func GetMarkupCancel(languageCode string) *telegram.InlineKeyboardMarkup {
 func GetMarkupCheckAnnouncement(languageCode string) *telegram.InlineKeyboardMarkup {
 	markup := telegram.NewInlineKeyboardMarkup(
 		telegram.NewInlineKeyboardRow(
-			telegram.NewInlineKeyboardButtonData(locale.ButtonApprove(languageCode), "approve-announcement"),
-			telegram.NewInlineKeyboardButtonData(locale.ButtonCancel(languageCode), "cancel"),
+			telegram.NewInlineKeyboardButtonData(locale2.ButtonApprove(languageCode), "approve-announcement"),
+			telegram.NewInlineKeyboardButtonData(locale2.ButtonCancel(languageCode), "cancel"),
 		),
 	)
 	return &markup
@@ -52,12 +52,12 @@ func GetScheduleNavigationMarkup(groupID int64, groupTitle string, week int, wee
 	))
 
 	rows = append(rows, telegram.NewInlineKeyboardRow(
-		telegram.NewInlineKeyboardButtonData(locale.ButtonToday(locale.RU), ApplyScheduleTodayMask(groupID, groupTitle)),
+		telegram.NewInlineKeyboardButtonData(locale2.ButtonToday(locale2.RU), ApplyScheduleTodayMask(groupID, groupTitle)),
 	))
 
 	if addFavourite {
 		rows = append(rows, telegram.NewInlineKeyboardRow(
-			telegram.NewInlineKeyboardButtonData(locale.ButtonFavourite(locale.RU), ApplyFavouriteGroupMask(groupID, groupTitle)),
+			telegram.NewInlineKeyboardButtonData(locale2.ButtonFavourite(locale2.RU), ApplyFavouriteGroupMask(groupID, groupTitle)),
 		))
 	}
 

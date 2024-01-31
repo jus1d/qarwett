@@ -3,7 +3,7 @@ package bot
 import (
 	telegram "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"log/slog"
-	"qarwett/internal/bot/handler"
+	"qarwett/internal/app/bot/handler"
 	"qarwett/internal/storage/postgres"
 	"strings"
 )

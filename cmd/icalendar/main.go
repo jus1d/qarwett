@@ -5,8 +5,8 @@ import (
 	"log"
 	"os"
 	"os/signal"
-	"qarwett/internal/icalendar"
-	"qarwett/internal/locale"
+	"qarwett/internal/app/icalendar"
+	"qarwett/internal/app/locale"
 	"syscall"
 )
 

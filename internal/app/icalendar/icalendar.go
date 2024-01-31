@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"qarwett/internal/locale"
+	locale2 "qarwett/internal/app/locale"
 	"qarwett/internal/schedule"
 	"qarwett/internal/ssau"
 	"time"
@@ -74,10 +74,10 @@ func addICalendarEvent(content *string, pair schedule.Pair, start time.Time, lan
 	*content += fmt.Sprintf("DTEND:%s\n", end.UTC().Format("20060102T150405"))
 	*content += fmt.Sprintf("DESCRIPTION:%s", pair.Staff.Name)
 	if pair.Subgroup != 0 {
-		*content += fmt.Sprintf(" %s: %d", locale.ScheduleSubgroup(languageCode), pair.Subgroup)
+		*content += fmt.Sprintf(" %s: %d", locale2.ScheduleSubgroup(languageCode), pair.Subgroup)
 	}
 	*content += "\n"
-	*content += fmt.Sprintf("LOCATION:%s %s %s\n", schedule.FullPairTypes[pair.Type], locale.ScheduleIn(languageCode), pair.Place)
+	*content += fmt.Sprintf("LOCATION:%s %s %s\n", schedule.FullPairTypes[pair.Type], locale2.ScheduleIn(languageCode), pair.Place)
 	*content += fmt.Sprintf("SUMMARY:%s", pair.Title)
 	if pair.Subgroup != 0 {
 		*content += fmt.Sprintf(" (%d)", pair.Subgroup)
@@ -87,7 +87,7 @@ func addICalendarEvent(content *string, pair schedule.Pair, start time.Time, lan
 }
 
 func addICalendarHeader(content *string, languageCode string) {
-	calendarName := locale.ScheduleCalendarName(locale.RU)
+	calendarName := locale2.ScheduleCalendarName(locale2.RU)
 	*content += fmt.Sprintf("BEGIN:VCALENDAR\nVERSION:2.0\nCALSCALE:GREGORIAN\nMETHOD:PUBLISH\nX-WR-CALNAME:%s\nX-WR-TIMEZONE:Europe/Samara\n", calendarName)
 }
 

@@ -2,9 +2,8 @@ package schedule
 
 import (
 	"fmt"
-	"qarwett/internal/locale"
+	"qarwett/internal/app/locale"
 )
-
 
 // ParseScheduleToMessageTextWithHTML parses a daily schedule, to text message for telegram.
 func ParseScheduleToMessageTextWithHTML(groupTitle string, schedule Day) string {
