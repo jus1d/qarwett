@@ -82,7 +82,7 @@ func (h *Handler) OnNewMessage(u telegram.Update) {
 	favouriteButton := err == nil && user.LinkedGroupID != group.ID
 
 	weekday := ssau.GetWeekday(0)
-	content := schedule.ParseScheduleToMessageTextWithHTML(group.Title, schedule.Day{
+	content := schedule.ParseScheduleToMessageTextWithHTML(group.ID, group.Title, schedule.Day{
 		Date:  timetable.StartDate.AddDate(0, 0, weekday),
 		Pairs: timetable.Pairs[weekday],
 	})

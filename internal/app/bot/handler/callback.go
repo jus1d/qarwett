@@ -48,7 +48,7 @@ func (h *Handler) OnCallbackSchedule(u telegram.Update) {
 
 	favouriteButton := err == nil && user.LinkedGroupID != groupID
 
-	content := schedule.ParseScheduleToMessageTextWithHTML(groupTitle, schedule.Day{
+	content := schedule.ParseScheduleToMessageTextWithHTML(groupID, groupTitle, schedule.Day{
 		Date:  timetable.StartDate.AddDate(0, 0, weekday),
 		Pairs: timetable.Pairs[weekday],
 	})
@@ -135,7 +135,7 @@ func (h *Handler) OnCallbackScheduleToday(u telegram.Update) {
 
 	favouriteButton := err == nil && user.LinkedGroupID != groupID
 
-	content := schedule.ParseScheduleToMessageTextWithHTML(groupTitle, schedule.Day{
+	content := schedule.ParseScheduleToMessageTextWithHTML(groupID, groupTitle, schedule.Day{
 		Date:  timetable.StartDate.AddDate(0, 0, weekday),
 		Pairs: timetable.Pairs[weekday],
 	})

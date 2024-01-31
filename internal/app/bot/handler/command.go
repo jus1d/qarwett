@@ -184,7 +184,7 @@ func (h *Handler) OnCommandToday(u telegram.Update) {
 	timetable, week := ssau.Parse(doc)
 
 	weekday := ssau.GetWeekday(0)
-	content := schedule.ParseScheduleToMessageTextWithHTML(user.LinkedGroupTitle, schedule.Day{
+	content := schedule.ParseScheduleToMessageTextWithHTML(user.LinkedGroupID, user.LinkedGroupTitle, schedule.Day{
 		Date:  timetable.StartDate.AddDate(0, 0, weekday),
 		Pairs: timetable.Pairs[weekday],
 	})
