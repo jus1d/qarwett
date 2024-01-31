@@ -5,8 +5,8 @@ import (
 	"log"
 	"os"
 	locale2 "qarwett/internal/app/locale"
-	"qarwett/internal/schedule"
-	"qarwett/internal/ssau"
+	"qarwett/internal/app/schedule"
+	"qarwett/internal/app/ssau"
 	"time"
 )
 

@@ -11,3 +11,12 @@ services:
       - POSTGRES_PASSWORD
     ports:
       - "5432:5432"
+
+  qarwett:
+    container_name: "qarwett-telegram"
+    image: "qarwett:latest"
+    restart: unless-stopped
+    environment:
+      - CONFIG_PATH=./config/dev.yaml
+    ports:
+      - "6969:6969"
