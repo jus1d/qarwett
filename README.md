@@ -1,5 +1,12 @@
 ![qarweTT](./images/qarwett-logo-long-description.png)
 
+## Features
+
+- [x] Daily schedule
+- [x] Mark group as Favourite
+- [ ] Localization. Russian & English first of all
+- [ ] Add schedule to third-apps calendars
+
 ## Plans for nearest future
 
 First of all, I'll implement schedule for [Samara University](https://ssau.ru/), but may be later, I transform this bot to a some kind of schedule aggregator, for many universities.
