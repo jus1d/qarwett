@@ -4,8 +4,9 @@
 
 - [x] Daily schedule
 - [x] Mark group as Favourite
+- [x] Announcement command for admins
 - [ ] Localization. Russian & English first of all
-- [ ] Add schedule to third-apps calendars
+- [ ] Add schedule to third-apps calendars (.ics file)
 
 ## Plans for nearest future
 
