@@ -58,6 +58,8 @@ func (b *Bot) handleUpdates(updates telegram.UpdatesChannel) {
 			switch update.Message.Command() {
 			case "start":
 				b.handler.OnCommandStart(update)
+			case "about":
+				b.handler.OnCommandAbout(update)
 			case "a":
 				b.handler.OnCommandAdmin(update)
 			case "announce":
