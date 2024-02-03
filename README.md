@@ -5,6 +5,7 @@
 - [x] Daily schedule
 - [x] Mark group as Favourite
 - [x] Announcement command for admins
+- [ ] View **nearest** pairs in schedule
 - [ ] Localization. Russian & English first of all
 - [ ] Add schedule to third-apps calendars (.ics file)
 
