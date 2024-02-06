@@ -23,11 +23,11 @@ var pairPositionToMinutesFromDayStart = map[int]int{
 	7: 1225,
 }
 
-func WriteNextNWeeksScheduleToFile(groupID int64, languageCode string, n int) (string, error) {
+func WriteNextNWeeksScheduleToFile(filename string, groupID int64, languageCode string, n int) (string, error) {
 	if _, err := os.Stat(CalendarsDir); os.IsNotExist(err) {
 		_ = os.Mkdir(CalendarsDir, 0755)
 	}
-	filename := fmt.Sprintf("%s/%d-%s.ics", CalendarsDir, groupID, languageCode)
+	filename = fmt.Sprintf("%s/%s.ics", CalendarsDir, filename)
 	file, err := os.Create(filename)
 	if err != nil {
 		return "", err

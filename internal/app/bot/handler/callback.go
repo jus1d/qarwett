@@ -2,9 +2,10 @@ package handler
 
 import (
 	"errors"
+	"fmt"
 	telegram "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"log/slog"
-	locale2 "qarwett/internal/app/locale"
+	"qarwett/internal/app/locale"
 	"qarwett/internal/app/schedule"
 	"qarwett/internal/app/ssau"
 	"qarwett/internal/storage/postgres"
@@ -33,7 +34,7 @@ func (h *Handler) OnCallbackSchedule(u telegram.Update) {
 
 	doc, err := ssau.GetScheduleDocument(groupID, week)
 	if err != nil {
-		_, err = h.SendTextMessage(author.ID, locale2.PhraseNoScheduleFound(locale2.RU), nil)
+		_, err = h.SendTextMessage(author.ID, locale.PhraseNoScheduleFound(locale.RU), nil)
 		if err != nil {
 			log.Error("Failed to send message")
 			return
@@ -54,9 +55,9 @@ func (h *Handler) OnCallbackSchedule(u telegram.Update) {
 	})
 
 	_, err = h.EditMessageText(u.CallbackQuery.Message, content,
-		GetScheduleNavigationMarkup(groupID, groupTitle, week, weekday, favouriteButton))
+		GetScheduleNavigationMarkup(locale.RU, groupID, groupTitle, week, weekday, favouriteButton))
 	if errors.Is(err, ErrNoChanges) {
-		callback := telegram.NewCallback(u.CallbackQuery.ID, locale2.PhraseNoChanges(locale2.RU))
+		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.PhraseNoChanges(locale.RU))
 		_, err = h.bot.Request(callback)
 		if err != nil {
 			log.Error("Failed to send callback", sl.Err(err))
@@ -87,17 +88,61 @@ func (h *Handler) OnCallbackFavouriteGroup(u telegram.Update) {
 	err := h.storage.UpdateUserLinkedGroup(author.ID, groupID, groupTitle)
 	if err != nil {
 		log.Error("Failed to update user's group", sl.Err(err))
-		callback := telegram.NewCallback(u.CallbackQuery.ID, locale2.PhraseError(locale2.RU))
+		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.PhraseError(locale.RU))
 		_, err = h.bot.Request(callback)
 		if err != nil {
 			log.Error("Failed to send callback", sl.Err(err))
 		}
 	}
 
-	callback := telegram.NewCallback(u.CallbackQuery.ID, locale2.PhraseSuccess(locale2.RU))
+	callback := telegram.NewCallback(u.CallbackQuery.ID, locale.PhraseSuccess(locale.RU))
 	_, err = h.bot.Request(callback)
 	if err != nil {
 		log.Error("Failed to send callback", sl.Err(err))
+	}
+}
+
+func (h *Handler) OnCallbackAddCalendar(u telegram.Update) {
+	author := u.CallbackQuery.From
+
+	log := h.log.With(
+		slog.String("op", "handler.OnCallbackAddCalendar"),
+		slog.String("username", author.UserName),
+		slog.String("id", strconv.FormatInt(author.ID, 10)),
+	)
+
+	query := u.CallbackData()
+	log.Debug("Callback handled", slog.String("query", query))
+
+	parts := strings.Split(query, ":") // {"add-calendar", groupID, languageCode}
+	groupID, _ := strconv.ParseInt(parts[1], 10, 64)
+	languageCode := parts[2]
+
+	calendar, err := h.storage.GetTrackedCalendar(groupID, languageCode)
+	if err != nil {
+		log.Error("Failed to get calendar", sl.Err(err))
+	}
+
+	var calendarID string
+	if calendar == nil {
+		calendarID, err = h.storage.CreateTrackedCalendar(groupID, languageCode)
+		if err != nil {
+			log.Error("Failed to create tracked calendar", sl.Err(err))
+			callback := telegram.NewCallback(u.CallbackQuery.ID, locale.PhraseError(locale.RU))
+			_, err = h.bot.Request(callback)
+			if err != nil {
+				log.Error("Failed to send callback", sl.Err(err))
+			}
+		}
+	} else {
+		calendarID = calendar.ID
+	}
+
+	log.Debug("Created tracked calendar", slog.String("id", calendarID))
+
+	_, err = h.SendTextMessage(author.ID, fmt.Sprintf("Your calendar's ID -> %s", calendarID), nil)
+	if err != nil {
+		log.Error("Failed to send message", sl.Err(err))
 	}
 }
 
@@ -120,7 +165,7 @@ func (h *Handler) OnCallbackScheduleToday(u telegram.Update) {
 
 	doc, err := ssau.GetScheduleDocument(groupID, 0)
 	if err != nil {
-		_, err = h.SendTextMessage(author.ID, locale2.PhraseNoScheduleFound(locale2.RU), nil)
+		_, err = h.SendTextMessage(author.ID, locale.PhraseNoScheduleFound(locale.RU), nil)
 		if err != nil {
 			log.Error("Failed to send message")
 			return
@@ -141,9 +186,9 @@ func (h *Handler) OnCallbackScheduleToday(u telegram.Update) {
 	})
 
 	_, err = h.EditMessageText(u.CallbackQuery.Message, content,
-		GetScheduleNavigationMarkup(groupID, groupTitle, week, weekday, favouriteButton))
+		GetScheduleNavigationMarkup(locale.RU, groupID, groupTitle, week, weekday, favouriteButton))
 	if errors.Is(err, ErrNoChanges) {
-		callback := telegram.NewCallback(u.CallbackQuery.ID, locale2.PhraseNoChanges(locale2.RU))
+		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.PhraseNoChanges(locale.RU))
 		_, err = h.bot.Request(callback)
 		if err != nil {
 			log.Error("Failed to send callback", sl.Err(err))
@@ -170,14 +215,14 @@ func (h *Handler) OnCallbackCancel(u telegram.Update) {
 	err := h.storage.UpdateUserStage(author.ID, postgres.StageNone)
 	if err != nil {
 		log.Error("Failed to update user's stage", sl.Err(err))
-		callback := telegram.NewCallback(u.CallbackQuery.ID, locale2.PhraseFailedToCancel(locale2.RU))
+		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.PhraseFailedToCancel(locale.RU))
 		_, err = h.bot.Request(callback)
 		if err != nil {
 			log.Error("Failed to send callback", sl.Err(err))
 		}
 	}
 
-	callback := telegram.NewCallback(u.CallbackQuery.ID, locale2.PhraseCancelled(locale2.RU))
+	callback := telegram.NewCallback(u.CallbackQuery.ID, locale.PhraseCancelled(locale.RU))
 	_, err = h.bot.Request(callback)
 	if err != nil {
 		log.Error("Failed to send callback", sl.Err(err))
@@ -202,7 +247,7 @@ func (h *Handler) OnCallbackAnnouncementApprove(u telegram.Update) {
 	content, exists := h.storage.GetAnnouncementMessage(author.ID)
 	if !exists {
 		log.Error("Content for announcement doesn't exists")
-		callback := telegram.NewCallback(u.CallbackQuery.ID, locale2.PhraseEmptyAnnouncementMessage(locale2.RU))
+		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.PhraseEmptyAnnouncementMessage(locale.RU))
 		_, err := h.bot.Request(callback)
 		if err != nil {
 			log.Error("Failed to send callback", sl.Err(err))
@@ -212,7 +257,7 @@ func (h *Handler) OnCallbackAnnouncementApprove(u telegram.Update) {
 	users, err := h.storage.GetAllUsers()
 	if err != nil {
 		log.Error("Failed to get all users", sl.Err(err))
-		callback := telegram.NewCallback(u.CallbackQuery.ID, locale2.PhraseCantStartAnnouncement(locale2.RU))
+		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.PhraseCantStartAnnouncement(locale.RU))
 		_, err = h.bot.Request(callback)
 		if err != nil {
 			log.Error("Failed to send callback", sl.Err(err))
@@ -229,7 +274,7 @@ func (h *Handler) OnCallbackAnnouncementApprove(u telegram.Update) {
 		}
 	}
 
-	_, err = h.EditMessageText(u.CallbackQuery.Message, locale2.PhraseAnnouncementCompleted(locale2.RU), nil)
+	_, err = h.EditMessageText(u.CallbackQuery.Message, locale.PhraseAnnouncementCompleted(locale.RU), nil)
 	if err != nil {
 		log.Error("Failed to send message", sl.Err(err))
 	}

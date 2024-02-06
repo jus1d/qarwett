@@ -79,8 +79,10 @@ func (b *Bot) handleUpdates(updates telegram.UpdatesChannel) {
 				b.handler.OnCallbackSchedule(update)
 			} else if strings.HasPrefix(data, "schedule-today:") {
 				b.handler.OnCallbackScheduleToday(update)
-			} else if strings.HasPrefix(data, "favourite-group") {
+			} else if strings.HasPrefix(data, "favourite-group:") {
 				b.handler.OnCallbackFavouriteGroup(update)
+			} else if strings.HasPrefix(data, "add-calendar:") {
+				b.handler.OnCallbackAddCalendar(update)
 			} else if data == "cancel" {
 				b.handler.OnCallbackCancel(update)
 			} else if data == "approve-announcement" {
