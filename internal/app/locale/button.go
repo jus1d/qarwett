@@ -35,3 +35,12 @@ func ButtonApprove(languageCode string) string {
 		return "Approve"
 	}
 }
+
+func ButtonAddCalendar(languageCode string) string {
+	switch languageCode {
+	case RU:
+		return "Добавить Календарь"
+	default:
+		return "Add Calendar"
+	}
+}
