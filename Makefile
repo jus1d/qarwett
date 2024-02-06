@@ -6,7 +6,6 @@ brun: build
 
 build:
 	go build -v -o ./.bin/qarwett ./cmd/bot/main.go
-	go build -v -o ./.bin/icalendar ./cmd/icalendar/main.go
 
 docker-up: docker-build docker-compose.yml
 	docker compose up -d

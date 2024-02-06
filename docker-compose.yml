@@ -16,7 +16,9 @@ services:
     container_name: "qarwett-telegram"
     image: "qarwett:latest"
     restart: unless-stopped
+    volumes:
+      - ./.calendars:/app/.calendars
     environment:
       - CONFIG_PATH=./config/dev.yaml
     ports:
-      - "6969:6969"
+      - "80:8888"
