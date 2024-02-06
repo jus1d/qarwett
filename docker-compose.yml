@@ -21,4 +21,4 @@ services:
     environment:
       - CONFIG_PATH=./config/dev.yaml
     ports:
-      - "6969:6969"
+      - "80:8888"
