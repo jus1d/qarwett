@@ -16,7 +16,6 @@ func main() {
 	log.Printf("Schedule Format: '%s'\n", Schedule)
 	groupIDs := []int64{755922237}
 
-	updateICalendarFile(groupIDs[0])
 	c := cron.New()
 	for _, groupID := range groupIDs {
 		_, err := c.AddFunc(Schedule, func() {
