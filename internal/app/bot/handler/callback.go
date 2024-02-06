@@ -118,7 +118,22 @@ func (h *Handler) OnCallbackAddCalendar(u telegram.Update) {
 	groupID, _ := strconv.ParseInt(parts[1], 10, 64)
 	languageCode := parts[2]
 
-	log.Info(fmt.Sprintf("%d-%s", groupID, languageCode))
+	calendarID, err := h.storage.CreateTrackedCalendar(groupID, languageCode)
+	if err != nil {
+		log.Error("Failed to create tracked calendar", sl.Err(err))
+		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.PhraseError(locale.RU))
+		_, err = h.bot.Request(callback)
+		if err != nil {
+			log.Error("Failed to send callback", sl.Err(err))
+		}
+	}
+
+	log.Debug("Created tracked calendar", slog.String("id", calendarID))
+
+	_, err = h.SendTextMessage(author.ID, fmt.Sprintf("Your calendar's ID -> %s", calendarID), nil)
+	if err != nil {
+		log.Error("Failed to send message", sl.Err(err))
+	}
 }
 
 func (h *Handler) OnCallbackScheduleToday(u telegram.Update) {

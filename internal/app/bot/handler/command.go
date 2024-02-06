@@ -183,8 +183,8 @@ func (h *Handler) OnCommandToday(u telegram.Update) {
 		_, err = h.SendTextMessage(author.ID, locale.PhraseUseRestart(locale.RU), nil)
 		if err != nil {
 			log.Error("Failed to send message", sl.Err(err))
-			return
 		}
+		return
 	}
 
 	if user.LinkedGroupID == 0 {
