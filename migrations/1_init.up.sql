@@ -13,3 +13,10 @@ CREATE TABLE IF NOT EXISTS users (
     is_admin bool DEFAULT false not null,
     created_at timestamp DEFAULT now() NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS calendars (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL UNIQUE,
+    group_id bigint NOT NULL,
+    language_code varchar(8) NOT NULL,
+    created_at timestamp DEFAULT now() NOT NULL
+);

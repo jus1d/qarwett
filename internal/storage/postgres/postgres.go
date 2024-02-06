@@ -33,6 +33,14 @@ type User struct {
 	CreatedAt        time.Time `db:"created_at"`
 }
 
+// Calendar provides a data structure of tracked calendars, that should stay up-to-date.
+type Calendar struct {
+	ID           string    `db:"id"`
+	GroupID      int64     `db:"group_id"`
+	LanguageCode string    `db:"language_code"`
+	CreatedAt    time.Time `db:"created_at"`
+}
+
 // New creates a new instance of Storage, and returns a pointer to it.
 func New(cfg config.Postgres) (*Storage, error) {
 	db, err := sqlx.Open("postgres", fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s",

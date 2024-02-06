@@ -14,13 +14,27 @@ const (
 )
 
 type Config struct {
-	Env      string   `yaml:"env" env-required:"true"`
-	Telegram Telegram `yaml:"telegram"`
-	Postgres Postgres `yaml:"postgres"`
+	Env       string    `yaml:"env" env-required:"true"`
+	Telegram  Telegram  `yaml:"telegram"`
+	ICalendar ICalendar `yaml:"icalendar"`
+	Postgres  Postgres  `yaml:"postgres"`
 }
 
 type Telegram struct {
 	Token string `yaml:"token"`
+}
+
+type ICalendar struct {
+	Updater Updater `yaml:"updater"`
+	Server  Server  `yaml:"server"`
+}
+
+type Updater struct {
+	WeeksToTrack int `yaml:"weeks_to_track"`
+}
+
+type Server struct {
+	Addr string `yaml:"addr"`
 }
 
 type Postgres struct {
