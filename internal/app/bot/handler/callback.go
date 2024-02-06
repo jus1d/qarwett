@@ -5,6 +5,7 @@ import (
 	"fmt"
 	telegram "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"log/slog"
+	"qarwett/internal/app/icalendar"
 	"qarwett/internal/app/locale"
 	"qarwett/internal/app/schedule"
 	"qarwett/internal/app/ssau"
@@ -139,6 +140,17 @@ func (h *Handler) OnCallbackAddCalendar(u telegram.Update) {
 	}
 
 	log.Debug("Created tracked calendar", slog.String("id", calendarID))
+
+	_, err = icalendar.WriteNextNWeeksScheduleToFile(calendarID, groupID, languageCode, 4)
+	if err != nil {
+		log.Error("Failed to create file with calendar", sl.Err(err))
+		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.PhraseError(locale.RU))
+		_, err = h.bot.Request(callback)
+		if err != nil {
+			log.Error("Failed to send callback", sl.Err(err))
+		}
+		return
+	}
 
 	_, err = h.SendTextMessage(author.ID, fmt.Sprintf("Your calendar's ID -> %s", calendarID), nil)
 	if err != nil {
