@@ -1,5 +1,6 @@
 package postgres
 
+// CreateTrackedCalendar creates a new calendar in storage, that should stay updated.
 func (s *Storage) CreateTrackedCalendar(groupID int64, languageCode string) (string, error) {
 	var id string
 
@@ -15,6 +16,7 @@ func (s *Storage) CreateTrackedCalendar(groupID int64, languageCode string) (str
 	return id, err
 }
 
+// GetTrackedCalendar returns tracked calendar by its group ID and language code.
 func (s *Storage) GetTrackedCalendar(groupID int64, languageCode string) (*Calendar, error) {
 	var calendar Calendar
 	err := s.db.QueryRow("SELECT * FROM calendars WHERE group_id = $1 and language_code = $1", groupID, languageCode).Scan(&calendar.ID, &calendar.GroupID, &calendar.LanguageCode, &calendar.CreatedAt)
@@ -25,6 +27,7 @@ func (s *Storage) GetTrackedCalendar(groupID int64, languageCode string) (*Calen
 	return &calendar, nil
 }
 
+// GetAllTrackedCalendars returns all tracked calendars from storage.
 func (s *Storage) GetAllTrackedCalendars() ([]Calendar, error) {
 	var calendars []Calendar
 	rows, err := s.db.Query("SELECT * FROM calendars")

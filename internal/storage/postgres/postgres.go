@@ -33,6 +33,7 @@ type User struct {
 	CreatedAt        time.Time `db:"created_at"`
 }
 
+// Calendar provides a data structure of tracked calendars, that should stay up-to-date.
 type Calendar struct {
 	ID           string    `db:"id"`
 	GroupID      int64     `db:"group_id"`
