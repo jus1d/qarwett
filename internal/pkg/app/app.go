@@ -6,6 +6,7 @@ import (
 	"os/signal"
 	telegram "qarwett/internal/app/bot"
 	"qarwett/internal/config"
+	"qarwett/internal/pkg/app/updater"
 	"qarwett/internal/storage/postgres"
 	"qarwett/pkg/logger"
 	"qarwett/pkg/logger/sl"
@@ -41,6 +42,9 @@ func (a *App) Run() {
 	}
 
 	go bot.Run()
+
+	iCalendarUpdater := updater.New(a.config, a.log, storage)
+	go iCalendarUpdater.Run()
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT)
