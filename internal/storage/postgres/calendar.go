@@ -19,7 +19,7 @@ func (s *Storage) CreateTrackedCalendar(groupID int64, languageCode string) (str
 // GetTrackedCalendar returns tracked calendar by its group ID and language code.
 func (s *Storage) GetTrackedCalendar(groupID int64, languageCode string) (*Calendar, error) {
 	var calendar Calendar
-	err := s.db.QueryRow("SELECT * FROM calendars WHERE group_id = $1 and language_code = $1", groupID, languageCode).Scan(&calendar.ID, &calendar.GroupID, &calendar.LanguageCode, &calendar.CreatedAt)
+	err := s.db.QueryRow("SELECT * FROM calendars WHERE group_id = $1 and language_code = $2", groupID, languageCode).Scan(&calendar.ID, &calendar.GroupID, &calendar.LanguageCode, &calendar.CreatedAt)
 	if err != nil {
 		return nil, err
 	}
