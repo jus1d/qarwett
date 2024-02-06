@@ -213,7 +213,7 @@ func (h *Handler) OnCommandToday(u telegram.Update) {
 	})
 
 	// TODO: Somehow get group title here
-	_, err = h.SendTextMessage(author.ID, content, GetScheduleNavigationMarkup(groupID, user.LinkedGroupTitle, week, weekday, false))
+	_, err = h.SendTextMessage(author.ID, content, GetScheduleNavigationMarkup(locale.RU, groupID, user.LinkedGroupTitle, week, weekday, false))
 	if err != nil {
 		log.Error("Failed to send message", sl.Err(err))
 		return
