@@ -6,9 +6,10 @@
 .idea/
 .vscode/
 
-# Ignore config files
+# Ignore config and dev files
 config/*.yaml
 .env
+*.dev.yml
 
 # Ignore logs, temporary files and any trash
 *.txt

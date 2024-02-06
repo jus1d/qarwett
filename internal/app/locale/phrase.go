@@ -50,6 +50,23 @@ func PhraseAdminCommands(languageCode string) string {
 	}
 }
 
+func PhraseAbout(languageCode string, commit string) string {
+	if commit == "" {
+		commit = "xx"
+	}
+
+	switch languageCode {
+	case RU:
+		return "<b>qarweTT</b> - быстро глянуть на расписание, и обратно спать\n\n" +
+			"По всем вопросам, можете обращаться сюда <b>@jus1d</b>\n\n" +
+			"Текущая версия сборки: <b>" + commit + "</b>"
+	default:
+		return "<b>qarweTT</b> - take a quick look at schedule, and go back to sleep\n\n" +
+			"With any questions, you can write me <b>@jus1d</b>\n\n" +
+			"Current build version: <b>" + commit + "</b>"
+	}
+}
+
 func PhraseAnnouncementRequest(languageCode string) string {
 	switch languageCode {
 	case RU:

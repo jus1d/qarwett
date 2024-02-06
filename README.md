@@ -1,5 +1,14 @@
 ![qarweTT](./images/qarwett-logo-long-description.png)
 
+## Features
+
+- [x] Daily schedule
+- [x] Mark group as Favourite
+- [x] Announcement command for admins
+- [ ] View **nearest** pairs in schedule
+- [ ] Localization. Russian & English first of all
+- [ ] Add schedule to third-apps calendars (.ics file)
+
 ## Plans for nearest future
 
 First of all, I'll implement schedule for [Samara University](https://ssau.ru/), but may be later, I transform this bot to a some kind of schedule aggregator, for many universities.
@@ -15,7 +24,7 @@ $ chmod +x ./build.sh
 #### Run build stript
 
 ```console
-$ ./build.sh
+$ make build
 ...
 ... build logs ...
 ...

@@ -4,6 +4,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"unicode"
 )
 
 // GetIdFromURL parse link to the university's website, and grabs ID from there.
@@ -24,5 +25,14 @@ func GetWeekday(offsetDays int) int {
 	if weekday < 0 {
 		weekday += 7
 	}
+	// time.Weekday() returns weekday in week format where Sunday is the first weekday.
+	// This lines transform weekday to format where first day of week is Monday.
 	return int(weekday)
+}
+
+// Capitalize capitalizes first char of string.
+func Capitalize(s string) string {
+	r := []rune(s)
+	r[0] = unicode.ToUpper(r[0])
+	return string(r)
 }

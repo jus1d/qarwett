@@ -6,20 +6,20 @@ import (
 )
 
 // ParseScheduleToMessageTextWithHTML parses a daily schedule, to text message for telegram.
-func ParseScheduleToMessageTextWithHTML(groupTitle string, schedule Day) string {
+func ParseScheduleToMessageTextWithHTML(groupID int64, groupTitle string, schedule Day) string {
 	pairs := schedule.Pairs
 	date := schedule.Date
+	var content string
+	if groupTitle != "" {
+		content += fmt.Sprintf("<b><u><a href=\"https://ssau.ru/rasp?groupId=%d\">%s:</a></u></b>\n\n", groupID, groupTitle)
+	}
+
 	months := []string{"", "января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "сентября", "декабря"}
 	if len(pairs) == 0 {
-		return locale.PhraseForFreeDay("ru", date.Day(), int(date.Month()))
+		return content + locale.PhraseForFreeDay("ru", date.Day(), int(date.Month()))
 	}
 
-	content := fmt.Sprintf("Расписание на <b>%d %s</b>\n", date.Day(), months[date.Month()])
-
-	if groupTitle != "" {
-		content += fmt.Sprintf("<b>Группа:</b> %s\n", groupTitle)
-	}
-	content += "\n"
+	content += fmt.Sprintf("Расписание на <b>%d %s</b>\n\n", date.Day(), months[date.Month()])
 
 	for i := 0; i < len(pairs); i++ {
 		cur := pairs[i]
@@ -36,7 +36,7 @@ func ParseScheduleToMessageTextWithHTML(groupTitle string, schedule Day) string 
 		}
 		content += fmt.Sprintf("%s\n", cur.Place)
 		if cur.Staff.Name != "" {
-			content += fmt.Sprintf("<a href=\"https://ssau.ru/rasp?staffId=%d\">%s</a>\n", cur.Staff.ID, cur.Staff.Name)
+			content += fmt.Sprintf("<b><a href=\"https://ssau.ru/rasp?staffId=%d\">%s</a></b>\n", cur.Staff.ID, cur.Staff.Name)
 		}
 		if i < len(pairs)-1 && cur.Position == pairs[i+1].Position {
 			content += "|\n"
