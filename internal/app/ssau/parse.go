@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"unicode"
 )
 
 var PairColorToType = map[string]schedule.PairType{
@@ -92,7 +93,7 @@ func parsePair(doc *goquery.Selection, pos int) schedule.Pair {
 	return schedule.Pair{
 		Position: pos,
 		Type:     pairType,
-		Title:    strings.TrimSpace(title),
+		Title:    Capitalize(strings.TrimSpace(title)),
 		Place:    strings.TrimSpace(place),
 		Staff: schedule.Staff{
 			ID:   GetIdFromURL(teacherURL),
@@ -101,4 +102,11 @@ func parsePair(doc *goquery.Selection, pos int) schedule.Pair {
 		Groups:   groups,
 		Subgroup: subgroup,
 	}
+}
+
+func Capitalize(s string) string {
+	r := []rune(s)
+	r[0] = unicode.ToUpper(r[0])
+	s = string(r)
+	return s
 }
