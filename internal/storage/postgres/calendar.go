@@ -15,6 +15,16 @@ func (s *Storage) CreateTrackedCalendar(groupID int64, languageCode string) (str
 	return id, err
 }
 
+func (s *Storage) GetTrackedCalendar(groupID int64, languageCode string) (*Calendar, error) {
+	var calendar Calendar
+	err := s.db.QueryRow("SELECT * FROM calendars WHERE group_id = $1 and language_code = $1", groupID, languageCode).Scan(&calendar.ID, &calendar.GroupID, &calendar.LanguageCode, &calendar.CreatedAt)
+	if err != nil {
+		return nil, err
+	}
+
+	return &calendar, nil
+}
+
 func (s *Storage) GetAllTrackedCalendars() ([]Calendar, error) {
 	var calendars []Calendar
 	rows, err := s.db.Query("SELECT * FROM calendars")
