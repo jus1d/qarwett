@@ -9,10 +9,7 @@ import (
 	"qarwett/pkg/logger/sl"
 )
 
-const (
-	Schedule           = "0 12,0 * * *" // Every day at 12 AM and PM
-	AmountWeeksToTrack = 4
-)
+const Schedule = "0 12,0 * * *" // Every day at 12 AM and PM
 
 type Updater struct {
 	config  *config.Config
@@ -40,7 +37,8 @@ func (u *Updater) Run() {
 		}
 
 		for _, calendar := range calendars {
-			_, _ = icalendar.WriteNextNWeeksScheduleToFile(calendar.ID, calendar.GroupID, calendar.LanguageCode, AmountWeeksToTrack)
+			_, _ = icalendar.WriteNextNWeeksScheduleToFile(calendar.ID, calendar.GroupID,
+				calendar.LanguageCode, u.config.ICalendar.Updater.WeeksToTrack)
 		}
 	})
 	if err != nil {
