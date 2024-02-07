@@ -28,22 +28,35 @@ func New(cfg *config.Config, log *slog.Logger, stg *postgres.Storage) *Updater {
 func (u *Updater) Run() {
 	log := u.log.With(slog.String("service", "app.Updater"))
 
+	u.getAndUpdateCalendars()
+
 	c := cron.New()
 
 	_, err := c.AddFunc(Schedule, func() {
-		calendars, err := u.storage.GetAllTrackedCalendars()
-		if err != nil {
-			log.Error("Can't get all tracked calendars", sl.Err(err))
-		}
-
-		for _, calendar := range calendars {
-			_, _ = icalendar.WriteNextNWeeksScheduleToFile(calendar.ID, calendar.GroupID,
-				calendar.LanguageCode, u.config.ICalendar.Updater.WeeksToTrack)
-		}
+		u.getAndUpdateCalendars()
 	})
 	if err != nil {
 		log.Error("Can't add CRON worker", sl.Err(err))
 	}
 
 	c.Start()
+}
+
+func (u *Updater) getAndUpdateCalendars() {
+	log := u.log.With(slog.String("service", "app.Updater"))
+
+	calendars, err := u.storage.GetAllTrackedCalendars()
+	if err != nil {
+		log.Error("Can't get all tracked calendars", sl.Err(err))
+	}
+
+	for _, calendar := range calendars {
+		file, err := icalendar.WriteNextNWeeksScheduleToFile(calendar.ID, calendar.GroupID,
+			calendar.LanguageCode, u.config.ICalendar.Updater.WeeksToTrack)
+		if err != nil {
+			log.Error("Failed to update calendar file", sl.Err(err))
+		} else {
+			log.Info("Calendar file updated", slog.String("file", file))
+		}
+	}
 }

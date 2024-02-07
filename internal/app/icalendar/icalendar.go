@@ -52,6 +52,16 @@ func WriteNextNWeeksScheduleToFile(filename string, groupID int64, languageCode 
 	if err != nil {
 		return "", err
 	}
+
+	err = file.Sync()
+	if err != nil {
+		return "", err
+	}
+
+	if err = file.Close(); err != nil {
+		return "", err
+	}
+
 	return filename, nil
 }
 
@@ -68,8 +78,10 @@ func addICalendarSchedule(content *string, schedule schedule.WeekPairs, language
 }
 
 func addICalendarEvent(content *string, pair schedule.Pair, start time.Time, languageCode string) {
+	languageCode = locale.RU
+
 	end := start.Add(95 * time.Minute)
-	*content += fmt.Sprintf("BEGIN:VEVENT\n")
+	*content += fmt.Sprintf("\nBEGIN:VEVENT\n")
 	*content += fmt.Sprintf("DTSTART:%s\n", start.UTC().Format("20060102T150405"))
 	*content += fmt.Sprintf("DTEND:%s\n", end.UTC().Format("20060102T150405"))
 	*content += fmt.Sprintf("DESCRIPTION:%s", pair.Staff.Name)
@@ -92,5 +104,5 @@ func addICalendarHeader(content *string, languageCode string) {
 }
 
 func addICalendarFooter(content *string) {
-	*content += "END:VCALENDAR"
+	*content += "\nEND:VCALENDAR"
 }
