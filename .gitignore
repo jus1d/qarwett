@@ -1,6 +1,8 @@
 # Ignore binary files
 .bin/
 *.exe
+*.o
+*.out
 
 # Ignore IDE files
 .idea/
@@ -19,9 +21,11 @@ config/*.yaml
 # Ignore OS files
 .DS_Store*
 
-
 # Ignore database data
 .database/
 
 # Ignore calendars and other stuff
 *calendars/
+
+# Ignore test coverage files
+coverage*
