@@ -1,4 +1,4 @@
-name: Build
+name: Build & Test
 
 on:
   push:
@@ -18,4 +18,6 @@ jobs:
       - name: Build app
         run: |
           go mod download
-          ./build.sh
+          make build
+      - name: Run tests
+        run: make tests

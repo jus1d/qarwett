@@ -3,6 +3,7 @@ package ssau
 import (
 	"github.com/PuerkitoBio/goquery"
 	"qarwett/internal/app/schedule"
+	"qarwett/pkg/str"
 	"strconv"
 	"strings"
 	"time"
@@ -97,7 +98,7 @@ func parsePair(doc *goquery.Selection, pos int) schedule.Pair {
 	return schedule.Pair{
 		Position: pos,
 		Type:     pairType,
-		Title:    Capitalize(strings.TrimSpace(title)),
+		Title:    str.Capitalize(strings.TrimSpace(title)),
 		Place:    strings.TrimSpace(place),
 		Staff:    staff,
 		Groups:   groups,

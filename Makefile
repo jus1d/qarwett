@@ -4,6 +4,9 @@ run:
 brun: build
 	./.bin/qarwett
 
+test:
+	go test -race ./...
+
 build:
 	go build -v -o ./.bin/qarwett ./cmd/bot/main.go
 
