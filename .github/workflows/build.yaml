@@ -20,4 +20,4 @@ jobs:
           go mod download
           make build
       - name: Run tests
-        run: make tests
+        run: make test
