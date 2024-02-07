@@ -10,6 +10,7 @@ test:
 coverage:
 	go test ./... -coverprofile=coverage.out
 	go tool cover -html=coverage.out -o coverage.html
+	rm coverage.out
 
 build:
 	go build -v -o ./.bin/qarwett ./cmd/bot/main.go
