@@ -7,6 +7,10 @@ brun: build
 test:
 	go test -race ./...
 
+coverage:
+	go test ./... -coverprofile=coverage.out
+	go tool cover -html=coverage.out -o coverage.html
+
 build:
 	go build -v -o ./.bin/qarwett ./cmd/bot/main.go
 
