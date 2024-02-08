@@ -36,9 +36,9 @@ func WriteNextNWeeksScheduleToFile(filename string, groupID int64, languageCode 
 
 	var content string
 	addICalendarHeader(&content, languageCode)
-	week := 0
+	week := -1
 	for i := 0; i < n; i++ {
-		doc, err := ssau.GetScheduleDocument(groupID, week+i)
+		doc, err := ssau.GetScheduleDocument(groupID, week+1)
 		if err != nil {
 			log.Fatal(err)
 		}
