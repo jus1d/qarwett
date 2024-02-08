@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-const CalendarsDir = ".calendars"
+const CalendarsDir = "calendars"
 
 var pairPositionToMinutesFromDayStart = map[int]int{
 	0: 480,

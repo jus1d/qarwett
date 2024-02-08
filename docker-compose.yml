@@ -17,7 +17,7 @@ services:
     image: "qarwett:latest"
     restart: unless-stopped
     volumes:
-      - ./.calendars:/app/.calendars
+      - ./calendars:/app/calendars
     environment:
       - CONFIG_PATH=./config/dev.yaml
     ports:

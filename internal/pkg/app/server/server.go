@@ -30,7 +30,7 @@ func (s *Server) Run() {
 		parts := strings.Split(r.URL.String(), "/")
 		filename := parts[len(parts)-1]
 
-		filePath := fmt.Sprintf("./.calendars/%s.ics", filename)
+		filePath := fmt.Sprintf("./calendars/%s.ics", filename)
 
 		if _, err := os.Stat(filePath); os.IsNotExist(err) {
 			log.Info("file not found", slog.String("path", filePath))
