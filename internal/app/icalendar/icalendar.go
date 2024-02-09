@@ -44,7 +44,7 @@ func WriteNextNWeeksScheduleToFile(filename string, groupID int64, languageCode 
 		if err != nil {
 			log.Fatal(err)
 		}
-		var sch schedule.WeekPairs
+		var sch schedule.Week
 		sch, week = ssau.Parse(doc)
 		addICalendarSchedule(&content, sch, languageCode)
 	}
@@ -67,7 +67,7 @@ func WriteNextNWeeksScheduleToFile(filename string, groupID int64, languageCode 
 	return filename, nil
 }
 
-func addICalendarSchedule(content *string, schedule schedule.WeekPairs, languageCode string) {
+func addICalendarSchedule(content *string, schedule schedule.Week, languageCode string) {
 	for i := 0; i < len(schedule.Pairs); i++ {
 		day := schedule.Pairs[i]
 		dayStart := schedule.StartDate.AddDate(0, 0, i)
