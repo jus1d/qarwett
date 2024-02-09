@@ -68,6 +68,8 @@ func (b *Bot) handleUpdates(updates telegram.UpdatesChannel) {
 				b.handler.OnCommandUsers(update)
 			case "today":
 				b.handler.OnCommandToday(update)
+			case "language":
+				b.handler.OnCommandLanguage(update)
 			default:
 				b.handler.OnNewMessage(update)
 			}
@@ -83,6 +85,8 @@ func (b *Bot) handleUpdates(updates telegram.UpdatesChannel) {
 				b.handler.OnCallbackFavouriteGroup(update)
 			} else if strings.HasPrefix(data, "add-calendar:") {
 				b.handler.OnCallbackAddCalendar(update)
+			} else if strings.HasPrefix(data, "set-language:") {
+				b.handler.OnCallbackSetLanguage(update)
 			} else if data == "cancel" {
 				b.handler.OnCallbackCancel(update)
 			} else if data == "approve-announcement" {

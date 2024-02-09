@@ -99,6 +99,20 @@ func GetMarkupFromGroupList(groups []ssau.SearchGroupResponse) *telegram.InlineK
 	return &markup
 }
 
+func GetLanguagesMarkup() *telegram.InlineKeyboardMarkup {
+	rows := make([][]telegram.InlineKeyboardButton, 0)
+
+	for _, language := range localization.Languages {
+		rows = append(rows, telegram.NewInlineKeyboardRow(
+			telegram.NewInlineKeyboardButtonData(language.Title, ApplyLanguageMask(language.LanguageCode)),
+		))
+	}
+
+	markup := telegram.NewInlineKeyboardMarkup(rows...)
+
+	return &markup
+}
+
 func ApplyScheduleMask(groupID int64, groupTitle string, week int, weekday int) string {
 	return fmt.Sprintf("schedule-daily:%d:%s:%d:%d", groupID, groupTitle, week, weekday)
 }
@@ -113,4 +127,8 @@ func ApplyFavouriteGroupMask(groupID int64, groupTitle string) string {
 
 func ApplyAddCalendarMask(groupID int64, languageCode string) string {
 	return fmt.Sprintf("add-calendar:%d:%s", groupID, languageCode)
+}
+
+func ApplyLanguageMask(languageCode string) string {
+	return fmt.Sprintf("set-language:%s", languageCode)
 }

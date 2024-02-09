@@ -171,6 +171,42 @@ func (h *Handler) OnCallbackAddCalendar(u telegram.Update) {
 	}
 }
 
+func (h *Handler) OnCallbackSetLanguage(u telegram.Update) {
+	author := u.CallbackQuery.From
+
+	log := h.log.With(
+		slog.String("op", "handler.OnCallbackSetLanguage"),
+		slog.String("username", author.UserName),
+		slog.String("id", strconv.FormatInt(author.ID, 10)),
+	)
+
+	//localeCode := user.LanguageCode
+	localeCode := localization.Russian
+	locale := localization.Get(localeCode)
+
+	query := u.CallbackData()
+	log.Debug("Callback handled", slog.String("query", query))
+
+	parts := strings.Split(query, ":") // {"set-language", languageCode}
+	languageCode := parts[1]
+
+	err := h.storage.UpdateUserLanguage(author.ID, languageCode)
+	if err != nil {
+		callback := telegram.NewCallback(u.CallbackQuery.ID, locale.Message.Error)
+		_, err = h.bot.Request(callback)
+		if err != nil {
+			log.Error("Failed to send callback", sl.Err(err))
+		}
+		return
+	}
+
+	callback := telegram.NewCallback(u.CallbackQuery.ID, locale.Message.Success)
+	_, err = h.bot.Request(callback)
+	if err != nil {
+		log.Error("Failed to send callback", sl.Err(err))
+	}
+}
+
 func (h *Handler) OnCallbackScheduleToday(u telegram.Update) {
 	author := u.CallbackQuery.From
 

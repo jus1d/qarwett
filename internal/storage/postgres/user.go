@@ -66,6 +66,12 @@ func (s *Storage) UpdateUserStage(telegramID int64, stage int) error {
 	return err
 }
 
+// UpdateUserLanguage finds a user by telegram ID, and update its field LanguageCode.
+func (s *Storage) UpdateUserLanguage(telegramID int64, languageCode string) error {
+	_, err := s.db.Exec("UPDATE users SET language_code = $2 WHERE telegram_id = $1", telegramID, languageCode)
+	return err
+}
+
 // IsUserExists returns a boolean value of user existence.
 func (s *Storage) IsUserExists(telegramID int64) bool {
 	user, err := s.GetUserByTelegramID(telegramID)
