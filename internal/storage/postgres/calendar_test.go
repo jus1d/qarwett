@@ -58,7 +58,7 @@ func TestStorage_Calendar(t *testing.T) {
 
 	got, err = storage.GetTrackedCalendar(calendar.GroupID, calendar.LanguageCode)
 	if err != nil {
-		t.Errorf("error getting calendar")
+		t.Errorf("error getting calendar: %v", err)
 	}
 
 	if got.ID == "" || got.GroupID != calendar.GroupID || got.LanguageCode != calendar.LanguageCode {
@@ -67,7 +67,7 @@ func TestStorage_Calendar(t *testing.T) {
 
 	err = storage.DeleteTrackedCalendar(got.ID)
 	if err != nil {
-		t.Errorf("error deleting tracked calendar")
+		t.Errorf("error deleting tracked calendar: %v", err)
 	}
 
 	calendars, err = storage.GetAllTrackedCalendars()
