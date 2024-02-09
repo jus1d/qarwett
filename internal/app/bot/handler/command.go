@@ -25,11 +25,11 @@ func (h *Handler) OnCommandStart(u telegram.Update) {
 
 	userExists := h.storage.IsUserExists(author.ID)
 	if !userExists {
-		id, err := h.storage.CreateUser(author.ID, author.UserName, author.FirstName, author.LastName, author.LanguageCode)
+		user, err := h.storage.CreateUser(author.ID, author.UserName, author.FirstName, author.LastName, author.LanguageCode)
 		if err != nil {
 			log.Error("Failed to save user", sl.Err(err))
 		} else {
-			log.Debug("User saved", slog.String("id", id))
+			log.Debug("User saved", slog.String("id", user.ID))
 		}
 	}
 
