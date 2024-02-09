@@ -25,7 +25,7 @@ var pairPositionToMinutesFromDayStart = map[int]int{
 
 func WriteNextNWeeksScheduleToFile(filename string, groupID int64, languageCode string, n int) (string, error) {
 	languageCode = localization.Russian
-	
+
 	if _, err := os.Stat(CalendarsDir); os.IsNotExist(err) {
 		_ = os.Mkdir(CalendarsDir, 0755)
 	}

@@ -2,11 +2,15 @@ package schedule
 
 import (
 	"fmt"
-	"qarwett/internal/app/locale"
+	"qarwett/internal/app/localization"
 )
 
 // ParseScheduleToMessageTextWithHTML parses a daily schedule, to text message for telegram.
 func ParseScheduleToMessageTextWithHTML(groupID int64, groupTitle string, schedule Day) string {
+	//localeCode := user.LanguageCode
+	localeCode := localization.Russian
+	locale := localization.Get(localeCode)
+
 	pairs := schedule.Pairs
 	date := schedule.Date
 	var content string
@@ -16,7 +20,7 @@ func ParseScheduleToMessageTextWithHTML(groupID int64, groupTitle string, schedu
 
 	months := []string{"", "января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "сентября", "декабря"}
 	if len(pairs) == 0 {
-		return content + locale.PhraseForFreeDay("ru", date.Day(), int(date.Month()))
+		return content + locale.Message.FreeDay(date.Day(), int(date.Month()))
 	}
 
 	content += fmt.Sprintf("Расписание на <b>%d %s</b>\n\n", date.Day(), months[date.Month()])
