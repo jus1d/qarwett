@@ -35,6 +35,11 @@ var RussianLocalization = Locale{
 		Approve:     "Подтвердить",
 		AddCalendar: "Добавить в Календарь",
 	},
+	Schedule: Schedule{
+		CalendarName: "Расписание",
+		Subgroup:     "Подгруппа",
+		In:           "в",
+	},
 	languageCode: Russian,
 }
 

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"qarwett/internal/app/locale"
+	"qarwett/internal/app/localization"
 	"qarwett/internal/app/schedule"
 	"qarwett/internal/app/ssau"
 	"time"
@@ -24,6 +24,8 @@ var pairPositionToMinutesFromDayStart = map[int]int{
 }
 
 func WriteNextNWeeksScheduleToFile(filename string, groupID int64, languageCode string, n int) (string, error) {
+	languageCode = localization.Russian
+	
 	if _, err := os.Stat(CalendarsDir); os.IsNotExist(err) {
 		_ = os.Mkdir(CalendarsDir, 0755)
 	}
@@ -78,7 +80,7 @@ func addICalendarSchedule(content *string, schedule schedule.WeekPairs, language
 }
 
 func addICalendarEvent(content *string, pair schedule.Pair, start time.Time, languageCode string) {
-	languageCode = locale.RU
+	locale := localization.Get(languageCode)
 
 	end := start.Add(95 * time.Minute)
 	*content += fmt.Sprintf("\nBEGIN:VEVENT\n")
@@ -86,10 +88,10 @@ func addICalendarEvent(content *string, pair schedule.Pair, start time.Time, lan
 	*content += fmt.Sprintf("DTEND:%s\n", end.UTC().Format("20060102T150405"))
 	*content += fmt.Sprintf("DESCRIPTION:%s", pair.Staff.Name)
 	if pair.Subgroup != 0 {
-		*content += fmt.Sprintf(" %s: %d", locale.ScheduleSubgroup(languageCode), pair.Subgroup)
+		*content += fmt.Sprintf(" %s: %d", locale.Schedule.Subgroup, pair.Subgroup)
 	}
 	*content += "\n"
-	*content += fmt.Sprintf("LOCATION:%s %s %s\n", schedule.FullPairTypes[pair.Type], locale.ScheduleIn(languageCode), pair.Place)
+	*content += fmt.Sprintf("LOCATION:%s %s %s\n", schedule.FullPairTypes[pair.Type], locale.Schedule.In, pair.Place)
 	*content += fmt.Sprintf("SUMMARY:%s", pair.Title)
 	if pair.Subgroup != 0 {
 		*content += fmt.Sprintf(" (%d)", pair.Subgroup)
@@ -99,7 +101,9 @@ func addICalendarEvent(content *string, pair schedule.Pair, start time.Time, lan
 }
 
 func addICalendarHeader(content *string, languageCode string) {
-	calendarName := locale.ScheduleCalendarName(locale.RU)
+	locale := localization.Get(languageCode)
+
+	calendarName := locale.Schedule.CalendarName
 	*content += fmt.Sprintf("BEGIN:VCALENDAR\nVERSION:2.0\nCALSCALE:GREGORIAN\nMETHOD:PUBLISH\nX-WR-CALNAME:%s\nX-WR-TIMEZONE:Europe/Samara\n", calendarName)
 }
 

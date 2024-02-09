@@ -35,6 +35,11 @@ var EnglishLocalization = Locale{
 		Approve:     "Approve",
 		AddCalendar: "Add to Calendar",
 	},
+	Schedule: Schedule{
+		CalendarName: "University Schedule",
+		Subgroup:     "Subgroup",
+		In:           "in",
+	},
 	languageCode: English,
 }
 

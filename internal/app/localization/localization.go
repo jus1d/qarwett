@@ -8,6 +8,7 @@ const (
 type Locale struct {
 	Message      Messages
 	Button       Buttons
+	Schedule     Schedule
 	languageCode string
 }
 
@@ -37,6 +38,12 @@ type Buttons struct {
 	Cancel      string
 	Approve     string
 	AddCalendar string
+}
+
+type Schedule struct {
+	CalendarName string
+	Subgroup     string
+	In           string
 }
 
 type Localization interface {
