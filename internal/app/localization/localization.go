@@ -29,6 +29,7 @@ type Messages struct {
 	AnnouncementMessageIsEmpty string
 	UseRestart                 string
 	AdminCommands              string
+	ChooseLanguage             string
 	languageCode               string
 }
 

@@ -26,7 +26,8 @@ var EnglishLocalization = Locale{
 		AdminCommands: "<b>List of admin commands:</b>\n\n" +
 			"<b>/announce</b> - Send an announcement message to all users\n" +
 			"<b>/users</b> - View users counter",
-		languageCode: English,
+		ChooseLanguage: "<b>Choose your language:</b>",
+		languageCode:   English,
 	},
 	Button: Buttons{
 		Today:       "Today",

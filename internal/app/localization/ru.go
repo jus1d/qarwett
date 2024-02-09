@@ -26,7 +26,8 @@ var RussianLocalization = Locale{
 		AdminCommands: "<b>Список админ комманд:</b>\n\n" +
 			"<b>/announce</b> - Отправить объявление всем пользователям бота\n" +
 			"<b>/users</b> - Посмотреть количество пользователей",
-		languageCode: Russian,
+		ChooseLanguage: "<b>Выберите Ваш язык:</b>",
+		languageCode:   Russian,
 	},
 	Button: Buttons{
 		Today:       "Сегодня",

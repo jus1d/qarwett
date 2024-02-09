@@ -183,6 +183,42 @@ func (h *Handler) OnCommandUsers(u telegram.Update) {
 	}
 }
 
+func (h *Handler) OnCommandLanguage(u telegram.Update) {
+	author := u.Message.From
+
+	log := h.log.With(
+		slog.String("op", "handler.OnCommandLanguage"),
+		slog.String("username", author.UserName),
+		slog.String("id", strconv.FormatInt(author.ID, 10)),
+	)
+
+	log.Debug("Command triggered: /language")
+
+	//localeCode := author.LanguageCode
+	localeCode := localization.Russian
+	locale := localization.Get(localeCode)
+
+	_, err := h.storage.GetUserByTelegramID(author.ID)
+	if err != nil {
+		log.Error("Failed to get user from database")
+		_, err = h.SendTextMessage(author.ID, locale.Message.UseRestart, nil)
+		if err != nil {
+			log.Error("Failed to send message", sl.Err(err))
+		}
+		return
+	}
+
+	//localeCode := user.LanguageCode
+	localeCode = localization.Russian
+	locale = localization.Get(localeCode)
+
+	_, err = h.SendTextMessage(author.ID, locale.Message.ChooseLanguage, GetLanguagesMarkup())
+	if err != nil {
+		log.Error("Failed to send message", sl.Err(err))
+		return
+	}
+}
+
 func (h *Handler) OnCommandToday(u telegram.Update) {
 	author := u.Message.From
 
