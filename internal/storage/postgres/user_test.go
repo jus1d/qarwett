@@ -21,6 +21,14 @@ func TestStorage_User(t *testing.T) {
 		return
 	}
 
+	users, err := storage.GetAllUsers()
+	if err != nil {
+		t.Errorf("error getting users: %v", err)
+	}
+	if len(users) != 0 {
+		t.Errorf("expected len(users): 0, got: %d", len(users))
+	}
+
 	user := User{
 		TelegramID:   77991100,
 		Username:     "username",
@@ -42,6 +50,14 @@ func TestStorage_User(t *testing.T) {
 		t.Errorf("user saved incorrectly, some fields doesn't match")
 	}
 
+	users, err = storage.GetAllUsers()
+	if err != nil {
+		t.Errorf("error getting users: %v", err)
+	}
+	if len(users) != 1 {
+		t.Errorf("expected len(users): 1, got: %d", len(users))
+	}
+
 	got, err = storage.GetUserByTelegramID(user.TelegramID)
 	if err != nil {
 		t.Errorf("error getting user: %v", err)
@@ -54,6 +70,14 @@ func TestStorage_User(t *testing.T) {
 	err = storage.DeleteUser(user.TelegramID)
 	if err != nil {
 		t.Errorf("error deleting user: %v", err)
+	}
+
+	users, err = storage.GetAllUsers()
+	if err != nil {
+		t.Errorf("error getting users: %v", err)
+	}
+	if len(users) != 0 {
+		t.Errorf("expected len(users): 0, got: %d", len(users))
 	}
 
 	got, err = storage.GetUserByTelegramID(user.TelegramID)

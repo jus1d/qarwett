@@ -23,7 +23,7 @@ func TestStorage_Calendar(t *testing.T) {
 
 	calendars, err := storage.GetAllTrackedCalendars()
 	if err != nil {
-		t.Errorf("error getting all calendars")
+		t.Errorf("error getting all calendars: %v", err)
 	}
 	if len(calendars) != 0 {
 		t.Errorf("expected len(calendars): 0, got: %d", len(calendars))
@@ -50,7 +50,7 @@ func TestStorage_Calendar(t *testing.T) {
 
 	calendars, err = storage.GetAllTrackedCalendars()
 	if err != nil {
-		t.Errorf("error getting all calendars")
+		t.Errorf("error getting all calendars: %v", err)
 	}
 	if len(calendars) != 1 {
 		t.Errorf("expected len(calendars): 1, got: %d", len(calendars))
@@ -72,7 +72,7 @@ func TestStorage_Calendar(t *testing.T) {
 
 	calendars, err = storage.GetAllTrackedCalendars()
 	if err != nil {
-		t.Errorf("error getting all calendars")
+		t.Errorf("error getting all calendars: %v", err)
 	}
 	if len(calendars) != 0 {
 		t.Errorf("expected len(calendars): 0, got: %d", len(calendars))
