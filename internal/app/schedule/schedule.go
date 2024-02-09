@@ -18,16 +18,6 @@ const (
 	Unknown      PairType = "unk"
 )
 
-const (
-	Monday = iota
-	Tuesday
-	Wednesday
-	Thursday
-	Friday
-	Saturday
-	Sunday
-)
-
 var Timetable = map[int]string{
 	0: "8:00 - 9:35",
 	1: "9:45 - 11:20",
