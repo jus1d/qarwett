@@ -54,12 +54,9 @@ func (h *Handler) OnCommandAbout(u telegram.Update) {
 
 	log.Debug("Command triggered: /about")
 
-	commit, err := git.GetLatestCommit()
-	if err != nil {
-		log.Error("Failed to get latest commit", sl.Err(err))
-	}
+	commit := git.GetLatestCommit()
 
-	_, err = h.SendTextMessage(author.ID, locale.PhraseAbout(locale.RU, commit), nil)
+	_, err := h.SendTextMessage(author.ID, locale.PhraseAbout(locale.RU, commit), nil)
 	if err != nil {
 		log.Error("Failed to send message", sl.Err(err))
 	}
