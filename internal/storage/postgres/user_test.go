@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestStorage(t *testing.T) {
+func TestStorage_User(t *testing.T) {
 	cfg := config.Postgres{
 		Host:     "127.0.0.1",
 		Port:     "5432",
