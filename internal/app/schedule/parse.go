@@ -32,13 +32,16 @@ func ParseScheduleToMessageTextWithHTML(groupID int64, groupTitle string, schedu
 			content += fmt.Sprintf("<b>%s</b>\n", Timetable[cur.Position])
 		}
 		if i == 0 || cur.Position != pairs[i-1].Position || cur.Title != pairs[i-1].Title {
-			content += fmt.Sprintf("<b>%s:</b> %s\n", FullPairTypes[cur.Type], cur.Title)
+			content += fmt.Sprintf("<b>%s</b>\n", cur.Title) // Another type
+			//content += fmt.Sprintf("<b>%s:</b> %s\n", FullPairTypes[cur.Type], cur.Title)
 		}
 
 		if cur.Subgroup != 0 {
 			content += fmt.Sprintf("Подгруппа: %d\n", cur.Subgroup)
 		}
-		content += fmt.Sprintf("%s\n", cur.Place)
+		//content += fmt.Sprintf("%s\n", cur.Place)
+		content += fmt.Sprintf("%s в %s\n", FullPairTypes[cur.Type], cur.Place) // Another type
+
 		if cur.Staff.Name != "" {
 			content += fmt.Sprintf("<b><a href=\"https://ssau.ru/rasp?staffId=%d\">%s</a></b>\n", cur.Staff.ID, cur.Staff.Name)
 		}
