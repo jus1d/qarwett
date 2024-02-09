@@ -1,19 +1,24 @@
 package postgres
 
 // CreateTrackedCalendar creates a new calendar in storage, that should stay updated.
-func (s *Storage) CreateTrackedCalendar(groupID int64, languageCode string) (string, error) {
-	var id string
-
-	query := "INSERT INTO calendars (group_id, language_code) VALUES ($1, $2) RETURNING id"
+func (s *Storage) CreateTrackedCalendar(groupID int64, languageCode string) (*Calendar, error) {
+	query := "INSERT INTO calendars (group_id, language_code) VALUES ($1, $2) RETURNING *"
 	row := s.db.QueryRow(query, groupID, languageCode)
 
 	if row.Err() != nil {
-		return "", row.Err()
+		return nil, row.Err()
 	}
 
-	err := row.Scan(&id)
+	var calendar Calendar
+	err := row.Scan(&calendar.ID, &calendar.GroupID, &calendar.LanguageCode, &calendar.CreatedAt)
 
-	return id, err
+	return &calendar, err
+}
+
+func (s *Storage) DeleteTrackedCalendar(id string) error {
+	query := "DELETE FROM calendars WHERE id = $1"
+	_, err := s.db.Exec(query, id)
+	return err
 }
 
 // GetTrackedCalendar returns tracked calendar by its group ID and language code.
