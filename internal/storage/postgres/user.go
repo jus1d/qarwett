@@ -3,19 +3,24 @@ package postgres
 var announcements = map[int64]string{}
 
 // CreateUser creates a user instance in storage.
-func (s *Storage) CreateUser(telegramID int64, username string, firstname string, lastname string, languageCode string) (string, error) {
-	var id string
-
-	query := "INSERT INTO users (telegram_id, username, firstname, lastname, language_code) VALUES ($1, $2, $3, $4, $5) RETURNING id"
+func (s *Storage) CreateUser(telegramID int64, username string, firstname string, lastname string, languageCode string) (*User, error) {
+	query := "INSERT INTO users (telegram_id, username, firstname, lastname, language_code) VALUES ($1, $2, $3, $4, $5) RETURNING *"
 	row := s.db.QueryRow(query, telegramID, username, firstname, lastname, languageCode)
 
 	if row.Err() != nil {
-		return "", row.Err()
+		return nil, row.Err()
 	}
 
-	err := row.Scan(&id)
+	var user User
+	err := row.Scan(&user.ID, &user.TelegramID, &user.Username, &user.FirstName, &user.LastName, &user.Stage, &user.LinkedGroupID, &user.LinkedGroupTitle, &user.LanguageCode, &user.IsAdmin, &user.CreatedAt)
 
-	return id, err
+	return &user, err
+}
+
+func (s *Storage) DeleteUser(telegramID int64) error {
+	query := "DELETE FROM users WHERE telegram_id = $1"
+	_, err := s.db.Exec(query, telegramID)
+	return err
 }
 
 // GetUserByTelegramID returns a *User, grabbed from storage by telegramID.
