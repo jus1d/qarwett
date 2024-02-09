@@ -223,7 +223,7 @@ func (h *Handler) OnCallbackScheduleToday(u telegram.Update) {
 	query := u.CallbackData()
 	log.Debug("Callback handled", slog.String("query", query))
 
-	parts := strings.Split(query, ":") // {"schedule-today", groupID}
+	parts := strings.Split(query, ":") // {"schedule-today", groupID, groupTitle}
 	groupID, _ := strconv.ParseInt(parts[1], 10, 64)
 	groupTitle := parts[2]
 	weekday := ssau.GetWeekday(0)
