@@ -126,7 +126,7 @@ func (h *Handler) OnCallbackAddCalendar(u telegram.Update) {
 
 	var calendarID string
 	if calendar == nil {
-		calendarID, err = h.storage.CreateTrackedCalendar(groupID, languageCode)
+		createdCalendar, err := h.storage.CreateTrackedCalendar(groupID, languageCode)
 		if err != nil {
 			log.Error("Failed to create tracked calendar", sl.Err(err))
 			callback := telegram.NewCallback(u.CallbackQuery.ID, locale.PhraseError(locale.RU))
@@ -135,6 +135,7 @@ func (h *Handler) OnCallbackAddCalendar(u telegram.Update) {
 				log.Error("Failed to send callback", sl.Err(err))
 			}
 		}
+		calendarID = createdCalendar.ID
 	} else {
 		calendarID = calendar.ID
 	}
