@@ -6,29 +6,29 @@ import (
 )
 
 var EnglishLocalization = Locale{
-	Messages: Messages{
+	Message: Messages{
 		Greeting: "<b>Hello, here you can take a quick look at your schedule <s>and go get some sleep</s></b>\n\n" +
 			"👇Just type your group",
-		AnnouncementRequest:      "Send me an announcement message",
-		CantStartAnnouncement:    "An error occurred while creating an announcement!",
-		AnnouncementCompleted:    "<b>Announcement completely sent to all users</b>",
-		CantFoundYourGroup:       "☹️Can't found your group\n\nAdd your group <b>to favourites</b>, to use this command",
-		NoGroupFound:             "☹️There are no groups at your request",
-		ChooseGroup:              "🤔<b>Choose a group</b>",
-		NoScheduleFound:          "🚨<b>Can't found schedule!</b>",
-		NoChanges:                "No changes",
-		Error:                    "Error",
-		Success:                  "Success",
-		Cancelled:                "Cancelled",
-		FailedToCancel:           "Failed to cancel",
-		EmptyAnnouncementMessage: "Announcement message not found. Try again",
-		UseRestart:               "Restart needed -> <b>/start</b>",
+		RequestAnnouncement:        "Send me an announcement message",
+		CantStartAnnouncement:      "An error occurred while creating an announcement!",
+		AnnouncementCompleted:      "<b>Announcement completely sent to all users</b>",
+		CantFoundYourGroup:         "☹️Can't found your group\n\nAdd your group <b>to favourites</b>, to use this command",
+		NoGroupFound:               "☹️There are no groups at your request",
+		ChooseGroup:                "🤔<b>Choose a group</b>",
+		NoScheduleFound:            "🚨<b>Can't found schedule!</b>",
+		NoChanges:                  "No changes",
+		Error:                      "Error",
+		Success:                    "Success",
+		Cancelled:                  "Cancelled",
+		FailedToCancel:             "Failed to cancel",
+		AnnouncementMessageIsEmpty: "Announcement message not found. Try again",
+		UseRestart:                 "Restart needed -> <b>/start</b>",
 		AdminCommands: "<b>List of admin commands:</b>\n\n" +
 			"<b>/announce</b> - Send an announcement message to all users\n" +
 			"<b>/users</b> - View users counter",
 		languageCode: English,
 	},
-	Buttons: Buttons{
+	Button: Buttons{
 		Today:       "Today",
 		Favourite:   "To Favourites",
 		Cancel:      "Cancel",

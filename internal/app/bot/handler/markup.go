@@ -12,7 +12,7 @@ func GetMarkupCancel(languageCode string) *telegram.InlineKeyboardMarkup {
 
 	markup := telegram.NewInlineKeyboardMarkup(
 		telegram.NewInlineKeyboardRow(
-			telegram.NewInlineKeyboardButtonData(locale.Buttons.Cancel, "cancel"),
+			telegram.NewInlineKeyboardButtonData(locale.Button.Cancel, "cancel"),
 		),
 	)
 	return &markup
@@ -23,8 +23,8 @@ func GetMarkupCheckAnnouncement(languageCode string) *telegram.InlineKeyboardMar
 
 	markup := telegram.NewInlineKeyboardMarkup(
 		telegram.NewInlineKeyboardRow(
-			telegram.NewInlineKeyboardButtonData(locale.Buttons.Approve, "approve-announcement"),
-			telegram.NewInlineKeyboardButtonData(locale.Buttons.Cancel, "cancel"),
+			telegram.NewInlineKeyboardButtonData(locale.Button.Approve, "approve-announcement"),
+			telegram.NewInlineKeyboardButtonData(locale.Button.Cancel, "cancel"),
 		),
 	)
 	return &markup
@@ -58,17 +58,17 @@ func GetScheduleNavigationMarkup(languageCode string, groupID int64, groupTitle 
 	))
 
 	rows = append(rows, telegram.NewInlineKeyboardRow(
-		telegram.NewInlineKeyboardButtonData(locale.Buttons.Today, ApplyScheduleTodayMask(groupID, groupTitle)),
+		telegram.NewInlineKeyboardButtonData(locale.Button.Today, ApplyScheduleTodayMask(groupID, groupTitle)),
 	))
 
 	if addFavourite {
 		rows = append(rows, telegram.NewInlineKeyboardRow(
-			telegram.NewInlineKeyboardButtonData(locale.Buttons.Favourite, ApplyFavouriteGroupMask(groupID, groupTitle)),
+			telegram.NewInlineKeyboardButtonData(locale.Button.Favourite, ApplyFavouriteGroupMask(groupID, groupTitle)),
 		))
 	}
 
 	rows = append(rows, telegram.NewInlineKeyboardRow(
-		telegram.NewInlineKeyboardButtonData(locale.Buttons.AddCalendar, ApplyAddCalendarMask(groupID, languageCode)),
+		telegram.NewInlineKeyboardButtonData(locale.Button.AddCalendar, ApplyAddCalendarMask(groupID, languageCode)),
 	))
 
 	markup := telegram.NewInlineKeyboardMarkup(rows...)

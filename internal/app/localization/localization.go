@@ -6,29 +6,29 @@ const (
 )
 
 type Locale struct {
-	Messages     Messages
-	Buttons      Buttons
+	Message      Messages
+	Button       Buttons
 	languageCode string
 }
 
 type Messages struct {
-	Greeting                 string
-	AnnouncementRequest      string
-	CantStartAnnouncement    string
-	AnnouncementCompleted    string
-	CantFoundYourGroup       string
-	NoGroupFound             string
-	ChooseGroup              string
-	NoScheduleFound          string
-	NoChanges                string
-	Error                    string
-	Success                  string
-	Cancelled                string
-	FailedToCancel           string
-	EmptyAnnouncementMessage string
-	UseRestart               string
-	AdminCommands            string
-	languageCode             string
+	Greeting                   string
+	RequestAnnouncement        string
+	CantStartAnnouncement      string
+	AnnouncementCompleted      string
+	CantFoundYourGroup         string
+	NoGroupFound               string
+	ChooseGroup                string
+	NoScheduleFound            string
+	NoChanges                  string
+	Error                      string
+	Success                    string
+	Cancelled                  string
+	FailedToCancel             string
+	AnnouncementMessageIsEmpty string
+	UseRestart                 string
+	AdminCommands              string
+	languageCode               string
 }
 
 type Buttons struct {
