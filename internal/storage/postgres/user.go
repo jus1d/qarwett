@@ -17,6 +17,7 @@ func (s *Storage) CreateUser(telegramID int64, username string, firstname string
 	return &user, err
 }
 
+// DeleteUser deletes user from storage by it's telegram ID.
 func (s *Storage) DeleteUser(telegramID int64) error {
 	query := "DELETE FROM users WHERE telegram_id = $1"
 	_, err := s.db.Exec(query, telegramID)
