@@ -21,6 +21,13 @@ func TestStorage_Calendar(t *testing.T) {
 		return
 	}
 
+	defer func(storage *Storage) {
+		err = storage.Close()
+		if err != nil {
+			t.Errorf("error closing db connection: %v", err)
+		}
+	}(storage)
+
 	calendars, err := storage.GetAllTrackedCalendars()
 	if err != nil {
 		t.Errorf("error getting all calendars: %v", err)

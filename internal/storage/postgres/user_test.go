@@ -6,6 +6,20 @@ import (
 )
 
 func TestStorage_User(t *testing.T) {
+	incorrect := config.Postgres{
+		Host:     "127.0.0.1",
+		Port:     "5432",
+		User:     "postgres",
+		Name:     "postgres",
+		Password: "incorrect",
+		ModeSSL:  "disable",
+	}
+
+	_, err := New(incorrect)
+	if err == nil {
+		t.Log("Database should not be created")
+	}
+	
 	cfg := config.Postgres{
 		Host:     "127.0.0.1",
 		Port:     "5432",
@@ -20,6 +34,13 @@ func TestStorage_User(t *testing.T) {
 		t.Log("Can't connect to database. Skip this test...")
 		return
 	}
+
+	defer func(storage *Storage) {
+		err = storage.Close()
+		if err != nil {
+			t.Errorf("error closing db connection: %v", err)
+		}
+	}(storage)
 
 	users, err := storage.GetAllUsers()
 	if err != nil {
