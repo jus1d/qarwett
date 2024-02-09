@@ -1,33 +1,31 @@
 package random
 
 import (
-	"reflect"
 	"testing"
 )
 
 func TestChoice(t *testing.T) {
-	type args[T any] struct {
-		arr []T
+	// Test with a slice of strings
+	strings := []string{"apple", "banana", "orange", "grape"}
+	randomString := Choice(strings)
+	if !contains(strings, randomString) {
+		t.Errorf("Choice function returned an element not in the original slice")
 	}
-	type testCase[T any] struct {
-		name string
-		args args[T]
-		want T
+
+	// Test with a slice of integers
+	integers := []int{1, 2, 3, 4, 5}
+	randomNumber := Choice(integers)
+	if !contains(integers, randomNumber) {
+		t.Errorf("Choice function returned an element not in the original slice")
 	}
-	tests := []testCase[int]{
-		{
-			name: "Test result contains in array",
-			args: args[int]{
-				arr: []int{1},
-			},
-			want: 1,
-		},
+}
+
+// contains checks if a slice contains a specific element
+func contains[T comparable](arr []T, elem T) bool {
+	for _, e := range arr {
+		if e == elem {
+			return true
+		}
 	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := Choice(tt.args.arr); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Choice() = %v, want %v", got, tt.want)
-			}
-		})
-	}
+	return false
 }
