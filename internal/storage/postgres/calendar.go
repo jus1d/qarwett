@@ -15,6 +15,7 @@ func (s *Storage) CreateTrackedCalendar(groupID int64, languageCode string) (*Ca
 	return &calendar, err
 }
 
+// DeleteTrackedCalendar deletes tracked calendar from storage by it's ID.
 func (s *Storage) DeleteTrackedCalendar(id string) error {
 	query := "DELETE FROM calendars WHERE id = $1"
 	_, err := s.db.Exec(query, id)
