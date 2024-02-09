@@ -1,8 +1,8 @@
 package localization
 
 var RussianLocalization = Locale{
-	Messages: messages{},
-	Buttons: buttons{
+	Messages: Messages{},
+	Buttons: Buttons{
 		Today:       "Сегодня",
 		Favourite:   "В Избранное",
 		Cancel:      "Отмена",
@@ -10,4 +10,20 @@ var RussianLocalization = Locale{
 		AddCalendar: "Добавить в Календарь",
 	},
 	languageCode: Russian,
+}
+
+func aboutRU(commit string) string {
+	return ""
+}
+
+func announcementCheckRU(content string) string {
+	return ""
+}
+
+func usersAmountRU(amount int) string {
+	return ""
+}
+
+func freeDayRU(day int, month int) string {
+	return ""
 }
