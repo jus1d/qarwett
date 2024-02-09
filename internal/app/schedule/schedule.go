@@ -63,12 +63,7 @@ type Pair struct {
 	Subgroup int
 }
 
-type WeekDays struct {
-	StartDate time.Time
-	Days      []Day
-}
-
-type WeekPairs struct {
+type Week struct {
 	StartDate time.Time
 	Pairs     [][]Pair
 }

@@ -19,8 +19,8 @@ var PairColorToType = map[string]schedule.PairType{
 	"8": schedule.Test,
 }
 
-// Parse converts an HTML doc (*goquery.Document) to schedule.WeekPairs. Own format for weekly schedule.
-func Parse(doc *goquery.Document) (schedule.WeekPairs, int) {
+// Parse converts an HTML doc (*goquery.Document) to schedule.Week. Own format for weekly schedule.
+func Parse(doc *goquery.Document) (schedule.Week, int) {
 	pairs := make([][]schedule.Pair, 7)
 	for i := 0; i < len(pairs); i++ {
 		pairs[i] = make([]schedule.Pair, 0)
@@ -50,7 +50,7 @@ func Parse(doc *goquery.Document) (schedule.WeekPairs, int) {
 		})
 	})
 
-	return schedule.WeekPairs{
+	return schedule.Week{
 		StartDate: startDate,
 		Pairs:     pairs,
 	}, week
