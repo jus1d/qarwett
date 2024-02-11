@@ -23,7 +23,7 @@ var EnglishLocalization = Locale{
 		Cancelled:                  "Cancelled",
 		FailedToCancel:             "Failed to cancel",
 		AnnouncementMessageIsEmpty: "Announcement message not found. Try again",
-		UseRestart:                 "Restart needed -> <b>/start</b>",
+		UseRestart:                 "Restart needed → <b>/start</b>",
 		AdminCommands: "<b>List of admin commands:</b>\n\n" +
 			"<b>/announce</b> - Send an announcement message to all users\n" +
 			"<b>/users</b> - View users counter",
