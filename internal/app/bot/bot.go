@@ -70,6 +70,8 @@ func (b *Bot) handleUpdates(updates telegram.UpdatesChannel) {
 				b.handler.OnCommandToday(update)
 			case "language":
 				b.handler.OnCommandLanguage(update)
+			case "soon":
+				b.handler.OnCommandSoon(update)
 			default:
 				b.handler.OnNewMessage(update)
 			}

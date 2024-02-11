@@ -66,7 +66,10 @@ func parsePair(doc *goquery.Selection, pos int) schedule.Pair {
 	pairColor := parts[len(parts)-1]
 	pairType := PairColorToType[pairColor]
 
-	place := doc.Find(".schedule__place").Text()
+	place := strings.TrimSpace(doc.Find(".schedule__place").Text())
+	if place != "online" {
+		place = str.Capitalize(place)
+	}
 
 	teacherName := doc.Find(".schedule__teacher").Find("a.caption-text").Text()
 	teacherURL := doc.Find(".schedule__teacher").Find("a.caption-text").AttrOr("href", "https://ssau.ru")
