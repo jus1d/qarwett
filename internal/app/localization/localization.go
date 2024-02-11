@@ -21,6 +21,7 @@ type Messages struct {
 	NoGroupFound               string
 	ChooseGroup                string
 	NoScheduleFound            string
+	NoLinkedGroup              string
 	NoChanges                  string
 	Error                      string
 	Success                    string

@@ -53,7 +53,7 @@ func GetScheduleNavigationMarkup(languageCode string, groupID int64, groupTitle 
 
 	rows = append(rows, telegram.NewInlineKeyboardRow(
 		telegram.NewInlineKeyboardButtonData("«", queryLeft),
-		telegram.NewInlineKeyboardButtonData("⟳", queryUpdate),
+		telegram.NewInlineKeyboardButtonData("↻", queryUpdate),
 		telegram.NewInlineKeyboardButtonData("»", queryRight),
 	))
 

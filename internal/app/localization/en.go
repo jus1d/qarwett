@@ -16,6 +16,7 @@ var EnglishLocalization = Locale{
 		NoGroupFound:               "☹️There are no groups at your request",
 		ChooseGroup:                "🤔<b>Choose a group</b>",
 		NoScheduleFound:            "🚨<b>Can't found schedule!</b>",
+		NoLinkedGroup:              "☹️You have no <b>favourite</b> group",
 		NoChanges:                  "No changes",
 		Error:                      "Error",
 		Success:                    "Success",
