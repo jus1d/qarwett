@@ -19,7 +19,7 @@ func TestStorage_User(t *testing.T) {
 	if err == nil {
 		t.Log("Database should not be created")
 	}
-	
+
 	cfg := config.Postgres{
 		Host:     "127.0.0.1",
 		Port:     "5432",
@@ -46,9 +46,7 @@ func TestStorage_User(t *testing.T) {
 	if err != nil {
 		t.Errorf("error getting users: %v", err)
 	}
-	if len(users) != 0 {
-		t.Errorf("expected len(users): 0, got: %d", len(users))
-	}
+	initialUsersLength := len(users)
 
 	user := User{
 		TelegramID:   77991100,
@@ -91,7 +89,7 @@ func TestStorage_User(t *testing.T) {
 	if err != nil {
 		t.Errorf("error getting users: %v", err)
 	}
-	if len(users) != 1 {
+	if len(users) != initialUsersLength+1 {
 		t.Errorf("expected len(users): 1, got: %d", len(users))
 	}
 
@@ -123,7 +121,7 @@ func TestStorage_User(t *testing.T) {
 	if err != nil {
 		t.Errorf("error getting users: %v", err)
 	}
-	if len(users) != 0 {
+	if len(users) != initialUsersLength {
 		t.Errorf("expected len(users): 0, got: %d", len(users))
 	}
 

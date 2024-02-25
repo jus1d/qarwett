@@ -35,6 +35,7 @@ func TestStorage_Calendar(t *testing.T) {
 	if len(calendars) != 0 {
 		t.Errorf("expected len(calendars): 0, got: %d", len(calendars))
 	}
+	initialCalendarsLength := len(calendars)
 
 	calendar := Calendar{
 		GroupID:      755922237,
@@ -59,7 +60,7 @@ func TestStorage_Calendar(t *testing.T) {
 	if err != nil {
 		t.Errorf("error getting all calendars: %v", err)
 	}
-	if len(calendars) != 1 {
+	if len(calendars) != initialCalendarsLength+1 {
 		t.Errorf("expected len(calendars): 1, got: %d", len(calendars))
 	}
 
@@ -81,7 +82,7 @@ func TestStorage_Calendar(t *testing.T) {
 	if err != nil {
 		t.Errorf("error getting all calendars: %v", err)
 	}
-	if len(calendars) != 0 {
+	if len(calendars) != initialCalendarsLength {
 		t.Errorf("expected len(calendars): 0, got: %d", len(calendars))
 	}
 }

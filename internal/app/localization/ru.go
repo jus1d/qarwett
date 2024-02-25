@@ -23,11 +23,12 @@ var RussianLocalization = Locale{
 		Cancelled:                  "Отменено",
 		FailedToCancel:             "Ошибка при отмене",
 		AnnouncementMessageIsEmpty: "Сообщение для объявления не найдено. Попробуйте снова",
-		UseRestart:                 "Требуется перезагрузка бота -> <b>/start</b>",
+		UseRestart:                 "Требуется перезагрузка бота → <b>/start</b>",
 		AdminCommands: "<b>Список админ комманд:</b>\n\n" +
 			"<b>/announce</b> - Отправить объявление всем пользователям бота\n" +
 			"<b>/users</b> - Посмотреть количество пользователей",
 		ChooseLanguage: "<b>Выберите Ваш язык:</b>",
+		YourCalendar:   "Ваш файл с расписанием",
 		languageCode:   Russian,
 	},
 	Button: Buttons{
