@@ -28,6 +28,7 @@ var RussianLocalization = Locale{
 			"<b>/announce</b> - Отправить объявление всем пользователям бота\n" +
 			"<b>/users</b> - Посмотреть количество пользователей",
 		ChooseLanguage: "<b>Выберите Ваш язык:</b>",
+		YourCalendar:   "Ваш файл с расписанием",
 		languageCode:   Russian,
 	},
 	Button: Buttons{

@@ -31,6 +31,7 @@ type Messages struct {
 	UseRestart                 string
 	AdminCommands              string
 	ChooseLanguage             string
+	YourCalendar               string
 	languageCode               string
 }
 

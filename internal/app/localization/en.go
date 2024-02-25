@@ -28,6 +28,7 @@ var EnglishLocalization = Locale{
 			"<b>/announce</b> - Send an announcement message to all users\n" +
 			"<b>/users</b> - View users counter",
 		ChooseLanguage: "<b>Choose your language:</b>",
+		YourCalendar:   "Your schedule file",
 		languageCode:   English,
 	},
 	Button: Buttons{

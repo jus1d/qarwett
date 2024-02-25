@@ -2,9 +2,9 @@ package handler
 
 import (
 	"errors"
-	"fmt"
 	telegram "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"log/slog"
+	"os"
 	"qarwett/internal/app/bot/callback"
 	"qarwett/internal/app/icalendar"
 	"qarwett/internal/app/localization"
@@ -157,9 +157,35 @@ func (h *Handler) OnCallbackAddCalendar(u telegram.Update) {
 		return
 	}
 
-	_, err = h.SendTextMessage(author.ID, fmt.Sprintf("Your calendar's ID -> %s", calendarID), nil)
+	file, err := os.Open("./calendars/" + calendarID + ".ics")
 	if err != nil {
-		log.Error("Failed to send message", sl.Err(err))
+		log.Error("Failed to open calendar file", sl.Err(err))
+		cb := telegram.NewCallback(u.CallbackQuery.ID, locale.Message.Error)
+		_, err = h.bot.Request(cb)
+		if err != nil {
+			log.Error("Failed to send callback", sl.Err(err))
+		}
+		return
+	}
+	defer file.Close()
+
+	fileReader := telegram.FileReader{
+		Name:   "calendar.ics",
+		Reader: file,
+	}
+
+	document := telegram.NewDocument(author.ID, fileReader)
+	document.Caption = locale.Message.YourCalendar
+
+	_, err = h.bot.Send(document)
+	if err != nil {
+		log.Error("Failed to send message with document", sl.Err(err))
+		cb := telegram.NewCallback(u.CallbackQuery.ID, locale.Message.Error)
+		_, err = h.bot.Request(cb)
+		if err != nil {
+			log.Error("Failed to send callback", sl.Err(err))
+		}
+		return
 	}
 }
 
